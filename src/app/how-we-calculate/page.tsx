@@ -5,6 +5,7 @@ import { AFFILIATE_DISCLOSURE } from "@/config/affiliate";
 
 export const metadata: Metadata = {
   title: "How We Calculate Power Station Runtimes | WattSizer",
+  alternates: { canonical: "/how-we-calculate" },
   description:
     "The formula, assumptions and data sources behind WattSizer's portable power station runtime estimates, plus what we have and haven't tested.",
 };

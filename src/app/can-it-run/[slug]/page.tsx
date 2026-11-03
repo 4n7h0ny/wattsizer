@@ -12,7 +12,12 @@ import PowerStationCard from "@/components/PowerStationCard";
 import { SITE_CONFIG, getAmazonProductUrl } from "@/config/affiliate";
 import AccessoryPicks from "@/components/AccessoryPicks";
 import JsonLd from "@/components/JsonLd";
-import { breadcrumbJsonLd, faqJsonLd } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  faqJsonLd,
+  metaDescription,
+  pageTitle,
+} from "@/lib/seo";
 import {
   AlertTriangle,
   ArrowLeft,
@@ -35,8 +40,11 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const app = APPLIANCES.find((a) => a.slug === params.slug);
   if (!app) return {};
   return {
-    title: `${app.seoTitle} | WattSizer Runtime Estimates`,
-    description: `${app.seoSubtitle} Compare estimated runtime for ${app.name} (${app.runningWatts}W running / ${app.surgeWatts}W surge) across EcoFlow, Jackery, Anker SOLIX, and BLUETTI.`,
+    title: pageTitle(app.seoTitle),
+    description: metaDescription(
+      `${app.name}: about ${app.runningWatts}W running, ${app.surgeWatts}W startup surge. ${app.seoSubtitle}`
+    ),
+    alternates: { canonical: `/can-it-run/${app.slug}` },
   };
 }
 

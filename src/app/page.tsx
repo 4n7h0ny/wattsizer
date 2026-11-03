@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import React from "react";
 import Link from "next/link";
 import InteractiveSizer from "@/components/InteractiveSizer";
@@ -16,6 +17,8 @@ import {
   Sun,
   Zap,
 } from "lucide-react";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default function HomePage() {
   return (

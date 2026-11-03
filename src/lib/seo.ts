@@ -51,3 +51,22 @@ export function faqJsonLd(faqs: { q: string; a: string }[]) {
     })),
   };
 }
+
+/** Appends the brand only when the result still fits in a search result (~62 chars). */
+export function pageTitle(title: string): string {
+  const branded = `${title} | WattSizer`;
+  return branded.length <= 62 ? branded : title;
+}
+
+/** Trims a meta description to ~155 chars, preferring a sentence end, else a word break. */
+export function metaDescription(text: string, max = 155): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const sentenceEnd = Math.max(
+    cut.lastIndexOf(". "),
+    cut.lastIndexOf("? "),
+    cut.lastIndexOf("! ")
+  );
+  if (sentenceEnd > 80) return cut.slice(0, sentenceEnd + 1);
+  return cut.slice(0, cut.lastIndexOf(" ")).replace(/[,;:—–-]$/, "") + "…";
+}

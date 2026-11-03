@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   title:
     "Power Station × Appliance Runtime Estimates | WattSizer",
   description:
-    "Browse estimated runtime hours and surge compatibility for every EcoFlow, Jackery, Anker SOLIX, and BLUETTI power station paired with refrigerators, pellet stoves, CPAPs, sump pumps, gas furnaces, and Starlink.",
+    "Estimated runtimes and surge checks for each EcoFlow, Jackery, Anker SOLIX and BLUETTI power station paired with common blackout appliances.",
+  alternates: { canonical: "/runtime" },
 };
 
 export default function RuntimeMatrixIndexPage() {

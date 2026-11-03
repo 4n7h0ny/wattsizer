@@ -9,7 +9,13 @@ import {
   getSizerRecommendations,
 } from "@/lib/calculator";
 import PowerStationCard from "@/components/PowerStationCard";
-import { breadcrumbJsonLd, faqJsonLd, isIndexableCombo } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  faqJsonLd,
+  isIndexableCombo,
+  metaDescription,
+  pageTitle,
+} from "@/lib/seo";
 import { SITE_CONFIG } from "@/config/affiliate";
 import AccessoryPicks from "@/components/AccessoryPicks";
 import JsonLd from "@/components/JsonLd";
@@ -59,12 +65,13 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const rt = calculateApplianceRuntime(station, appliance);
 
   const answerSnippet = rt.canRun
-    ? `Yes, about ${rt.continuousHours} hours`
-    : `No, exceeds its inverter rating`;
+    ? `Yes, ~${Math.round(rt.continuousHours)} hrs`
+    : "No";
 
   return {
-    title: `Can ${station.name} Run a ${appliance.shortName}? (${answerSnippet})`,
-    description: `Estimated runtime for a ${appliance.name} (${appliance.runningWatts}W running / ${appliance.surgeWatts}W surge) on the ${station.name} (${station.capacityWh}Wh LiFePO4), based on manufacturer specs.`,
+    title: pageTitle(`Can the ${station.name} Run a ${appliance.shortName}? ${answerSnippet}`),
+    alternates: { canonical: `/runtime/${params.comboSlug}` },
+    description: metaDescription(`Estimated runtime for a ${appliance.name} (${appliance.runningWatts}W running / ${appliance.surgeWatts}W surge) on the ${station.name} (${station.capacityWh}Wh LiFePO4), based on manufacturer specs.`),
     // Only high-demand pairings are indexed; the rest stay live for visitors.
     robots: isIndexableCombo(station, appliance)
       ? undefined

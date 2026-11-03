@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { pageTitle } from "@/lib/seo";
 import { POWER_STATIONS } from "@/data/powerStations";
 import { APPLIANCES, TOP_COMBO_APPLIANCES } from "@/data/appliances";
 import { calculateApplianceRuntime } from "@/lib/calculator";
@@ -29,8 +30,9 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const station = POWER_STATIONS.find((s) => s.slug === params.slug);
   if (!station) return {};
   return {
-    title: `${station.name} Specs & Appliance Runtime Estimates | WattSizer`,
-    description: `How long will the ${station.name} (${station.capacityWh}Wh LiFePO4, ${station.continuousWatts}W / ${station.surgeWatts}W surge) run a refrigerator, CPAP, pellet stove, sump pump, and Starlink? Full specs and estimated runtimes.`,
+    title: pageTitle(`${station.name} Specs & Runtime Estimates`),
+    alternates: { canonical: `/reviews/${station.slug}` },
+    description: `How long will the ${station.name} (${station.capacityWh}Wh LiFePO4, ${station.continuousWatts}W / ${station.surgeWatts}W surge) run a fridge, CPAP, sump pump or Starlink? Specs and estimates.`,
   };
 }
 

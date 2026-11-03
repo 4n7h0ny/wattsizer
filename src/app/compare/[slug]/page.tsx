@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { metaDescription, pageTitle } from "@/lib/seo";
 import { COMPARISON_PAIRS, POWER_STATIONS } from "@/data/powerStations";
 import { APPLIANCES } from "@/data/appliances";
 import { calculateApplianceRuntime } from "@/lib/calculator";
@@ -20,8 +21,11 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const pair = COMPARISON_PAIRS.find((p) => p.slug === params.slug);
   if (!pair) return {};
   return {
-    title: `${pair.title}: Which Should You Buy in 2026? | WattSizer`,
-    description: `${pair.subtitle} Side-by-side refrigerator runtime, surge wattage, weight and solar input comparison.`,
+    title: pageTitle(`${pair.title}: Which to Buy?`),
+    description: metaDescription(
+      `${pair.subtitle} Side-by-side runtime, surge, weight and solar input.`
+    ),
+    alternates: { canonical: `/compare/${pair.slug}` },
   };
 }
 

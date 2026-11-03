@@ -6,10 +6,9 @@ import { SITE_CONFIG } from "@/config/affiliate";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.domain),
-  title:
-    "WattSizer | Portable Power Station & Solar Generator Sizer Calculator (2026)",
+  title: "Power Station Sizing Calculator for Blackouts | WattSizer",
   description:
-    "Estimate the watt-hours and surge wattage needed to run your refrigerator, CPAP, sump pump, Starlink, and home appliances during a blackout. Compare Jackery, EcoFlow, Anker SOLIX, and BLUETTI LiFePO4 power stations.",
+    "Free calculator: estimate the watt-hours and surge your fridge, CPAP, sump pump or furnace needs, and see which power stations can run them.",
   keywords: [
     "portable power station calculator",
     "solar generator sizer",

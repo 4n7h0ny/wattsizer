@@ -339,7 +339,7 @@ export const APPLIANCES: Appliance[] = [
     seoSubtitle:
       "We do the real watt-hour math on running 750W and 1,500W space heaters on battery power—plus the smart alternative that lasts 15x longer.",
     buyingTip:
-      "A 1,500W space heater on High will drain a $650 1,000Wh power station in 38 minutes flat! If you want to run a space heater for 3–5 hours in one room, you need a 2,048Wh–3,600Wh unit (like EcoFlow DELTA 2 Max or DELTA Pro) AND you should run the heater on its 750W Low setting.",
+      "A 1,500W space heater on High will drain a 1,000Wh power station in under an hour. If you want to run a space heater for 3–5 hours in one room, you need a 2,048Wh–3,600Wh unit (like EcoFlow DELTA 2 Max or DELTA Pro) AND you should run the heater on its 750W Low setting.",
     commonMistake:
       "Expecting an entry-level power station to heat a whole room overnight. Resistive heating is the heaviest continuous load in any home.",
   },
@@ -505,7 +505,7 @@ export const APPLIANCES: Appliance[] = [
       "Essential room lighting (4x 9W LED bulbs), family phone/tablet charging, and a 35W circulating room fan.",
     seoTitle: "Best Entry-Level Portable Power Station for Lights, Phones & Fans",
     seoSubtitle:
-      "Affordable under-$350 LiFePO4 power stations that keep your family comfortable, cool, and connected during storms.",
+      "Small, lower-cost LiFePO4 power stations that keep your family comfortable, cool, and connected during storms.",
     buyingTip:
       "Even a compact 300Wh–512Wh power station will run LED lights, fans, and charge phones for an entire weekend.",
     commonMistake:

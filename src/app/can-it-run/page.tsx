@@ -5,10 +5,10 @@ import { APPLIANCES } from "@/data/appliances";
 import { ArrowRight, Calculator, Zap } from "lucide-react";
 
 export const metadata: Metadata = {
-  title:
-    "Appliance Runtime & Sizing Guides | What Size Power Station Do I Need?",
+  title: "What Size Power Station Do I Need? Appliance Guides | WattSizer",
   description:
-    "See estimated portable power station runtimes, running watts, and startup surge requirements for refrigerators, CPAP machines, sump pumps, Starlink, microwaves, space heaters, and more.",
+    "Estimated runtimes, running watts and startup surge for fridges, CPAPs, sump pumps, furnaces, Starlink and more on popular LiFePO4 power stations.",
+  alternates: { canonical: "/can-it-run" },
 };
 
 export default function CanItRunIndexPage() {
