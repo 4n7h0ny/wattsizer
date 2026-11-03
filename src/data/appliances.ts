@@ -26,6 +26,8 @@ export interface Appliance {
   seoSubtitle: string;
   buyingTip: string;
   commonMistake: string;
+  /** Whether to generate dedicated /runtime/[station]-for-[appliance] pages */
+  isTopComboTarget?: boolean;
 }
 
 export interface ScenarioPreset {
@@ -50,6 +52,7 @@ export const APPLIANCES: Appliance[] = [
     dutyCycle: 0.38,
     defaultHoursPerDay: 24,
     iconName: "Refrigerator",
+    isTopComboTarget: true,
     description:
       "Modern full-size kitchen fridge/freezer combo. Compressor cycles on ~38% of the time (~61W average hourly draw, 160W active compressor draw, 650W startup surge).",
     seoTitle: "What Size Portable Power Station Runs a Refrigerator?",
@@ -71,6 +74,7 @@ export const APPLIANCES: Appliance[] = [
     dutyCycle: 0.32,
     defaultHoursPerDay: 24,
     iconName: "Snowflake",
+    isTopComboTarget: true,
     description:
       "Garage or basement chest freezer. Thick insulation means the compressor only runs ~32% of the time (~38W effective hourly draw).",
     seoTitle: "Best Portable Power Station for a Chest Freezer (Blackout Guide)",
@@ -92,13 +96,14 @@ export const APPLIANCES: Appliance[] = [
     dutyCycle: 1.0,
     defaultHoursPerDay: 8,
     iconName: "HeartPulse",
+    isTopComboTarget: true,
     description:
       "ResMed AirSense 10/11 or Philips CPAP running overnight. Uses ~45W with humidifier/heated tubing on, or just 15W–20W with humidifier off on 12V DC.",
     seoTitle: "Best Portable Power Station for a CPAP Machine (2026 Runtime Chart)",
     seoSubtitle:
       "Sleep peacefully through power outages and camping trips. Compare exact overnight runtimes with heated humidifier ON vs. OFF.",
     buyingTip:
-      " look for a power station with USP/EPS (<20ms Auto-Switchover) like the EcoFlow RIVER 2 Pro or DELTA 2. You plug the power station into the wall and your CPAP into the power station—if the grid goes down at 2:00 AM, your CPAP stays on without skipping a breath.",
+      "Look for a power station with UPS/EPS (<20ms Auto-Switchover) like the Jackery 1000 v2, Anker SOLIX C1000, or EcoFlow DELTA 2. You plug the power station into the wall and your CPAP into the power station—if the grid goes down at 2:00 AM, your CPAP stays on without skipping a breath.",
     commonMistake:
       "Running a CPAP on the 120V AC plug during a multi-day camping trip with the heated humidifier turned all the way up. Using a $25 12V DC converter cord and turning off the heating plate triples your battery runtime!",
   },
@@ -113,15 +118,60 @@ export const APPLIANCES: Appliance[] = [
     dutyCycle: 0.15,
     defaultHoursPerDay: 12,
     iconName: "Droplets",
+    isTopComboTarget: true,
     description:
       "Standard 1/3 HP residential sump pump. High 1,800W motor startup surge, but only runs intermittently when the float switch triggers (~15% duty cycle during storms).",
     seoTitle: "What Size Portable Power Station Runs a Basement Sump Pump?",
     seoSubtitle:
       "Prevent $10,000+ basement floods during severe thunderstorms. Here is the exact surge wattage and battery capacity you need.",
     buyingTip:
-      "Sump pumps are all about STARTING SURGE. A 1/3 HP pump draws 800W while pumping, but demands 1,600W–2,000W for a split second to spin up the impeller against water pressure. Never use a power station rated below 1,800W continuous / 3,000W surge.",
+      "Sump pumps are all about STARTING SURGE. A 1/3 HP pump draws 800W while pumping, but demands 1,600W–2,000W for a split second to spin up the impeller against water pressure. Never use a power station rated below 1,800W continuous / 2,400W+ surge.",
     commonMistake:
       "Sizing only for running watts (800W) and buying a 1,000W inverter that trips an overload error the first time the float switch triggers in the middle of a storm.",
+  },
+  {
+    id: "pellet-stove",
+    slug: "pellet-stove",
+    name: "Wood Pellet Stove (Auger, Blower & Igniter)",
+    shortName: "Pellet Stove",
+    category: "Home Safety & Climate",
+    runningWatts: 135,
+    surgeWatts: 450,
+    dutyCycle: 0.85,
+    defaultHoursPerDay: 12,
+    iconName: "Flame",
+    isTopComboTarget: true,
+    description:
+      "Harman, Quadra-Fire, or ComfortBilt pellet stove. Pulls ~400W–450W for 10 minutes during startup ignition, then settles to ~135W continuous for the convection fan and auger.",
+    seoTitle: "Best Portable Power Station for a Pellet Stove (Winter Blackout Guide)",
+    seoSubtitle:
+      "Keep your pellet stove heating your home all night during winter ice storms. Exact runtime hours, pure sine wave requirements, and UPS switchover math.",
+    buyingTip:
+      "Pellet stoves have sensitive circuit boards and variable-speed combustion blowers that REQUIRE a 100% Pure Sine Wave inverter (all 10 LiFePO4 stations in our database are Pure Sine Wave). A 1,024Wh unit runs a pellet stove for ~7–8 hours; a 2,048Wh unit runs it for 14–16+ hours through the coldest night.",
+    commonMistake:
+      "Using a cheap modified-sine-wave battery backup, which causes pellet stove exhaust blowers to hum, overheat, and burn out their control board.",
+  },
+  {
+    id: "gas-furnace-blower",
+    slug: "gas-furnace-blower",
+    name: "Gas / Propane Home Furnace Blower Motor",
+    shortName: "Gas Furnace Blower",
+    category: "Home Safety & Climate",
+    runningWatts: 550,
+    surgeWatts: 1200,
+    dutyCycle: 0.4,
+    defaultHoursPerDay: 16,
+    iconName: "ThermometerSun",
+    isTopComboTarget: true,
+    description:
+      "Central natural gas or propane forced-air furnace. Even though gas creates the heat, the 120V blower fan & igniter need ~550W (cycling ~40% of the time) to heat your house!",
+    seoTitle: "What Size Portable Power Station Runs a Gas Furnace in a Blackout?",
+    seoSubtitle:
+      "Your gas furnace won't work in a winter power outage without electricity for the blower fan. See how to power your central furnace safely with a LiFePO4 battery.",
+    buyingTip:
+      "By installing a simple $95 single-circuit EZ Generator Switch next to your furnace, you can plug a 1,800W–2,400W portable power station directly into your gas furnace during a winter blackout. Because the furnace thermostat cycles the blower on ~40% of the time (~220W average hourly draw), a 2,048Wh station keeps your whole house warm for 8–10+ hours!",
+    commonMistake:
+      "Forgetting that modern ECM/PSC furnace blower motors have a 1,000W–1,300W startup surge and require proper neutral-ground bonding on some furnace flame sensors.",
   },
   {
     id: "starlink",
@@ -134,6 +184,7 @@ export const APPLIANCES: Appliance[] = [
     dutyCycle: 1.0,
     defaultHoursPerDay: 10,
     iconName: "Wifi",
+    isTopComboTarget: true,
     description:
       "Standard Starlink Gen 2 / Gen 3 terminal & router (snow melt off). Averages 55W–75W continuous draw while working remotely or streaming.",
     seoTitle: "Best Portable Power Station for Starlink (Off-Grid & Outage Guide)",
@@ -143,6 +194,28 @@ export const APPLIANCES: Appliance[] = [
       "For an 8–10 hour workday on Starlink + two laptops, you need roughly 750Wh–900Wh per day. Pairing a 1,000Wh power station with a single 200W portable solar panel creates an infinite daytime work setup.",
     commonMistake:
       "Leaving Starlink's 'Snow Melt / Pre-Heat' feature set to Automatic while running on battery—that setting spikes power consumption from 65W up to 145W+!",
+  },
+  {
+    id: "portable-car-fridge",
+    slug: "portable-car-fridge",
+    name: "12V Portable Camping Fridge / Cooler (45L)",
+    shortName: "12V Camping Fridge",
+    category: "Camping & Outdoors",
+    runningWatts: 45,
+    surgeWatts: 90,
+    dutyCycle: 0.35,
+    defaultHoursPerDay: 24,
+    iconName: "Compass",
+    isTopComboTarget: true,
+    description:
+      "12V compressor cooler (ICECO, BougeRV, Dometic). Runs directly off the 12V car socket port at ~16W average hourly draw.",
+    seoTitle: "Best Portable Power Station for a 12V Car Fridge & Overlanding",
+    seoSubtitle:
+      "Ditch messy melted ice forever. See exact multi-day runtimes for Dometic, BougeRV, and ICECO 12V compressor coolers.",
+    buyingTip:
+      "Always plug your portable camping fridge into the **12V regulated DC cigarette lighter port** on your power station, NOT the 120V AC wall outlet! Using 12V DC avoids inverter conversion losses and extends runtime by 25%–30%.",
+    commonMistake:
+      "Putting warm drinks into the cooler while running on battery. Pre-chill your cooler and food on home wall power before leaving for your trip.",
   },
   {
     id: "wifi-router",
@@ -208,25 +281,46 @@ export const APPLIANCES: Appliance[] = [
       "Leaving the hot plate turned on underneath a glass carafe after brewing. Pour your coffee into an insulated thermos immediately to save 400Wh of wasted battery!",
   },
   {
-    id: "portable-car-fridge",
-    slug: "portable-car-fridge",
-    name: "12V Portable Camping Fridge / Cooler (45L)",
-    shortName: "12V Camping Fridge",
+    id: "electric-blanket",
+    slug: "electric-blanket",
+    name: "Heated Electric Blanket / Mattress Pad",
+    shortName: "Electric Blanket",
     category: "Camping & Outdoors",
-    runningWatts: 45,
-    surgeWatts: 90,
-    dutyCycle: 0.35,
-    defaultHoursPerDay: 24,
-    iconName: "Compass",
+    runningWatts: 65,
+    surgeWatts: 75,
+    dutyCycle: 0.7,
+    defaultHoursPerDay: 8,
+    iconName: "Flame",
     description:
-      "12V compressor cooler (ICECO, BougeRV, Dometic). Runs directly off the 12V car socket port at ~16W average hourly draw.",
-    seoTitle: "Best Portable Power Station for a 12V Car Fridge & Overlanding",
+      "Queen/Twin heated throw or electric mattress pad on Medium setting. Pulls just ~45W average—using 25x LESS battery than a space heater!",
+    seoTitle: "Best Portable Power Station for an Electric Blanket (Winter Camping & Outages)",
     seoSubtitle:
-      "Ditch messy melted ice forever. See exact multi-day runtimes for Dometic, BougeRV, and ICECO 12V compressor coolers.",
+      "The #1 winter survival secret: Why a 65W electric blanket + 1,000Wh power station keeps you warm for 2 full nights while a space heater dies in 40 minutes.",
     buyingTip:
-      "Always plug your portable camping fridge into the **12V regulated DC cigarette lighter port** on your power station, NOT the 120V AC wall outlet! Using 12V DC avoids inverter conversion losses and extends runtime by 25%–30%.",
+      "Instead of trying to heat all the air in a freezing room with a 1,500W space heater, put an electric blanket or heated mattress pad under your comforter. It draws ~45W average and runs for 16–20 hours on a single 1,000Wh power station!",
     commonMistake:
-      "Putting warm drinks into the cooler while running on battery. Pre-chill your cooler and food on home wall power before leaving for your trip.",
+      "Buying a cheap 12V car blanket that barely gets warm when a standard 120V household electric blanket runs effortlessly on any 500Wh–1,000Wh pure sine wave station.",
+  },
+  {
+    id: "well-pump",
+    slug: "well-pump",
+    name: "Residential Well Water Pump (1/2 HP 120V Jet Pump)",
+    shortName: "Well Pump (1/2 HP)",
+    category: "Home Safety & Climate",
+    runningWatts: 950,
+    surgeWatts: 2200,
+    dutyCycle: 0.15,
+    defaultHoursPerDay: 6,
+    iconName: "Droplets",
+    description:
+      "1/2 HP shallow/convertible 120V jet well pump filling a pressure tank. High 2,200W startup surge, but only runs a few minutes per hour when water is used.",
+    seoTitle: "What Size Portable Power Station Runs a Well Pump? (Surge & Capacity)",
+    seoSubtitle:
+      "Keep running water and flushing toilets working during rural grid outages. Check 120V vs. 240V well pump requirements.",
+    buyingTip:
+      "Even though a well pump only runs for 15–30 minutes total per day to repressurize your water tank (~850Wh/day), it demands 2,000W–2,800W of starting surge watts! Choose a 2,400W–3,600W station like the EcoFlow DELTA 2 Max, Jackery 2000 Plus, or EcoFlow DELTA Pro.",
+    commonMistake:
+      "Not checking whether your well pump is wired for 120V (3-prong) or 240V split-phase before a storm hits.",
   },
   {
     id: "space-heater",
@@ -240,12 +334,12 @@ export const APPLIANCES: Appliance[] = [
     defaultHoursPerDay: 3,
     iconName: "ThermometerSun",
     description:
-      "Ceramic space heater on Low (750W) setting with thermostat cycling. Note: Resistive heating uses massive battery capacity—electric blankets (60W) are 10x more efficient!",
+      "Ceramic space heater on Low (750W) setting with thermostat cycling. Note: Resistive heating uses massive battery capacity—electric blankets (65W) are 15x more efficient!",
     seoTitle: "Can a Portable Power Station Run a Space Heater? (Honest Math)",
     seoSubtitle:
-      "We do the real watt-hour math on running 750W and 1,500W space heaters on battery power—plus the smart alternative that lasts 12x longer.",
+      "We do the real watt-hour math on running 750W and 1,500W space heaters on battery power—plus the smart alternative that lasts 15x longer.",
     buyingTip:
-      "A 1,500W space heater on High will drain a $700 1,000Wh power station in 38 minutes flat! If you want to run a space heater for a few hours in one room, you need a 2,000Wh–3,600Wh unit (like EcoFlow DELTA 2 Max or DELTA Pro) AND you should run the heater on its 750W Low setting—or pair a heated blanket (60W) with a mid-size battery.",
+      "A 1,500W space heater on High will drain a $650 1,000Wh power station in 38 minutes flat! If you want to run a space heater for 3–5 hours in one room, you need a 2,048Wh–3,600Wh unit (like EcoFlow DELTA 2 Max or DELTA Pro) AND you should run the heater on its 750W Low setting.",
     commonMistake:
       "Expecting an entry-level power station to heat a whole room overnight. Resistive heating is the heaviest continuous load in any home.",
   },
@@ -287,9 +381,93 @@ export const APPLIANCES: Appliance[] = [
     seoSubtitle:
       "Reliable, fume-free indoor LiFePO4 battery backup for stationary 300W–400W oxygen concentrators during utility outages.",
     buyingTip:
-      "Unlike gas generators, LiFePO4 battery power stations produce zero carbon monoxide and can sit safely right next to the bed indoors. Because an oxygen concentrator draws ~320W continuously without cycling off, you need ~2,500Wh–3,000Wh for a full 8-hour night.",
+      "Unlike gas generators, LiFePO4 battery power stations produce zero carbon monoxide and can sit safely right next to the bed indoors. Because an oxygen concentrator draws ~320W continuously without cycling off, you need ~2,000Wh–3,600Wh for a full night.",
     commonMistake:
       "Confusing a 40W portable pulse-dose concentrator with a 320W stationary home concentrator when sizing battery capacity.",
+  },
+  {
+    id: "air-fryer",
+    slug: "air-fryer",
+    name: "Countertop Air Fryer / Toaster Oven (1,500W)",
+    shortName: "Air Fryer / Toaster Oven",
+    category: "Kitchen & Food",
+    runningWatts: 1500,
+    surgeWatts: 1650,
+    dutyCycle: 0.85,
+    defaultHoursPerDay: 0.4,
+    iconName: "Flame",
+    description:
+      "Ninja, Cosori, or Breville air fryer / convection toaster oven. High 1,500W draw while cooking, but cooks meals in just 15–20 minutes (~425Wh per meal).",
+    seoTitle: "Can a Portable Power Station Run an Air Fryer or Toaster Oven?",
+    seoSubtitle:
+      "Cook hot meals without propane or open flames during a blackout. See which 1,800W+ LiFePO4 power stations handle air fryers easily.",
+    buyingTip:
+      "An air fryer is actually one of the most efficient ways to cook on battery power because it preheats in 2 minutes and cooks in 15 minutes (~380Wh total). Just make sure your power station has at least an **1,800W continuous AC inverter** (EcoFlow DELTA 2, Anker SOLIX C1000, or BLUETTI AC180).",
+    commonMistake:
+      "Plugging both a coffee maker (1,200W) and an air fryer (1,500W) into a 1,800W power station at the exact same time—run high-wattage kitchen appliances one at a time!",
+  },
+  {
+    id: "portable-induction-cooktop",
+    slug: "portable-induction-cooktop",
+    name: "Portable Induction Cooktop Burner (Medium-High)",
+    shortName: "Induction Cooktop",
+    category: "Kitchen & Food",
+    runningWatts: 1300,
+    surgeWatts: 1600,
+    dutyCycle: 0.9,
+    defaultHoursPerDay: 0.5,
+    iconName: "Flame",
+    description:
+      "Single-burner Duxtop or NuWave induction hot plate. 90% energy transfer directly into the pan makes it far more battery-friendly than electric coil burners.",
+    seoTitle: "Best Portable Power Station for an Induction Cooktop (Vanlife & Blackouts)",
+    seoSubtitle:
+      "How many meals can you cook on an EcoFlow, Jackery, or Anker SOLIX using a 120V portable induction burner?",
+    buyingTip:
+      "Set your induction cooktop to power level 6 or 7 (~1,200W–1,300W) instead of Max Boost (1,800W). Your food cooks just as fast, and you put far less thermal stress on the battery inverter.",
+    commonMistake:
+      "Using non-magnetic aluminum pans that won't trigger the induction coil.",
+  },
+  {
+    id: "aquarium-heater-filter",
+    slug: "aquarium-heater-filter",
+    name: "Aquarium / Reef Tank Heater, Canister Filter & Air Pump",
+    shortName: "Aquarium Heater & Filter",
+    category: "Home Safety & Climate",
+    runningWatts: 180,
+    surgeWatts: 250,
+    dutyCycle: 0.45,
+    defaultHoursPerDay: 24,
+    iconName: "Droplets",
+    description:
+      "50–100 gallon freshwater or saltwater reef tank (150W submersible heater cycling ~40% + 30W continuous filter/wavemaker/air pump).",
+    seoTitle: "Best Battery Backup Power Station for Aquariums & Reef Tanks",
+    seoSubtitle:
+      "Save thousands of dollars in fish and coral during winter outages with automatic <20ms UPS battery switchover.",
+    buyingTip:
+      "Tank oxygen drops to fatal levels within 3–4 hours if filters stop circulating water, and winter room temperatures kill tropical fish overnight. Plug your canister filter, air pump, and heater into a 1,000Wh+ power station with **<20ms UPS mode** so the tank stays running automatically even if power fails while you're at work.",
+    commonMistake:
+      "Leaving high-wattage aquarium reef lighting turned on during a power outage—only back up the circulation pump, air stone, and heater!",
+  },
+  {
+    id: "garage-door-opener",
+    slug: "garage-door-opener",
+    name: "Residential Garage Door Opener (1/2 to 3/4 HP)",
+    shortName: "Garage Door Opener",
+    category: "Home Safety & Climate",
+    runningWatts: 550,
+    surgeWatts: 1100,
+    dutyCycle: 1.0,
+    defaultHoursPerDay: 0.1,
+    iconName: "Zap",
+    description:
+      "Chamberlain / LiftMaster overhead garage door motor. Pulls ~550W (1,100W surge) for just 15 seconds per open/close cycle (<5Wh per day!).",
+    seoTitle: "What Size Portable Power Station Can Open a Garage Door?",
+    seoSubtitle:
+      "Don't get your car trapped inside a heavy garage door during a blackout. See the surge wattage needed to lift a 2-car garage door.",
+    buyingTip:
+      "Opening a garage door takes almost zero battery capacity (about 3 Watt-hours per lift!), but the motor needs ~1,100W of starting surge for 1 second to lift the heavy door springs. Any 800W–1,800W power station can open a garage door 100+ times on a single charge.",
+    commonMistake:
+      "Pulling the manual red emergency release cord while the garage door is raised—if a spring is weak, the door can slam shut.",
   },
   {
     id: "laptop-workstation",
@@ -335,6 +513,10 @@ export const APPLIANCES: Appliance[] = [
   },
 ];
 
+export const TOP_COMBO_APPLIANCES = APPLIANCES.filter(
+  (a) => a.isTopComboTarget
+);
+
 export const SCENARIO_PRESETS: ScenarioPreset[] = [
   {
     id: "home-blackout",
@@ -351,14 +533,29 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
     ],
   },
   {
+    id: "winter-heating-outage",
+    name: "Winter Freeze & Pellet Stove Backup",
+    badge: "Winter Storm",
+    description: "Run a wood pellet stove (or electric blankets), refrigerator, and Wi-Fi through a freezing winter night.",
+    outageDays: 1,
+    solarReload: false,
+    items: [
+      { applianceId: "pellet-stove", hoursPerDay: 12, quantity: 1 },
+      { applianceId: "refrigerator", hoursPerDay: 24, quantity: 1 },
+      { applianceId: "electric-blanket", hoursPerDay: 8, quantity: 1 },
+      { applianceId: "led-lights-phones", hoursPerDay: 6, quantity: 1 },
+    ],
+  },
+  {
     id: "cpap-sleep",
     name: "CPAP & Bedroom Night Backup",
     badge: "Medical & Sleep",
-    description: "Uninterrupted overnight backup for a CPAP machine, bedside lamp, phone charger, and box fan.",
+    description: "Uninterrupted overnight backup for a CPAP machine, heated blanket, bedside lamp, and phone charger.",
     outageDays: 2,
     solarReload: false,
     items: [
       { applianceId: "cpap-machine", hoursPerDay: 8, quantity: 1 },
+      { applianceId: "electric-blanket", hoursPerDay: 8, quantity: 1 },
       { applianceId: "led-lights-phones", hoursPerDay: 4, quantity: 1 },
     ],
   },
@@ -373,19 +570,6 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
       { applianceId: "portable-car-fridge", hoursPerDay: 24, quantity: 1 },
       { applianceId: "coffee-maker", hoursPerDay: 0.2, quantity: 1 },
       { applianceId: "led-lights-phones", hoursPerDay: 5, quantity: 1 },
-    ],
-  },
-  {
-    id: "remote-work-starlink",
-    name: "Starlink & Work-From-Home Backup",
-    badge: "Remote Work",
-    description: "Stay online all workday with Starlink satellite internet, laptop + external monitor, and hot coffee.",
-    outageDays: 1,
-    solarReload: true,
-    items: [
-      { applianceId: "starlink", hoursPerDay: 9, quantity: 1 },
-      { applianceId: "laptop-workstation", hoursPerDay: 8, quantity: 1 },
-      { applianceId: "coffee-maker", hoursPerDay: 0.2, quantity: 1 },
     ],
   },
   {
@@ -404,4 +588,3 @@ export const SCENARIO_PRESETS: ScenarioPreset[] = [
     ],
   },
 ];
-

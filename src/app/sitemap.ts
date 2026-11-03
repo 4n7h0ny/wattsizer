@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { SITE_CONFIG } from "@/config/affiliate";
-import { APPLIANCES } from "@/data/appliances";
-import { COMPARISON_PAIRS } from "@/data/powerStations";
+import { APPLIANCES, TOP_COMBO_APPLIANCES } from "@/data/appliances";
+import { COMPARISON_PAIRS, POWER_STATIONS } from "@/data/powerStations";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = SITE_CONFIG.domain;
@@ -15,6 +15,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${base}/can-it-run`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${base}/runtime`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
@@ -47,6 +53,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  return [...staticRoutes, ...applianceRoutes, ...compareRoutes];
-}
+  const reviewRoutes: MetadataRoute.Sitemap = POWER_STATIONS.map((station) => ({
+    url: `${base}/reviews/${station.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.85,
+  }));
 
+  const comboRoutes: MetadataRoute.Sitemap = [];
+  for (const station of POWER_STATIONS) {
+    for (const app of TOP_COMBO_APPLIANCES) {
+      comboRoutes.push({
+        url: `${base}/runtime/${station.slug}-for-${app.slug}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly",
+        priority: 0.8,
+      });
+    }
+  }
+
+  return [
+    ...staticRoutes,
+    ...applianceRoutes,
+    ...compareRoutes,
+    ...reviewRoutes,
+    ...comboRoutes,
+  ];
+}

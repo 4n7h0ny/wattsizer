@@ -94,16 +94,24 @@ export default function Footer() {
               Top Rated LiFePO4 Models
             </h4>
             <ul className="mt-3 space-y-2 text-xs">
-              {POWER_STATIONS.slice(0, 6).map((station) => (
+              {POWER_STATIONS.slice(0, 8).map((station) => (
                 <li key={station.id}>
                   <Link
-                    href={`/power-stations#${station.slug}`}
+                    href={`/reviews/${station.slug}`}
                     className="hover:text-amber-400 transition"
                   >
-                    {station.name} ({station.capacityWh}Wh)
+                    {station.name} Review ({station.capacityWh}Wh)
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/runtime"
+                  className="font-semibold text-amber-400 hover:underline"
+                >
+                  80+ Model × Appliance Runtime Matrix →
+                </Link>
+              </li>
               <li className="pt-2 border-t border-slate-800">
                 <Link
                   href="/owner-guide"

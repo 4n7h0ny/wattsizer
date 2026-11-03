@@ -38,7 +38,13 @@ export default function Navbar() {
             href="/can-it-run"
             className="hover:text-amber-400 transition"
           >
-            Appliance Runtime Guides
+            Appliance Guides
+          </Link>
+          <Link
+            href="/runtime"
+            className="hover:text-amber-400 transition"
+          >
+            Runtime Matrix (80+)
           </Link>
           <Link
             href="/compare"

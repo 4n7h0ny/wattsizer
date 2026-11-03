@@ -532,5 +532,135 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     winnerForPortability: "Jackery Explorer 2000 Plus (61.5 lbs vs 99 lbs)",
     winnerForValue: "Jackery Explorer 2000 Plus (3,000W inverter under $1,500)",
   },
+  {
+    slug: "jackery-1000-v2-vs-anker-solix-c1000",
+    stationAId: "jackery-1000-v2",
+    stationBId: "anker-solix-c1000",
+    title: "Jackery Explorer 1000 v2 vs. Anker SOLIX C1000",
+    subtitle:
+      "Ultralight 23.8 lb carry and 4,000 cycles vs. 1,800W output, 600W solar charging, and room light bar.",
+    verdictSummary:
+      "Choose the Jackery Explorer 1000 v2 if weight and bedroom quietness matter most (it is 4.6 lbs lighter and rated for 4,000 cycles). Choose the Anker SOLIX C1000 if you need 6 AC outlets, a higher 1,800W continuous inverter, 50% faster solar charging (600W), and battery expansion.",
+    winnerForBlackouts: "Anker SOLIX C1000 (1,800W inverter + expandable to 2,112Wh)",
+    winnerForPortability: "Jackery Explorer 1000 v2 (Lightest in class at 23.8 lbs)",
+    winnerForValue: "Anker SOLIX C1000 (6 AC outlets + built-in emergency light bar)",
+  },
+  {
+    slug: "ecoflow-delta-2-vs-bluetti-ac180",
+    stationAId: "ecoflow-delta-2",
+    stationBId: "bluetti-ac180",
+    title: "EcoFlow DELTA 2 vs. BLUETTI AC180",
+    subtitle:
+      "27 lb expandable best-seller vs. 1,152Wh high-capacity value contender with wireless charging.",
+    verdictSummary:
+      "The EcoFlow DELTA 2 is 8.2 lbs lighter, includes 6 AC outlets (vs 4 on the AC180), and features EcoFlow's best-in-class smart app and expansion batteries. The BLUETTI AC180 gives you 128Wh of extra standalone battery capacity and a top wireless charging pad for less money.",
+    winnerForBlackouts: "EcoFlow DELTA 2 (Easy plug-and-play expansion up to 3,040Wh)",
+    winnerForPortability: "EcoFlow DELTA 2 (27 lbs vs 35.2 lbs)",
+    winnerForValue: "BLUETTI AC180 (More base Watt-hours per dollar)",
+  },
+  {
+    slug: "jackery-1000-v2-vs-bluetti-ac180",
+    stationAId: "jackery-1000-v2",
+    stationBId: "bluetti-ac180",
+    title: "Jackery Explorer 1000 v2 vs. BLUETTI AC180",
+    subtitle:
+      "Comparing Jackery's featherweight 1,070Wh v2 against BLUETTI's rugged 1,152Wh AC180.",
+    verdictSummary:
+      "At 23.8 lbs, the Jackery 1000 v2 is more than 11 lbs lighter than the BLUETTI AC180, making it vastly easier to carry on camping trips or up stairs. The BLUETTI AC180 counters with a stronger 1,800W continuous inverter and a 15W wireless phone charger.",
+    winnerForBlackouts: "BLUETTI AC180 (Higher 1,800W continuous AC output + 1,152Wh)",
+    winnerForPortability: "Jackery Explorer 1000 v2 (11.4 lbs lighter!)",
+    winnerForValue: "Tie — Both are top-rated LiFePO4 values under $650",
+  },
+  {
+    slug: "jackery-300-plus-vs-ecoflow-river-2-pro",
+    stationAId: "jackery-300-plus",
+    stationBId: "ecoflow-river-2-pro",
+    title: "Jackery Explorer 300 Plus vs. EcoFlow RIVER 2 Pro",
+    subtitle:
+      "8.2 lb backpack ultralight vs. 768Wh weekend camping & CPAP workhorse.",
+    verdictSummary:
+      "The Jackery Explorer 300 Plus is built for backpackers and desk backup where 8.2 lbs is king. For just ~$180 more on Amazon, the EcoFlow RIVER 2 Pro gives you 2.6x more battery capacity (768Wh vs 288Wh) and 4 AC outlets.",
+    winnerForBlackouts: "EcoFlow RIVER 2 Pro (2.6x more battery capacity + 800W inverter)",
+    winnerForPortability: "Jackery Explorer 300 Plus (Fits in a backpack at 8.27 lbs)",
+    winnerForValue: "EcoFlow RIVER 2 Pro (Lowest cost per Watt-hour under $450)",
+  },
+  {
+    slug: "ecoflow-delta-2-max-vs-jackery-2000-plus",
+    stationAId: "ecoflow-delta-2-max",
+    stationBId: "jackery-2000-plus",
+    title: "EcoFlow DELTA 2 Max vs. Jackery Explorer 2000 Plus",
+    subtitle:
+      "2,048Wh dual-solar home backup vs. 3,000W wheeled heavy-load monster.",
+    verdictSummary:
+      "Choose the EcoFlow DELTA 2 Max if you want a 50.7 lb two-handle unit you can carry up stairs without wheels getting in the way. Choose the Jackery Explorer 2000 Plus if you want built-in wheels, a higher 3,000W / 6,000W surge inverter, and 4,000 battery cycles.",
+    winnerForBlackouts: "Jackery Explorer 2000 Plus (3,000W continuous / 6,000W surge)",
+    winnerForPortability: "EcoFlow DELTA 2 Max (10.8 lbs lighter for stairs)",
+    winnerForValue: "EcoFlow DELTA 2 Max (Typically $100 less on Amazon)",
+  },
+  {
+    slug: "anker-solix-f2000-vs-jackery-2000-plus",
+    stationAId: "anker-solix-f2000",
+    stationBId: "jackery-2000-plus",
+    title: "Anker SOLIX F2000 vs. Jackery Explorer 2000 Plus",
+    subtitle:
+      "Battle of the 2,000Wh wheeled suitcase solar generators with RV outlets.",
+    verdictSummary:
+      "Both roll effortlessly on wheels and include RV outlets. The Anker SOLIX F2000 uses GaNPrime inverter technology for cooler, more efficient long-hour fridge runtimes, while the Jackery 2000 Plus offers higher peak wattage (3,000W vs 2,400W) and wider modular expansion.",
+    winnerForBlackouts: "Jackery Explorer 2000 Plus (Higher 3,000W output + 12kWh expansion)",
+    winnerForPortability: "Jackery Explorer 2000 Plus (5.7 lbs lighter on wheels)",
+    winnerForValue: "Anker SOLIX F2000 (Frequent deep Amazon coupons)",
+  },
+  {
+    slug: "ecoflow-delta-2-max-vs-ecoflow-delta-pro",
+    stationAId: "ecoflow-delta-2-max",
+    stationBId: "ecoflow-delta-pro",
+    title: "EcoFlow DELTA 2 Max vs. EcoFlow DELTA Pro",
+    subtitle:
+      "Should you buy the 2,048Wh DELTA 2 Max or step up to the 3,600Wh DELTA Pro?",
+    verdictSummary:
+      "The DELTA 2 Max (50.7 lbs) is the sweet spot for 90% of homeowners—it runs refrigerators, freezers, and sump pumps while still being liftable by hand. Step up to the 99 lb wheeled DELTA Pro only if you want 3,600Wh in a single box or plan to plug directly into a 30A home transfer switch.",
+    winnerForBlackouts: "EcoFlow DELTA Pro (3,600Wh + 3,600W 30A transfer switch ready)",
+    winnerForPortability: "EcoFlow DELTA 2 Max (Half the weight: 50.7 lbs vs 99 lbs)",
+    winnerForValue: "EcoFlow DELTA 2 Max (Saves ~$800 upfront and expands later)",
+  },
+  {
+    slug: "ecoflow-river-2-pro-vs-ecoflow-delta-2",
+    stationAId: "ecoflow-river-2-pro",
+    stationBId: "ecoflow-delta-2",
+    title: "EcoFlow RIVER 2 Pro vs. EcoFlow DELTA 2",
+    subtitle:
+      "768Wh camping & CPAP favorite vs. 1,024Wh whole-kitchen blackout champion.",
+    verdictSummary:
+      "If you only need to power a CPAP, Starlink, Wi-Fi router, or 12V car cooler, save ~$200 and grab the 17.2 lb RIVER 2 Pro. If you want to back up a full-size kitchen refrigerator, coffee maker, or microwave, spend the extra ~$200 for the DELTA 2's 1,800W inverter.",
+    winnerForBlackouts: "EcoFlow DELTA 2 (1,800W inverter runs kitchen appliances)",
+    winnerForPortability: "EcoFlow RIVER 2 Pro (Nearly 10 lbs lighter)",
+    winnerForValue: "EcoFlow DELTA 2 (More than 2x inverter power + expandable)",
+  },
+  {
+    slug: "anker-solix-c1000-vs-anker-solix-f2000",
+    stationAId: "anker-solix-c1000",
+    stationBId: "anker-solix-f2000",
+    title: "Anker SOLIX C1000 vs. Anker SOLIX F2000",
+    subtitle:
+      "Comparing Anker's compact 1,056Wh C1000 against the wheeled 2,048Wh F2000.",
+    verdictSummary:
+      "The Anker SOLIX C1000 (28.4 lbs) is easy to carry with one hand and can even match the F2000's capacity later if you add the BP1000 expansion battery. Choose the F2000 if you need a 2,400W inverter, built-in wheels, and a 30A RV shore power port.",
+    winnerForBlackouts: "Anker SOLIX F2000 (Double the base capacity + 2,400W output)",
+    winnerForPortability: "Anker SOLIX C1000 (38.8 lbs lighter!)",
+    winnerForValue: "Anker SOLIX C1000 (Best mid-size value in Anker's lineup)",
+  },
+  {
+    slug: "jackery-1000-v2-vs-jackery-2000-plus",
+    stationAId: "jackery-1000-v2",
+    stationBId: "jackery-2000-plus",
+    title: "Jackery Explorer 1000 v2 vs. Jackery Explorer 2000 Plus",
+    subtitle:
+      "1,070Wh portable carry vs. 2,042Wh expandable wheeled home backup.",
+    verdictSummary:
+      "The Explorer 1000 v2 is the ultimate grab-and-go 23.8 lb unit for 1-day blackouts and family camping. The Explorer 2000 Plus doubles both the battery capacity (2,042Wh) and inverter output (3,000W) on wheels for sump pumps, well pumps, and multi-day outages.",
+    winnerForBlackouts: "Jackery Explorer 2000 Plus (2x capacity + 3,000W inverter)",
+    winnerForPortability: "Jackery Explorer 1000 v2 (23.8 lbs vs 61.5 lbs)",
+    winnerForValue: "Jackery Explorer 1000 v2 (Covers 85% of household needs at under half the price)",
+  },
 ];
 
