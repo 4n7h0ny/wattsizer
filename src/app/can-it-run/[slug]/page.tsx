@@ -32,8 +32,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const app = APPLIANCES.find((a) => a.slug === params.slug);
   if (!app) return {};
   return {
-    title: `${app.seoTitle} | WattSizer 2026 Runtime Chart`,
-    description: `${app.seoSubtitle} Compare exact hours of runtime for ${app.name} (${app.runningWatts}W running / ${app.surgeWatts}W surge) across EcoFlow, Jackery, Anker SOLIX, and BLUETTI.`,
+    title: `${app.seoTitle} | WattSizer Runtime Estimates`,
+    description: `${app.seoSubtitle} Compare estimated runtime for ${app.name} (${app.runningWatts}W running / ${app.surgeWatts}W surge) across EcoFlow, Jackery, Anker SOLIX, and BLUETTI.`,
   };
 }
 
@@ -77,7 +77,7 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
       <div className="rounded-3xl border border-slate-800 bg-gradient-to-b from-slate-900/90 to-slate-950 p-6 sm:p-10">
         <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/10 border border-amber-500/30 px-3 py-1 text-xs font-bold text-amber-300">
           <Zap className="h-3.5 w-3.5" />
-          <span>{appliance.category} • Verified 2026 Runtime Math</span>
+          <span>{appliance.category} • Estimated Runtimes</span>
         </div>
 
         <h1 className="mt-3 text-2xl sm:text-4xl font-black text-white">
@@ -87,7 +87,7 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
           {appliance.seoSubtitle}
         </p>
 
-        {/* 4 Engineering Metrics for this Appliance */}
+        {/* 4 key metrics for this appliance */}
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div className="rounded-2xl border border-slate-800 bg-slate-950/80 p-4">
             <div className="text-xs text-slate-400">Active Running Watts</div>
@@ -162,14 +162,14 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
       <section className="mt-12">
         <div className="mb-6">
           <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
-            Top 3 Verified Matches
+            Top 3 Matches by Spec
           </span>
           <h2 className="mt-1 text-2xl sm:text-3xl font-black text-white">
             Best Portable Power Stations for a {appliance.shortName}
           </h2>
           <p className="mt-1 text-sm text-slate-400">
-            Each unit below easily clears the {appliance.surgeWatts}W startup
-            surge and provides reliable LiFePO4 backup power.
+            Each unit below is rated above the estimated {appliance.surgeWatts}W
+            startup surge, based on manufacturer specs.
           </p>
         </div>
 
@@ -183,7 +183,7 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
           />
           <PowerStationCard
             station={recommendations.bestOverall}
-            rankLabel={`#1 Best Overall for ${appliance.shortName}`}
+            rankLabel={`Best Overall for ${appliance.shortName}`}
             rankColor="amber"
             dailyLoadWh={dailyConsumptionWh}
             peakWatts={appliance.runningWatts}
@@ -271,7 +271,7 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
                       rel="noopener noreferrer sponsored"
                       className="inline-flex items-center gap-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 px-3.5 py-2 text-xs font-extrabold text-slate-950 transition shadow"
                     >
-                      Check Amazon (~${station.typicalAmazonPrice})
+                      Check Price
                       <ExternalLink className="h-3.5 w-3.5" />
                     </a>
                   </td>

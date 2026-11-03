@@ -42,7 +42,7 @@ export default function AllPowerStationsPage() {
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="max-w-3xl">
         <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
-          Verified 10-Year LiFePO4 Directory
+          LiFePO4 Power Station Directory
         </span>
         <h1 className="mt-1 text-3xl sm:text-4xl font-black text-white">
           Best Portable Power Stations &amp; Solar Generators on Amazon (2026)

@@ -25,27 +25,27 @@ export default function HomePage() {
         <div className="mx-auto max-w-3xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-bold text-amber-300 mb-4">
             <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-            <span>2026 Engineering-Grade LiFePO4 Sizer &amp; Runtime Lab</span>
+            <span>Free Power Station Sizing Calculator</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
             Pick Your Blackout Appliances.{" "}
             <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-orange-500 bg-clip-text text-transparent">
-              Get the Exact Solar Generator That Runs Them.
+              See Which Power Stations Can Run Them.
             </span>
           </h1>
           <p className="mt-4 text-sm sm:text-base text-slate-300 leading-relaxed">
-            Most calculators multiply sticker watts by 24 hours—causing you to
-            overspend by $600+ or buy an underpowered unit that trips on
-            refrigerator startup surges. Our sizer models{" "}
+            Multiplying sticker watts by 24 hours overestimates what you need,
+            and ignoring startup surge can leave you with a unit that trips
+            when your fridge kicks on. This calculator estimates{" "}
             <strong className="text-white">
-              real compressor duty cycles, startup surge watts, and 85% AC
+              compressor duty cycles, startup surge watts, and ~85% AC
               inverter efficiency
             </strong>{" "}
-            to match you with the highest-rated Jackery, EcoFlow, Anker SOLIX,
-            and BLUETTI units on Amazon.
+            and compares the result against published specs for Jackery,
+            EcoFlow, Anker SOLIX and BLUETTI units.
           </p>
 
-          {/* 4 Authority Pillars */}
+          {/* What the calculator accounts for */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-300">
             <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900/90 border border-slate-800 px-3 py-1.5">
               <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
@@ -57,11 +57,11 @@ export default function HomePage() {
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900/90 border border-slate-800 px-3 py-1.5">
               <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-              10-Year LiFePO4 Models Only
+              LiFePO4 Models Only
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900/90 border border-slate-800 px-3 py-1.5">
               <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-              Direct Amazon Prime &amp; Coupon Links
+              Estimates, Not Lab Tests
             </span>
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function HomePage() {
               &ldquo;How Long Will a Power Station Run My...?&rdquo;
             </h2>
             <p className="mt-1 text-sm text-slate-400">
-              Click any household or off-grid appliance below to see exact hour-by-hour runtimes across all 10 top-rated LiFePO4 power stations.
+              Click any household or off-grid appliance below to see estimated runtimes across 10 popular LiFePO4 power stations.
             </p>
           </div>
           <Link
@@ -145,7 +145,7 @@ export default function HomePage() {
               Popular Solar Generator Showdowns
             </h2>
             <p className="mt-1 text-sm text-slate-400">
-              Torn between EcoFlow, Jackery, Anker SOLIX, and BLUETTI? See which model wins on real-world runtime, weight, and Amazon price.
+              Torn between EcoFlow, Jackery, Anker SOLIX, and BLUETTI? Compare estimated runtime, output, weight and expandability.
             </p>
           </div>
           <Link
@@ -189,13 +189,13 @@ export default function HomePage() {
       <section className="mt-20">
         <div className="mb-6">
           <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
-            2026 Quick Reference Database
+            Quick Reference
           </span>
           <h2 className="mt-1 text-2xl sm:text-3xl font-black text-white">
-            All 10 Best-Selling LiFePO4 Power Stations Compared
+            10 Popular LiFePO4 Power Stations Compared
           </h2>
           <p className="mt-1 text-sm text-slate-400">
-            Every model below features long-life LiFePO4 battery chemistry (3,000 to 6,500 cycles = 10+ years of use) and ships via Amazon Prime.
+            Every model below uses LiFePO4 battery chemistry, with manufacturer cycle ratings of 3,000 to 4,000 cycles. Specs are from manufacturer listings.
           </p>
         </div>
 
@@ -209,7 +209,7 @@ export default function HomePage() {
                 <th className="py-3.5 px-4">AC Output (Surge)</th>
                 <th className="py-3.5 px-4">Max Solar</th>
                 <th className="py-3.5 px-4">Weight</th>
-                <th className="py-3.5 px-4 text-right">Amazon Price / Deals</th>
+                <th className="py-3.5 px-4 text-right">Amazon</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/70">
@@ -220,9 +220,6 @@ export default function HomePage() {
                 >
                   <td className="py-3.5 px-4 font-bold text-white whitespace-nowrap">
                     <div>{s.name}</div>
-                    <div className="text-[11px] font-normal text-emerald-400">
-                      ★ {s.rating} ({s.reviewCountText})
-                    </div>
                   </td>
                   <td className="py-3.5 px-4">
                     <span className="inline-block rounded bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 text-[11px] font-bold text-amber-300">
@@ -262,7 +259,7 @@ export default function HomePage() {
                       rel="noopener noreferrer sponsored"
                       className="inline-flex items-center gap-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 px-3.5 py-2 text-xs font-extrabold text-slate-950 transition shadow"
                     >
-                      Check Amazon (~${s.typicalAmazonPrice})
+                      Check Price
                       <ExternalLink className="h-3.5 w-3.5" />
                     </a>
                   </td>

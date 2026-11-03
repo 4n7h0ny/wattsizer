@@ -57,7 +57,7 @@ export const APPLIANCES: Appliance[] = [
       "Modern full-size kitchen fridge/freezer combo. Compressor cycles on ~38% of the time (~61W average hourly draw, 160W active compressor draw, 650W startup surge).",
     seoTitle: "What Size Portable Power Station Runs a Refrigerator?",
     seoSubtitle:
-      "Exact runtime calculations, surge wattage requirements, and the best LiFePO4 battery backups to keep your food from spoiling during a blackout.",
+      "Estimated runtimes, surge wattage requirements, and the best LiFePO4 battery backups to keep your food from spoiling during a blackout.",
     buyingTip:
       "Never multiply a refrigerator's 160W sticker rating by 24 hours straight! Because the insulated cabinet holds cold air, the compressor only cycles on about 35%–40% of the time (~1,450Wh per 24 hours). However, your power station MUST handle the 600W–800W startup compressor surge.",
     commonMistake:
@@ -101,7 +101,7 @@ export const APPLIANCES: Appliance[] = [
       "ResMed AirSense 10/11 or Philips CPAP running overnight. Uses ~45W with humidifier/heated tubing on, or just 15W–20W with humidifier off on 12V DC.",
     seoTitle: "Best Portable Power Station for a CPAP Machine (2026 Runtime Chart)",
     seoSubtitle:
-      "Sleep peacefully through power outages and camping trips. Compare exact overnight runtimes with heated humidifier ON vs. OFF.",
+      "Sleep peacefully through power outages and camping trips. Compare estimated overnight runtimes with heated humidifier ON vs. OFF.",
     buyingTip:
       "Look for a power station with UPS/EPS (<20ms Auto-Switchover) like the Jackery 1000 v2, Anker SOLIX C1000, or EcoFlow DELTA 2. You plug the power station into the wall and your CPAP into the power station—if the grid goes down at 2:00 AM, your CPAP stays on without skipping a breath.",
     commonMistake:
@@ -123,7 +123,7 @@ export const APPLIANCES: Appliance[] = [
       "Standard 1/3 HP residential sump pump. High 1,800W motor startup surge, but only runs intermittently when the float switch triggers (~15% duty cycle during storms).",
     seoTitle: "What Size Portable Power Station Runs a Basement Sump Pump?",
     seoSubtitle:
-      "Prevent $10,000+ basement floods during severe thunderstorms. Here is the exact surge wattage and battery capacity you need.",
+      "Prevent $10,000+ basement floods during severe thunderstorms. Here is the surge wattage and battery capacity you need.",
     buyingTip:
       "Sump pumps are all about STARTING SURGE. A 1/3 HP pump draws 800W while pumping, but demands 1,600W–2,000W for a split second to spin up the impeller against water pressure. Never use a power station rated below 1,800W continuous / 2,400W+ surge.",
     commonMistake:
@@ -145,7 +145,7 @@ export const APPLIANCES: Appliance[] = [
       "Harman, Quadra-Fire, or ComfortBilt pellet stove. Pulls ~400W–450W for 10 minutes during startup ignition, then settles to ~135W continuous for the convection fan and auger.",
     seoTitle: "Best Portable Power Station for a Pellet Stove (Winter Blackout Guide)",
     seoSubtitle:
-      "Keep your pellet stove heating your home all night during winter ice storms. Exact runtime hours, pure sine wave requirements, and UPS switchover math.",
+      "Keep your pellet stove heating your home all night during winter ice storms. Estimated runtime hours, pure sine wave requirements, and UPS switchover math.",
     buyingTip:
       "Pellet stoves have sensitive circuit boards and variable-speed combustion blowers that REQUIRE a 100% Pure Sine Wave inverter (all 10 LiFePO4 stations in our database are Pure Sine Wave). A 1,024Wh unit runs a pellet stove for ~7–8 hours; a 2,048Wh unit runs it for 14–16+ hours through the coldest night.",
     commonMistake:
@@ -211,7 +211,7 @@ export const APPLIANCES: Appliance[] = [
       "12V compressor cooler (ICECO, BougeRV, Dometic). Runs directly off the 12V car socket port at ~16W average hourly draw.",
     seoTitle: "Best Portable Power Station for a 12V Car Fridge & Overlanding",
     seoSubtitle:
-      "Ditch messy melted ice forever. See exact multi-day runtimes for Dometic, BougeRV, and ICECO 12V compressor coolers.",
+      "Ditch messy melted ice forever. See estimated multi-day runtimes for Dometic, BougeRV, and ICECO 12V compressor coolers.",
     buyingTip:
       "Always plug your portable camping fridge into the **12V regulated DC cigarette lighter port** on your power station, NOT the 120V AC wall outlet! Using 12V DC avoids inverter conversion losses and extends runtime by 25%–30%.",
     commonMistake:

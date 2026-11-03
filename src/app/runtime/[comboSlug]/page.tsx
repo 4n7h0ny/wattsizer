@@ -9,6 +9,7 @@ import {
   getSizerRecommendations,
 } from "@/lib/calculator";
 import PowerStationCard from "@/components/PowerStationCard";
+import { isIndexableCombo } from "@/lib/seo";
 import {
   AlertTriangle,
   ArrowLeft,
@@ -55,12 +56,16 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const rt = calculateApplianceRuntime(station, appliance);
 
   const answerSnippet = rt.canRun
-    ? `Yes — runs for ~${rt.daysFormatted} (${rt.continuousHours} hours)`
-    : `No — exceeds ${station.continuousWatts}W inverter rating`;
+    ? `Yes, about ${rt.continuousHours} hours`
+    : `No, exceeds its inverter rating`;
 
   return {
     title: `Can ${station.name} Run a ${appliance.shortName}? (${answerSnippet})`,
-    description: `Exact 2026 engineering runtime math for running a ${appliance.name} (${appliance.runningWatts}W running / ${appliance.surgeWatts}W surge) on the ${station.name} (${station.capacityWh}Wh LiFePO4).`,
+    description: `Estimated runtime for a ${appliance.name} (${appliance.runningWatts}W running / ${appliance.surgeWatts}W surge) on the ${station.name} (${station.capacityWh}Wh LiFePO4), based on manufacturer specs.`,
+    // Only high-demand pairings are indexed; the rest stay live for visitors.
+    robots: isIndexableCombo(station, appliance)
+      ? undefined
+      : { index: false, follow: true },
   };
 }
 
@@ -113,7 +118,7 @@ export default function ComboRuntimePage({ params }: PageProps) {
           href={`/reviews/${station.slug}`}
           className="hover:text-amber-400"
         >
-          {station.name} Full Review
+          {station.name} Specs & Runtimes
         </Link>
       </div>
 
@@ -121,17 +126,17 @@ export default function ComboRuntimePage({ params }: PageProps) {
       <div className="rounded-3xl border border-slate-800 bg-gradient-to-b from-slate-900/90 to-slate-950 p-6 sm:p-10">
         <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-full bg-amber-500/10 border border-amber-500/30 px-3 py-1 text-xs font-bold text-amber-300">
-            {station.brand} × {appliance.category} Runtime Test
+            {station.brand} × {appliance.category} Runtime Estimate
           </span>
           {runtime.canRun ? (
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 px-3 py-1 text-xs font-extrabold text-emerald-300">
               <CheckCircle2 className="h-3.5 w-3.5" />
-              VERIFIED COMPATIBLE ({runtime.daysFormatted})
+              WITHIN SPEC (~{runtime.daysFormatted})
             </span>
           ) : (
             <span className="inline-flex items-center gap-1.5 rounded-full bg-rose-500/20 border border-rose-500/40 px-3 py-1 text-xs font-extrabold text-rose-300">
               <ShieldAlert className="h-3.5 w-3.5" />
-              INVERTER OVERLOAD WARNING
+              EXCEEDS INVERTER RATING
             </span>
           )}
         </div>
@@ -154,7 +159,7 @@ export default function ComboRuntimePage({ params }: PageProps) {
                 surge
               </strong>{" "}
               pure sine wave inverter, the{" "}
-              <strong className="text-white">{station.name}</strong> will run a{" "}
+              <strong className="text-white">{station.name}</strong> should run a{" "}
               <strong className="text-white">{appliance.name}</strong> for
               approximately{" "}
               <strong className="text-amber-300">
@@ -164,7 +169,7 @@ export default function ComboRuntimePage({ params }: PageProps) {
             </>
           ) : (
             <>
-              <strong className="text-rose-400">No — Do Not Buy for This Load.</strong>{" "}
+              <strong className="text-rose-400">No, this load is too big for it.</strong>{" "}
               A <strong className="text-white">{appliance.name}</strong> requires{" "}
               <strong className="text-white">
                 {appliance.runningWatts}W continuous ({appliance.surgeWatts}W
@@ -175,13 +180,13 @@ export default function ComboRuntimePage({ params }: PageProps) {
                 {station.continuousWatts}W continuous / {station.surgeWatts}W
                 surge
               </strong>{" "}
-              limit of the {station.name}. Below, see our #1 verified upgrade
-              that runs a {appliance.shortName} safely.
+              rating of the {station.name}. Below is a unit whose specs cover a{" "}
+              {appliance.shortName}.
             </>
           )}
         </p>
 
-        {/* 4 Telemetry Boxes */}
+        {/* 4 key numbers */}
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div className="rounded-2xl border border-slate-800 bg-slate-950/80 p-4">
             <div className="text-xs text-slate-400">Estimated Runtime</div>
@@ -226,7 +231,7 @@ export default function ComboRuntimePage({ params }: PageProps) {
               {station.solarInputMaxWatts}W Max
             </div>
             <div className="mt-0.5 text-[11px] text-slate-400">
-              {station.acChargeMinutes80} min wall charge to 80%
+              Manufacturer max solar input
             </div>
           </div>
         </div>
@@ -234,14 +239,14 @@ export default function ComboRuntimePage({ params }: PageProps) {
         {/* Step-by-Step Formula Breakdown */}
         <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-950/90 p-5">
           <div className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">
-            How We Calculated This Runtime (No Marketing Fluff)
+            How We Estimated This Runtime
           </div>
           <ol className="list-decimal list-inside space-y-1.5 text-xs sm:text-sm text-slate-300">
             <li>
-              <strong className="text-white">Real Usable Watt-Hours:</strong>{" "}
+              <strong className="text-white">Usable Watt-Hours:</strong>{" "}
               The {station.name} holds {station.capacityWh}Wh, which yields{" "}
-              <strong className="text-amber-300">{usableWh}Wh</strong> of real
-              120V AC power after standard 15% DC-to-AC inverter conversion.
+              about <strong className="text-amber-300">{usableWh}Wh</strong> of
+              120V AC power, assuming ~15% DC-to-AC inverter loss.
             </li>
             <li>
               <strong className="text-white">
@@ -257,7 +262,7 @@ export default function ComboRuntimePage({ params }: PageProps) {
               (plus ~8W inverter standby overhead).
             </li>
             <li>
-              <strong className="text-white">Pro Advice:</strong>{" "}
+              <strong className="text-white">Tip:</strong>{" "}
               {appliance.buyingTip}
             </li>
           </ol>
@@ -267,14 +272,14 @@ export default function ComboRuntimePage({ params }: PageProps) {
       {/* Side-by-Side: This Model vs Top Recommended Alternative/Upgrade */}
       <section className="mt-12">
         <h2 className="text-2xl font-black text-white mb-6">
-          Check Today&apos;s Amazon Price &amp; Compare Top Alternative
+          Compare With an Alternative
         </h2>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <PowerStationCard
             station={station}
             rankLabel={
               runtime.canRun
-                ? `Tested Model: ~${runtime.daysFormatted} Runtime`
+                ? `This Model: ~${runtime.daysFormatted} (est.)`
                 : `Undersized for ${appliance.shortName}`
             }
             rankColor={runtime.canRun ? "amber" : "slate"}
@@ -286,7 +291,7 @@ export default function ComboRuntimePage({ params }: PageProps) {
             rankLabel={
               runtime.canRun
                 ? `Top Alternative / Upgrade for ${appliance.shortName}`
-                : `#1 Recommended Model That Safely Runs ${appliance.shortName}`
+                : `Recommended for a ${appliance.shortName}`
             }
             rankColor="emerald"
             dailyLoadWh={dailyConsumptionWh}

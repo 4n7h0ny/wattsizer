@@ -21,7 +21,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
   if (!pair) return {};
   return {
     title: `${pair.title}: Which Should You Buy in 2026? | WattSizer`,
-    description: `${pair.subtitle} Side-by-side refrigerator runtime, surge wattage, weight, solar input, and Amazon price comparison.`,
+    description: `${pair.subtitle} Side-by-side refrigerator runtime, surge wattage, weight and solar input comparison.`,
   };
 }
 
@@ -52,7 +52,7 @@ export default function ComparisonDetailPage({ params }: PageProps) {
       <div className="rounded-3xl border border-slate-800 bg-gradient-to-b from-slate-900/90 to-slate-950 p-6 sm:p-10">
         <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/10 border border-amber-500/30 px-3 py-1 text-xs font-bold text-amber-300">
           <Scale className="h-3.5 w-3.5" />
-          <span>2026 Head-to-Head Engineering Verdict</span>
+          <span>Spec-Based Comparison</span>
         </div>
 
         <h1 className="mt-3 text-2xl sm:text-4xl font-black text-white">
@@ -87,10 +87,10 @@ export default function ComparisonDetailPage({ params }: PageProps) {
           <div className="rounded-2xl border border-sky-500/30 bg-sky-500/5 p-4">
             <div className="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
               <ShieldCheck className="h-4 w-4" />
-              Best Value Verdict
+              Overall Edge
             </div>
             <div className="mt-1.5 text-sm font-bold text-white">
-              {pair.winnerForValue}
+              {pair.overallEdge}
             </div>
           </div>
         </div>

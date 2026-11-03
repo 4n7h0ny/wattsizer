@@ -20,17 +20,18 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-3 text-xs leading-relaxed text-slate-400">
-              Engineering-grade portable power station &amp; solar generator
-              sizing calculator. Real compressor duty-cycle math, 85% inverter
-              efficiency modeling, and verified LiFePO4 battery specs.
+              A free portable power station &amp; solar generator sizing
+              calculator. Runtimes are estimates based on manufacturer specs,
+              typical appliance wattages and an assumed 85% inverter efficiency.
+              We have not hands-on tested these products.
             </p>
             <div className="mt-4 rounded-xl border border-slate-800 bg-slate-900/60 p-3 text-[11px] leading-relaxed text-slate-400">
               <strong className="text-slate-200">
                 Amazon Associates Disclosure:
               </strong>{" "}
               As an Amazon Associate, WattSizer earns from qualifying purchases.
-              Product prices and availability are accurate as of the date/time
-              indicated and are subject to change on Amazon.com.
+              Links to Amazon are paid links. Check Amazon for current prices
+              and availability.
             </div>
           </div>
 
@@ -109,15 +110,12 @@ export default function Footer() {
                   href="/runtime"
                   className="font-semibold text-amber-400 hover:underline"
                 >
-                  80+ Model × Appliance Runtime Matrix →
+                  Model × Appliance Runtime Matrix →
                 </Link>
               </li>
-              <li className="pt-2 border-t border-slate-800">
-                <Link
-                  href="/owner-guide"
-                  className="font-semibold text-emerald-400 hover:underline"
-                >
-                  ⚙️ Site Owner Setup &amp; Amazon Tag Guide
+              <li>
+                <Link href="/how-we-calculate" className="hover:text-amber-400">
+                  How We Calculate Runtimes
                 </Link>
               </li>
             </ul>
@@ -125,7 +123,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 border-t border-slate-900 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
-          <p>© {new Date().getFullYear()} WattSizer. Built for zero-maintenance passive affiliate conversions.</p>
+          <p>© {new Date().getFullYear()} WattSizer. Estimates only; always check your appliance&apos;s label and the manufacturer&apos;s specs.</p>
           <div className="mt-2 sm:mt-0 flex gap-4">
             <Link href="/#calculator" className="hover:text-slate-300">
               Calculator
@@ -136,8 +134,8 @@ export default function Footer() {
             <Link href="/compare" className="hover:text-slate-300">
               Compare
             </Link>
-            <Link href="/owner-guide" className="hover:text-slate-300">
-              Affiliate Config
+            <Link href="/how-we-calculate" className="hover:text-slate-300">
+              How We Calculate
             </Link>
           </div>
         </div>

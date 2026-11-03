@@ -2,6 +2,7 @@ import { MetadataRoute } from "next";
 import { SITE_CONFIG } from "@/config/affiliate";
 import { APPLIANCES, TOP_COMBO_APPLIANCES } from "@/data/appliances";
 import { COMPARISON_PAIRS, POWER_STATIONS } from "@/data/powerStations";
+import { isIndexableCombo } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = SITE_CONFIG.domain;
@@ -37,6 +38,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.9,
     },
+    {
+      url: `${base}/how-we-calculate`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
   ];
 
   const applianceRoutes: MetadataRoute.Sitemap = APPLIANCES.map((app) => ({
@@ -63,6 +70,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const comboRoutes: MetadataRoute.Sitemap = [];
   for (const station of POWER_STATIONS) {
     for (const app of TOP_COMBO_APPLIANCES) {
+      if (!isIndexableCombo(station, app)) continue;
       comboRoutes.push({
         url: `${base}/runtime/${station.slug}-for-${app.slug}`,
         lastModified: new Date(),

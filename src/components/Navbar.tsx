@@ -5,10 +5,10 @@ import { BatteryCharging, Calculator, Compass, Layers, Sparkles, Zap } from "luc
 export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md">
-      {/* Top Affiliate / Coupon Announcement Strip */}
+      {/* Top Announcement Strip */}
       <div className="bg-gradient-to-r from-amber-500/10 via-amber-500/20 to-amber-500/10 border-b border-amber-500/20 px-4 py-1.5 text-center text-xs text-amber-200">
         <span className="font-semibold text-amber-400">2026 Blackout Readiness Guide:</span>{" "}
-        Calculate your exact appliance wattage in 30 seconds &amp; check live Amazon clip-on coupons for EcoFlow, Jackery &amp; Anker SOLIX.
+        Estimate the watts and watt-hours your appliances need, then see which power stations can handle them.
       </div>
 
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
@@ -19,9 +19,6 @@ export default function Navbar() {
           <div>
             <span className="text-lg font-black tracking-tight text-white">
               Watt<span className="text-amber-400">Sizer</span>
-            </span>
-            <span className="hidden sm:inline-block ml-2 rounded bg-slate-800 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-300">
-              LiFePO4 Lab
             </span>
           </div>
         </Link>
@@ -44,7 +41,7 @@ export default function Navbar() {
             href="/runtime"
             className="hover:text-amber-400 transition"
           >
-            Runtime Matrix (80+)
+            Runtime Matrix
           </Link>
           <Link
             href="/compare"
@@ -59,10 +56,10 @@ export default function Navbar() {
             All Power Stations
           </Link>
           <Link
-            href="/owner-guide"
-            className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-xs font-bold text-emerald-300 hover:bg-emerald-500/20 transition"
+            href="/how-we-calculate"
+            className="hover:text-amber-400 transition"
           >
-            Owner Launch Guide
+            How We Calculate
           </Link>
         </nav>
 
@@ -91,8 +88,8 @@ export default function Navbar() {
         <Link href="/power-stations" className="px-2 py-0.5 hover:text-amber-400">
           All Units
         </Link>
-        <Link href="/owner-guide" className="px-2 py-0.5 text-emerald-400">
-          Setup Guide
+        <Link href="/how-we-calculate" className="px-2 py-0.5 hover:text-amber-400">
+          Method
         </Link>
       </div>
     </header>

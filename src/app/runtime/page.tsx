@@ -8,9 +8,9 @@ import { ArrowRight, CheckCircle2, ShieldAlert, Zap } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
-    "Power Station × Appliance Runtime Matrix (80+ Tested Combinations) | WattSizer",
+    "Power Station × Appliance Runtime Estimates | WattSizer",
   description:
-    "Browse exact runtime hours and surge compatibility for every EcoFlow, Jackery, Anker SOLIX, and BLUETTI power station paired with refrigerators, pellet stoves, CPAPs, sump pumps, gas furnaces, and Starlink.",
+    "Browse estimated runtime hours and surge compatibility for every EcoFlow, Jackery, Anker SOLIX, and BLUETTI power station paired with refrigerators, pellet stoves, CPAPs, sump pumps, gas furnaces, and Starlink.",
 };
 
 export default function RuntimeMatrixIndexPage() {
@@ -18,15 +18,15 @@ export default function RuntimeMatrixIndexPage() {
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="max-w-3xl">
         <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
-          80+ Model-by-Appliance Engineering Reports
+          Model-by-Appliance Runtime Estimates
         </span>
         <h1 className="mt-1 text-3xl sm:text-4xl font-black text-white">
           Power Station × Appliance Runtime Directory
         </h1>
         <p className="mt-2 text-sm sm:text-base text-slate-300">
-          Click any specific model + appliance combination below for a dedicated
-          engineering breakdown of usable Watt-hours, compressor duty cycles,
-          startup surge margins, and solar recharging math.
+          Click any model + appliance combination below for an estimate based
+          on usable watt-hours, typical duty cycles and startup surge, using
+          manufacturer specs.
         </p>
       </div>
 

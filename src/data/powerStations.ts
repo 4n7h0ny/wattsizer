@@ -1,5 +1,16 @@
 export type PowerBrand = "EcoFlow" | "Jackery" | "Anker SOLIX" | "BLUETTI";
 
+/**
+ * Product data notes (last reviewed Nov 2026):
+ * - Specs come from manufacturer-published figures cross-checked against independent
+ *   reviews. Cycle-life ratings use each brand's own test basis (70% vs 80% capacity).
+ * - DO NOT add prices, star ratings, review counts, "Prime", "best seller", or coupon
+ *   claims to anything that gets rendered. The Amazon Associates Operating Agreement only
+ *   allows prices/ratings pulled live from the Product Advertising API.
+ * - `amazonAsin` is only set when the ASIN was independently confirmed. When it is null,
+ *   links fall back to a tagged Amazon search (never a dead page, still earns commission).
+ *   You can replace these with exact product links from Amazon SiteStripe at any time.
+ */
 export interface PowerStation {
   id: string;
   slug: string;
@@ -11,27 +22,24 @@ export interface PowerStation {
   surgeWatts: number;
   solarInputMaxWatts: number;
   batteryChemistry: "LiFePO4 (LFP)";
+  /** Manufacturer-rated cycle life (test basis varies by brand). */
   cycleLife: number;
   weightLbs: number;
-  acChargeMinutes80: number;
-  upsSwitchoverMs: number;
   acOutlets: number;
   expandableMaxWh: number | null;
-  typicalAmazonPrice: number;
-  typicalBundlePrice: number;
-  recommendedSolarPanelText: string;
-  amazonCouponHint: string;
-  amazonAsin: string;
+  /**
+   * INTERNAL ONLY. Rough list price used solely to order recommendations.
+   * Never render this value anywhere on the site.
+   */
+  approxListPriceUsd: number;
+  amazonAsin: string | null;
   amazonSearchQuery: string;
   solarBundleSearchQuery: string;
-  rating: number;
-  reviewCountText: string;
   tierBadge: string;
   bestFor: string;
   summary: string;
   pros: string[];
   cons: string[];
-  accentColor: string;
 }
 
 export interface ComparisonPair {
@@ -43,7 +51,7 @@ export interface ComparisonPair {
   verdictSummary: string;
   winnerForBlackouts: string;
   winnerForPortability: string;
-  winnerForValue: string;
+  overallEdge: string;
 }
 
 export const POWER_STATIONS: PowerStation[] = [
@@ -60,34 +68,26 @@ export const POWER_STATIONS: PowerStation[] = [
     batteryChemistry: "LiFePO4 (LFP)",
     cycleLife: 3000,
     weightLbs: 8.27,
-    acChargeMinutes80: 80,
-    upsSwitchoverMs: 20,
     acOutlets: 1,
     expandableMaxWh: null,
-    typicalAmazonPrice: 249,
-    typicalBundlePrice: 349,
-    recommendedSolarPanelText: "+ 40W or 100W Foldable Solar Panel Bundle",
-    amazonCouponHint: "Frequently has $30–$50 clip coupon on Amazon",
-    amazonAsin: "B0C9L9T9T3",
-    amazonSearchQuery: "Jackery Explorer 300 Plus Portable Power Station LiFePO4",
-    solarBundleSearchQuery:
-      "Jackery Solar Generator 300 Plus with Solar Panel",
-    rating: 4.7,
-    reviewCountText: "2,400+ Amazon ratings",
-    tierBadge: "Best Ultralight Under $300",
-    bestFor: "CPAP camping, Wi-Fi router backup, phones, laptops & LED lights",
+    approxListPriceUsd: 299,
+    amazonAsin: null,
+    amazonSearchQuery: "Jackery Explorer 300 Plus portable power station",
+    solarBundleSearchQuery: "Jackery Solar Generator 300 Plus solar panel",
+    tierBadge: "Lightest Pick (Under 10 lbs)",
+    bestFor: "CPAP (on DC), Wi-Fi router backup, phones, laptops & LED lights",
     summary:
-      "At just 8.2 lbs, the Jackery Explorer 300 Plus fits in a backpack while offering a 10-year LiFePO4 battery for routers, CPAPs (DC mode), and weekend camping.",
+      "A small 288Wh LiFePO4 unit that weighs just over 8 lbs. Good for phones, laptops, Wi-Fi routers, lights and CPAP machines (best run on DC power), not for kitchen appliances.",
     pros: [
-      "Featherweight 8.27 lbs — lightest LiFePO4 unit in class",
-      "100W dual USB-C PD ports charge MacBooks directly without bricks",
-      "Whisper-quiet cooling fan & 3,000-cycle 10-year battery life",
+      "Very light at 8.27 lbs",
+      "One 100W USB-C PD port can charge most laptops directly",
+      "LiFePO4 battery rated for 3,000 cycles",
     ],
     cons: [
-      "300W inverter cannot run kitchen appliances or full-size refrigerators",
-      "Only 1 AC wall outlet",
+      "300W inverter (600W surge) can't start a full-size fridge or run kitchen appliances",
+      "Only one AC outlet",
+      "100W max solar input",
     ],
-    accentColor: "#f97316",
   },
   {
     id: "ecoflow-river-2-pro",
@@ -102,34 +102,26 @@ export const POWER_STATIONS: PowerStation[] = [
     batteryChemistry: "LiFePO4 (LFP)",
     cycleLife: 3000,
     weightLbs: 17.2,
-    acChargeMinutes80: 56,
-    upsSwitchoverMs: 30,
     acOutlets: 4,
     expandableMaxWh: null,
-    typicalAmazonPrice: 429,
-    typicalBundlePrice: 649,
-    recommendedSolarPanelText: "+ EcoFlow 160W or 220W Bifacial Solar Panel",
-    amazonCouponHint: "Check Amazon page for instant lightning deal / coupon",
+    approxListPriceUsd: 449,
     amazonAsin: "B0BVLPGS79",
-    amazonSearchQuery: "EcoFlow RIVER 2 Pro Portable Power Station 768Wh LiFePO4",
-    solarBundleSearchQuery:
-      "EcoFlow RIVER 2 Pro Solar Generator with Solar Panel",
-    rating: 4.6,
-    reviewCountText: "4,800+ Amazon ratings",
-    tierBadge: "Best Mid-Size Value",
+    amazonSearchQuery: "EcoFlow RIVER 2 Pro portable power station 768Wh",
+    solarBundleSearchQuery: "EcoFlow RIVER 2 Pro solar generator solar panel",
+    tierBadge: "Mid-Size Pick",
     bestFor: "Multi-night CPAP, 12V camping fridges, Starlink & short fridge backup",
     summary:
-      "Bridges the gap between small camping batteries and heavy home backups. Recharges 0–100% from a wall outlet in just 70 minutes.",
+      "Sits between small camping batteries and full home-backup units. 768Wh is enough for several CPAP nights or a 12V camping fridge for more than a day.",
     pros: [
-      "768Wh capacity runs a 12V camping fridge for 35+ hours",
-      "Industry-leading 70-minute full AC wall recharge",
-      "TÜV Rheinland safety certified with 5-year EcoFlow warranty",
+      "768Wh capacity with 4 AC outlets at 17.2 lbs",
+      "0–100% wall recharge in about 70 minutes (EcoFlow spec)",
+      "EPS backup mode with <30ms switchover for routers and CPAPs",
     ],
     cons: [
-      "800W native inverter struggles with full-size microwaves and heavy sump pumps",
-      "Not expandable with external battery packs",
+      "800W inverter is too small for microwaves, coffee makers and most sump pumps",
+      "Not expandable",
+      "220W max solar input",
     ],
-    accentColor: "#0ea5e9",
   },
   {
     id: "ecoflow-delta-2",
@@ -144,35 +136,26 @@ export const POWER_STATIONS: PowerStation[] = [
     batteryChemistry: "LiFePO4 (LFP)",
     cycleLife: 3000,
     weightLbs: 27.0,
-    acChargeMinutes80: 50,
-    upsSwitchoverMs: 30,
     acOutlets: 6,
     expandableMaxWh: 3040,
-    typicalAmazonPrice: 649,
-    typicalBundlePrice: 999,
-    recommendedSolarPanelText: "+ EcoFlow 220W Bifacial Solar Panel Bundle",
-    amazonCouponHint: "#1 Amazon Best Seller — often $150–$300 off MSRP on Amazon",
-    amazonAsin: "B0B9XB57XM",
-    amazonSearchQuery: "EcoFlow DELTA 2 Portable Power Station 1024Wh LiFePO4",
-    solarBundleSearchQuery:
-      "EcoFlow DELTA 2 Solar Generator 220W Solar Panel Bundle",
-    rating: 4.7,
-    reviewCountText: "9,200+ Amazon ratings",
-    tierBadge: "#1 Best Seller Overall",
-    bestFor: "Full-size refrigerators, coffee makers, microwaves & 24-hr home blackouts",
+    approxListPriceUsd: 649,
+    amazonAsin: null,
+    amazonSearchQuery: "EcoFlow DELTA 2 portable power station 1024Wh",
+    solarBundleSearchQuery: "EcoFlow DELTA 2 solar generator solar panel bundle",
+    tierBadge: "Best All-Round 1kWh Pick",
+    bestFor: "Full-size refrigerators, coffee makers, microwaves & 1-day home blackouts",
     summary:
-      "The undisputed gold standard in the 1,000Wh class. Its 1,800W inverter (2,700W surge) powers 90% of home appliances while weighing just 27 lbs—and it expands up to 3,040Wh later.",
+      "A balanced 1kWh-class unit: a 1,800W inverter (2,700W surge) covers most single household appliances, it weighs 27 lbs, and it can expand to 3,040Wh later with an extra battery.",
     pros: [
-      "1,800W continuous output runs refrigerators, coffee makers, and microwaves simultaneously",
-      "Charges to 80% in just 50 minutes via X-Stream AC charging",
-      "Expandable capacity—plug in a DELTA 2 Extra Battery later to double or triple runtime",
-      "6 AC outlets + smart phone app monitoring via Wi-Fi & Bluetooth",
+      "1,800W continuous / 2,700W surge handles fridges, coffee makers and microwaves (one at a time)",
+      "0–80% wall charge in about 50 minutes (EcoFlow spec)",
+      "Expandable to 3,040Wh with an extra battery",
+      "6 AC outlets, app control and a 5-year warranty",
     ],
     cons: [
-      "Cooling fans are audible when pushing 1,200W+ loads",
-      "30ms EPS switchover is great for fridges/routers/CPAPs, though not 0ms server-grade",
+      "30ms EPS switchover suits most devices but isn't a true online UPS for sensitive desktop PCs",
+      "500W max solar input is lower than the Anker SOLIX C1000 (600W)",
     ],
-    accentColor: "#3b82f6",
   },
   {
     id: "jackery-1000-v2",
@@ -187,35 +170,26 @@ export const POWER_STATIONS: PowerStation[] = [
     batteryChemistry: "LiFePO4 (LFP)",
     cycleLife: 4000,
     weightLbs: 23.8,
-    acChargeMinutes80: 45,
-    upsSwitchoverMs: 20,
     acOutlets: 3,
     expandableMaxWh: null,
-    typicalAmazonPrice: 629,
-    typicalBundlePrice: 949,
-    recommendedSolarPanelText: "+ Jackery SolarSaga 200W Solar Panel Bundle",
-    amazonCouponHint: "Popular Amazon Prime deal with clip-on coupon",
+    approxListPriceUsd: 649,
     amazonAsin: "B0D7PPG25F",
-    amazonSearchQuery: "Jackery Explorer 1000 v2 Portable Power Station 1070Wh LiFePO4",
-    solarBundleSearchQuery:
-      "Jackery Solar Generator 1000 v2 with 200W Solar Panel",
-    rating: 4.8,
-    reviewCountText: "6,100+ Amazon ratings",
-    tierBadge: "Lightest 1000Wh Class",
-    bestFor: "Easy-to-carry home backup, refrigerators, CPAP (<20ms UPS) & family camping",
+    amazonSearchQuery: "Jackery Explorer 1000 v2 portable power station",
+    solarBundleSearchQuery: "Jackery Solar Generator 1000 v2 solar panel",
+    tierBadge: "Lightest 1kWh-Class Pick",
+    bestFor: "Easy-to-carry home backup, refrigerators, CPAP & family camping",
     summary:
-      "Jackery's completely redesigned v2 packs 1,070Wh and a 4,000-cycle LiFePO4 battery into a 23.8 lb chassis with fold-flat handle and <20ms UPS backup.",
+      "The lightest 1kWh-class unit on our list at 23.8 lbs. Its 3,000W surge rating gives good headroom for starting motors like fridge compressors.",
     pros: [
-      "Lightest 1,000Wh+ LiFePO4 station on the market at just 23.8 lbs",
-      "4,000 charge cycles to 70% capacity (10+ years of daily use)",
-      "whisper-quiet <22dB operation under light loads (ideal for bedroom CPAP)",
-      "<20ms UPS auto-switchover protects desktop PCs and medical gear",
+      "Lightest 1kWh-class unit on our list (23.8 lbs)",
+      "Rated 4,000 cycles to 70% capacity",
+      "3,000W surge rating, the highest in the 1kWh class on our list",
     ],
     cons: [
-      "Only 3 AC outlets compared to 6 on the EcoFlow DELTA 2",
-      "Not expandable with external batteries",
+      "Only 3 AC outlets",
+      "1,500W continuous output is lower than the DELTA 2, C1000 and AC180 (1,800W)",
+      "Not expandable",
     ],
-    accentColor: "#ea580c",
   },
   {
     id: "anker-solix-c1000",
@@ -230,33 +204,26 @@ export const POWER_STATIONS: PowerStation[] = [
     batteryChemistry: "LiFePO4 (LFP)",
     cycleLife: 3000,
     weightLbs: 28.4,
-    acChargeMinutes80: 43,
-    upsSwitchoverMs: 20,
     acOutlets: 6,
     expandableMaxWh: 2112,
-    typicalAmazonPrice: 649,
-    typicalBundlePrice: 999,
-    recommendedSolarPanelText: "+ Anker SOLIX 200W Foldable Solar Panel",
-    amazonCouponHint: "Anker frequently runs $150–$250 Amazon page coupons",
-    amazonAsin: "B0C69273PK",
-    amazonSearchQuery: "Anker SOLIX C1000 Portable Power Station 1056Wh LiFePO4",
-    solarBundleSearchQuery:
-      "Anker SOLIX C1000 Solar Generator with 200W Solar Panel",
-    rating: 4.8,
-    reviewCountText: "3,900+ Amazon ratings",
-    tierBadge: "Fastest Solar & AC Charge",
-    bestFor: "Rapid solar recharging (600W input), kitchen appliances & expandable home backup",
+    approxListPriceUsd: 649,
+    amazonAsin: null,
+    amazonSearchQuery: "Anker SOLIX C1000 portable power station",
+    solarBundleSearchQuery: "Anker SOLIX C1000 solar generator solar panel",
+    tierBadge: "Fastest Solar Charging (1kWh Class)",
+    bestFor: "Solar recharging, kitchen appliances & expandable home backup",
     summary:
-      "Built like a tank with a full-width LED floodlight bar, 600W solar input (charges in 1.8 hours from sun), and 58-minute UltraFast 100% wall recharge.",
+      "A 1,056Wh unit with the highest solar input in its class on our list (600W), UPS switchover under 20ms, and expansion to 2,112Wh with Anker's BP1000 battery.",
     pros: [
-      "600W max solar input—20% faster solar recharging than EcoFlow or Jackery 1000 class",
-      "Built-in warm ambient LED light bar illuminates an entire room during blackouts",
-      "Doubles to 2,112Wh with the affordable BP1000 expansion battery",
+      "600W max solar input, the highest of the 1kWh-class units on our list",
+      "UPS mode with <20ms switchover",
+      "Expandable to 2,112Wh with the BP1000 expansion battery",
+      "6 AC outlets",
     ],
     cons: [
-      "Slightly heavier (28.4 lbs) than Jackery 1000 v2",
+      "2,400W surge is lower than the DELTA 2 (2,700W) and Jackery 1000 v2 (3,000W)",
+      "28.4 lbs, heavier than the DELTA 2 and Jackery 1000 v2",
     ],
-    accentColor: "#10b981",
   },
   {
     id: "bluetti-ac180",
@@ -270,33 +237,26 @@ export const POWER_STATIONS: PowerStation[] = [
     solarInputMaxWatts: 500,
     batteryChemistry: "LiFePO4 (LFP)",
     cycleLife: 3500,
-    weightLbs: 35.2,
-    acChargeMinutes80: 45,
-    upsSwitchoverMs: 20,
+    weightLbs: 35.3,
     acOutlets: 4,
-    expandableMaxWh: 4224,
-    typicalAmazonPrice: 599,
-    typicalBundlePrice: 899,
-    recommendedSolarPanelText: "+ BLUETTI PV200 200W Solar Panel Bundle",
-    amazonCouponHint: "Best Wh-per-dollar in the 1100Wh class on Amazon",
+    expandableMaxWh: null,
+    approxListPriceUsd: 599,
     amazonAsin: "B0C1SMJTDT",
-    amazonSearchQuery: "BLUETTI AC180 Portable Power Station 1152Wh LiFePO4",
-    solarBundleSearchQuery: "BLUETTI AC180 Solar Generator with 200W Solar Panel",
-    rating: 4.7,
-    reviewCountText: "4,400+ Amazon ratings",
-    tierBadge: "Most Capacity Under $650",
-    bestFor: "Maximum runtime per dollar, wireless phone charging & off-grid cabins",
+    amazonSearchQuery: "BLUETTI AC180 portable power station",
+    solarBundleSearchQuery: "BLUETTI AC180 solar generator solar panel",
+    tierBadge: "Most Capacity (1kWh Class)",
+    bestFor: "Maximum runtime in the 1kWh class & off-grid cabins",
     summary:
-      "Gives you an extra ~128Wh of capacity over standard 1,024Wh competitors plus a built-in 15W wireless phone charging pad on top.",
+      "Has the most capacity of the 1kWh-class units on our list (1,152Wh), with an 1,800W inverter. The trade-off is weight: it's the heaviest unit in its class here.",
     pros: [
-      "1,152Wh capacity delivers ~12% longer fridge runtime than 1,024Wh units",
-      "15W wireless charging pad on top deck—no cables needed in the dark",
-      "3,500+ LiFePO4 life cycles with 20ms UPS mode",
+      "1,152Wh, about 10% more than 1,024–1,070Wh rivals",
+      "1,800W continuous / 2,700W surge",
+      "Rated 3,500+ cycles",
     ],
     cons: [
-      "At 35.2 lbs, it is 8–11 lbs heavier than EcoFlow DELTA 2 and Jackery 1000 v2",
+      "Heaviest 1kWh-class unit on our list (35.3 lbs)",
+      "4 AC outlets vs. 6 on the DELTA 2 and C1000",
     ],
-    accentColor: "#6366f1",
   },
   {
     id: "ecoflow-delta-2-max",
@@ -310,35 +270,27 @@ export const POWER_STATIONS: PowerStation[] = [
     solarInputMaxWatts: 1000,
     batteryChemistry: "LiFePO4 (LFP)",
     cycleLife: 3000,
-    weightLbs: 50.7,
-    acChargeMinutes80: 53,
-    upsSwitchoverMs: 30,
+    weightLbs: 50.0,
     acOutlets: 6,
     expandableMaxWh: 6144,
-    typicalAmazonPrice: 1399,
-    typicalBundlePrice: 1899,
-    recommendedSolarPanelText: "+ EcoFlow 400W Portable Solar Panel Bundle",
-    amazonCouponHint: "High-ticket Amazon savings — check for $200–$400 coupon",
+    approxListPriceUsd: 1399,
     amazonAsin: "B0C4DW17PD",
-    amazonSearchQuery: "EcoFlow DELTA 2 Max Portable Power Station 2048Wh LiFePO4",
-    solarBundleSearchQuery:
-      "EcoFlow DELTA 2 Max Solar Generator 400W Solar Panel",
-    rating: 4.7,
-    reviewCountText: "2,900+ Amazon ratings",
-    tierBadge: "Best 2000Wh Home Backup",
-    bestFor: "Multi-day refrigerator + freezer, basement sump pumps, window AC & power tools",
+    amazonSearchQuery: "EcoFlow DELTA 2 Max portable power station 2048Wh",
+    solarBundleSearchQuery: "EcoFlow DELTA 2 Max solar generator solar panel",
+    tierBadge: "Best 2kWh Home Backup Pick",
+    bestFor: "Multi-day fridge + freezer, sump pumps, window AC & power tools",
     summary:
-      "With 2,048Wh of capacity, a massive 2,400W inverter (4,800W surge), and dual 1,000W solar inputs, the DELTA 2 Max keeps a full kitchen and sump pump running through multi-day storms.",
+      "2,048Wh with a 2,400W inverter (4,800W surge) and up to 1,000W of solar input. At about 50 lbs it's the lightest 2kWh unit on our list, and it expands to 6,144Wh.",
     pros: [
-      "2,400W continuous / 4,800W surge starts heavy basement sump pumps and window ACs effortlessly",
-      "1,000W dual solar input charges 2,048Wh in just 2.3 hours of sunlight",
-      "Lightest 2,048Wh power station in its class at 50.7 lbs",
-      "Expandable up to 6,144Wh with two extra battery packs",
+      "2,400W continuous / 4,800W surge for motor loads like sump pumps",
+      "Up to 1,000W solar input",
+      "Expandable to 6,144Wh with two extra batteries",
+      "Lightest 2kWh unit on our list (~50 lbs) with 6 AC outlets",
     ],
     cons: [
-      "No built-in wheels (two-person carry handle design for stairs)",
+      "No wheels; it's a two-handle carry",
+      "Too heavy for casual camping carry",
     ],
-    accentColor: "#2563eb",
   },
   {
     id: "anker-solix-f2000",
@@ -352,34 +304,27 @@ export const POWER_STATIONS: PowerStation[] = [
     solarInputMaxWatts: 1000,
     batteryChemistry: "LiFePO4 (LFP)",
     cycleLife: 3000,
-    weightLbs: 67.2,
-    acChargeMinutes80: 60,
-    upsSwitchoverMs: 20,
+    weightLbs: 67.3,
     acOutlets: 4,
     expandableMaxWh: 4096,
-    typicalAmazonPrice: 1399,
-    typicalBundlePrice: 1899,
-    recommendedSolarPanelText: "+ 2x Anker 200W or 400W Solar Panel Kit",
-    amazonCouponHint: "Built-in RV TT-30 port + rolling wheels included",
+    approxListPriceUsd: 1399,
     amazonAsin: "B09XM7WDZ2",
-    amazonSearchQuery: "Anker SOLIX F2000 PowerHouse 767 2048Wh Portable Power Station",
-    solarBundleSearchQuery:
-      "Anker SOLIX F2000 Solar Generator with Solar Panel",
-    rating: 4.7,
-    reviewCountText: "2,100+ Amazon ratings",
-    tierBadge: "Best Wheeled & RV Ready",
-    bestFor: "RVs (built-in TT-30 port), seniors/easy rolling mobility & whole-room backup",
+    amazonSearchQuery: "Anker SOLIX F2000 PowerHouse 767 portable power station",
+    solarBundleSearchQuery: "Anker SOLIX F2000 solar generator solar panel",
+    tierBadge: "Best Wheeled / RV Pick",
+    bestFor: "RVs (TT-30 outlet), easy rolling mobility & whole-room backup",
     summary:
-      "Features oversized all-terrain wheels, a telescoping luggage handle, and a dedicated 30A RV outlet so anyone can roll 2,048Wh of backup power from the garage to the kitchen.",
+      "A 2,048Wh unit with wheels and a telescoping handle, plus a NEMA TT-30 RV outlet alongside 4 household AC outlets.",
     pros: [
-      "Heavy-duty wheels & telescoping handle—zero heavy lifting required",
-      "Built-in NEMA TT-30R 30-Amp RV port plugs directly into camper shore power",
-      "GaNPrime inverter reduces heat waste and extends real-world runtime by ~10%",
+      "Wheels and telescoping handle; no lifting needed on flat ground",
+      "NEMA TT-30 RV outlet plus 4 household AC outlets",
+      "2,400W continuous / 3,600W surge",
+      "Expandable to 4,096Wh with Anker's expansion battery",
     ],
     cons: [
-      "67.2 lbs makes lifting into high truck beds a two-person job",
+      "67.3 lbs, the heaviest 2kWh unit on our list",
+      "3,600W surge is lower than the DELTA 2 Max (4,800W) and Jackery 2000 Plus (6,000W)",
     ],
-    accentColor: "#059669",
   },
   {
     id: "jackery-2000-plus",
@@ -394,33 +339,26 @@ export const POWER_STATIONS: PowerStation[] = [
     batteryChemistry: "LiFePO4 (LFP)",
     cycleLife: 4000,
     weightLbs: 61.5,
-    acChargeMinutes80: 66,
-    upsSwitchoverMs: 20,
-    acOutlets: 5,
-    expandableMaxWh: 12252,
-    typicalAmazonPrice: 1499,
-    typicalBundlePrice: 2099,
-    recommendedSolarPanelText: "+ 2x Jackery SolarSaga 200W Solar Panels",
-    amazonCouponHint: "Massive 3,000W / 6,000W surge for well pumps & RVs",
-    amazonAsin: "B0C6K9PK53",
-    amazonSearchQuery: "Jackery Explorer 2000 Plus Portable Power Station 2042Wh LiFePO4",
-    solarBundleSearchQuery:
-      "Jackery Solar Generator 2000 Plus with 400W Solar Panels",
-    rating: 4.8,
-    reviewCountText: "1,850+ Amazon ratings",
-    tierBadge: "Highest 3000W Output in Class",
-    bestFor: "1/2 HP sump pumps, power tools, RVs & modular whole-home expansion",
+    acOutlets: 4,
+    expandableMaxWh: 12000,
+    approxListPriceUsd: 1499,
+    amazonAsin: null,
+    amazonSearchQuery: "Jackery Explorer 2000 Plus portable power station",
+    solarBundleSearchQuery: "Jackery Solar Generator 2000 Plus solar panel",
+    tierBadge: "Highest Output (2kWh Class)",
+    bestFor: "Well pumps, sump pumps, power tools & modular whole-home expansion",
     summary:
-      "Delivers a beastly 3,000W continuous / 6,000W surge inverter on wheels with a 4,000-cycle LiFePO4 battery that scales up to 12kWh+.",
+      "The highest-output 2kWh unit on our list: 3,000W continuous and 6,000W surge, on wheels, with expansion to about 12kWh using add-on battery packs.",
     pros: [
-      "3,000W continuous / 6,000W surge handles high-startup motor loads with ease",
-      "Built-in wheels and pull rod for effortless rolling",
-      "4,000-cycle battery lifespan + 25A RV outlet",
+      "3,000W continuous / 6,000W surge, the highest in the 2kWh class on our list",
+      "Up to 1,400W solar input",
+      "Rated 4,000 cycles to 70% capacity",
+      "Built-in wheels; expandable to ~12kWh",
     ],
     cons: [
-      "Proprietary DC solar barrel connectors require Jackery adapter for 3rd-party panels",
+      "61.5 lbs",
+      "Uses Jackery's own solar connectors, so third-party panels may need an adapter",
     ],
-    accentColor: "#f97316",
   },
   {
     id: "ecoflow-delta-pro",
@@ -433,36 +371,28 @@ export const POWER_STATIONS: PowerStation[] = [
     surgeWatts: 7200,
     solarInputMaxWatts: 1600,
     batteryChemistry: "LiFePO4 (LFP)",
-    cycleLife: 6500,
+    cycleLife: 3500,
     weightLbs: 99.0,
-    acChargeMinutes80: 65,
-    upsSwitchoverMs: 20,
     acOutlets: 5,
     expandableMaxWh: 10800,
-    typicalAmazonPrice: 2199,
-    typicalBundlePrice: 2899,
-    recommendedSolarPanelText: "+ EcoFlow 400W Rigid/Portable Solar Array",
-    amazonCouponHint: "Flagship Whole-Home Backup — frequent $500+ Amazon markdowns",
-    amazonAsin: "B09B2WLRWX",
-    amazonSearchQuery: "EcoFlow DELTA Pro Portable Home Battery 3600Wh",
-    solarBundleSearchQuery:
-      "EcoFlow DELTA Pro Solar Generator with 400W Solar Panel",
-    rating: 4.7,
-    reviewCountText: "3,400+ Amazon ratings",
-    tierBadge: "Ultimate Whole-Home Fortress",
-    bestFor: "Multi-day whole-house transfer switch, AC units, sump pumps & off-grid cabins",
+    approxListPriceUsd: 2399,
+    amazonAsin: null,
+    amazonSearchQuery: "EcoFlow DELTA Pro portable power station 3600Wh",
+    solarBundleSearchQuery: "EcoFlow DELTA Pro solar generator solar panel",
+    tierBadge: "Largest Capacity on Our List",
+    bestFor: "Multi-day outages, transfer-switch home backup & off-grid cabins",
     summary:
-      "A true gas-generator replacement with 3,600Wh capacity, 3,600W / 7,200W surge output, 1,600W solar input, and EV-station charging capability.",
+      "3,600Wh with a 3,600W inverter (7,200W surge) and up to 1,600W of solar input. Expandable to 10.8kWh, but at 99 lbs it's built to roll, not carry.",
     pros: [
-      "Massive 3,600Wh capacity runs a full-size refrigerator + Wi-Fi + lights for 2 to 3 full days",
-      "3,600W continuous / 7,200W surge plugs directly into a home manual transfer switch",
-      "6,500-cycle LiFePO4 battery chemistry (15+ year rating)",
-      "Can recharge at thousands of Level 2 EV charging stations during widespread grid collapse",
+      "3,600Wh, the largest capacity on our list",
+      "3,600W continuous / 7,200W surge",
+      "Up to 1,600W solar input; expandable to 10.8kWh with two extra batteries",
+      "Rated 3,500 cycles to 80% capacity",
     ],
     cons: [
-      "Weighs 99 lbs—designed to roll on its rugged wheels rather than carry up stairs",
+      "99 lbs; it has wheels but isn't stair-friendly",
+      "Older generation, so compare it with EcoFlow's newer DELTA Pro 3 before buying",
     ],
-    accentColor: "#1d4ed8",
   },
 ];
 
@@ -473,12 +403,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "jackery-1000-v2",
     title: "EcoFlow DELTA 2 vs. Jackery Explorer 1000 v2",
     subtitle:
-      "The two best-selling 1,000Wh LiFePO4 power stations on Amazon go head-to-head on fridge runtime, inverter power, weight, and expandability.",
+      "Two popular 1kWh-class LiFePO4 power stations compared on output, weight, outlets and expandability.",
     verdictSummary:
-      "Choose the EcoFlow DELTA 2 if you want 6 AC outlets, a higher 1,800W continuous inverter, and the ability to plug in an expansion battery later. Choose the Jackery Explorer 1000 v2 if you want the lightest carry weight (23.8 lbs), whisper-quiet bedroom CPAP operation, and 4,000 charge cycles.",
-    winnerForBlackouts: "EcoFlow DELTA 2 (Expandable up to 3,040Wh + 6 AC outlets)",
-    winnerForPortability: "Jackery Explorer 1000 v2 (3.2 lbs lighter with fold-flat handle)",
-    winnerForValue: "Tie — Check which one has the bigger clip-on coupon on Amazon today",
+      "Choose the EcoFlow DELTA 2 if you want 6 AC outlets, higher 1,800W continuous output, and the option to add an expansion battery later. Choose the Jackery Explorer 1000 v2 if you want the lighter unit (23.8 lbs vs. 27 lbs), a higher 3,000W surge rating, and a 4,000-cycle battery rating.",
+    winnerForBlackouts: "EcoFlow DELTA 2 (expandable to 3,040Wh, 6 AC outlets)",
+    winnerForPortability: "Jackery Explorer 1000 v2 (3.2 lbs lighter)",
+    overallEdge: "Depends on your needs: DELTA 2 for flexibility, Jackery for carry weight",
   },
   {
     slug: "anker-solix-c1000-vs-bluetti-ac180",
@@ -486,12 +416,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "bluetti-ac180",
     title: "Anker SOLIX C1000 vs. BLUETTI AC180",
     subtitle:
-      "600W ultra-fast solar charging and expandability vs. 1,152Wh capacity and built-in wireless charging.",
+      "600W solar charging and expandability vs. the most base capacity in the 1kWh class.",
     verdictSummary:
-      "Pick the Anker SOLIX C1000 if you want a lighter 28.4 lb chassis, faster 600W solar input, built-in room floodlight bar, and affordable battery expansion. Pick the BLUETTI AC180 if you want a standalone unit with ~10% more base battery capacity (1,152Wh) and a wireless phone charging deck.",
-    winnerForBlackouts: "Anker SOLIX C1000 (Built-in room floodlight + easy 2,112Wh expansion)",
-    winnerForPortability: "Anker SOLIX C1000 (Nearly 7 lbs lighter than the AC180)",
-    winnerForValue: "BLUETTI AC180 (Lowest price per Watt-hour out of the box)",
+      "Pick the Anker SOLIX C1000 if you want the lighter unit (28.4 vs. 35.3 lbs), faster 600W solar input, UPS switchover under 20ms, and expansion to 2,112Wh. Pick the BLUETTI AC180 if you want about 9% more base capacity (1,152Wh) in a standalone unit.",
+    winnerForBlackouts: "Anker SOLIX C1000 (<20ms UPS + expandable to 2,112Wh)",
+    winnerForPortability: "Anker SOLIX C1000 (about 7 lbs lighter)",
+    overallEdge: "BLUETTI AC180 for base capacity; Anker C1000 for solar and expansion",
   },
   {
     slug: "ecoflow-delta-2-max-vs-anker-solix-f2000",
@@ -499,12 +429,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "anker-solix-f2000",
     title: "EcoFlow DELTA 2 Max vs. Anker SOLIX F2000 (767)",
     subtitle:
-      "2,048Wh heavy-duty showdown: Dual-solar 50 lb carry vs. Wheeled suitcase with built-in 30A RV outlet.",
+      "2,048Wh head-to-head: a ~50 lb two-handle carry vs. a wheeled unit with a TT-30 RV outlet.",
     verdictSummary:
-      "Get the Anker SOLIX F2000 if you have an RV (built-in TT-30 port) or want built-in wheels and a telescoping luggage handle so you never have to lift 50+ lbs. Get the EcoFlow DELTA 2 Max if you need to carry the unit up basement stairs (16.5 lbs lighter) or want to expand up to 6,144Wh.",
-    winnerForBlackouts: "EcoFlow DELTA 2 Max (Higher 4,800W surge for sump pumps + 6kWh expansion)",
-    winnerForPortability: "Anker SOLIX F2000 (Rolls effortlessly on wheels like a suitcase)",
-    winnerForValue: "Tie — Both are 2,048Wh LiFePO4 workhorses",
+      "Get the Anker SOLIX F2000 if you have an RV (TT-30 outlet) or want wheels and a telescoping handle. Get the EcoFlow DELTA 2 Max if you need to carry it up stairs (about 17 lbs lighter), want a higher 4,800W surge rating for motor loads, or want to expand to 6,144Wh.",
+    winnerForBlackouts: "EcoFlow DELTA 2 Max (4,800W surge + 6,144Wh expansion)",
+    winnerForPortability: "Anker SOLIX F2000 on flat ground (wheels); DELTA 2 Max on stairs",
+    overallEdge: "Same 2,048Wh capacity; choose by how you'll move it",
   },
   {
     slug: "ecoflow-delta-2-vs-anker-solix-c1000",
@@ -512,12 +442,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "anker-solix-c1000",
     title: "EcoFlow DELTA 2 vs. Anker SOLIX C1000",
     subtitle:
-      "Comparing Amazon's #1 best seller against Anker's fast-charging 1,056Wh challenger.",
+      "Two 1,800W, 6-outlet power stations compared on surge, solar input, UPS speed and expansion.",
     verdictSummary:
-      "Both deliver 1,800W continuous AC output and 6 AC outlets. Anker SOLIX C1000 wins on solar input speed (600W vs 500W), faster 20ms UPS switchover, and a built-in LED light bar. EcoFlow DELTA 2 wins on maximum expansion ceiling (up to 3,040Wh) and slightly lighter weight.",
-    winnerForBlackouts: "Anker SOLIX C1000 (Built-in room floodlight + 20ms UPS)",
-    winnerForPortability: "EcoFlow DELTA 2 (1.4 lbs lighter with dual side handles)",
-    winnerForValue: "Anker SOLIX C1000 (32Wh extra capacity + 600W solar controller)",
+      "Both deliver 1,800W continuous and 6 AC outlets. The Anker SOLIX C1000 has faster solar input (600W vs. 500W) and faster UPS switchover (<20ms vs. 30ms). The EcoFlow DELTA 2 has a higher surge rating (2,700W vs. 2,400W), a higher expansion ceiling (3,040Wh vs. 2,112Wh), and is slightly lighter.",
+    winnerForBlackouts: "Anker SOLIX C1000 for UPS speed; DELTA 2 for expansion ceiling",
+    winnerForPortability: "EcoFlow DELTA 2 (1.4 lbs lighter)",
+    overallEdge: "Very close; pick by solar (Anker) vs. expansion and surge (EcoFlow)",
   },
   {
     slug: "jackery-2000-plus-vs-ecoflow-delta-pro",
@@ -525,12 +455,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "ecoflow-delta-pro",
     title: "Jackery Explorer 2000 Plus vs. EcoFlow DELTA Pro",
     subtitle:
-      "Modular 2,042Wh wheeled station vs. 3,600Wh whole-home backup powerhouse.",
+      "A modular 2,042Wh wheeled station vs. a 3,600Wh whole-home backup unit.",
     verdictSummary:
-      "The Jackery Explorer 2000 Plus is 37 lbs lighter and starts ~$700 lower on Amazon while still packing a massive 3,000W inverter. The EcoFlow DELTA Pro is for homeowners who want 3,600Wh right out of the box to plug into a home transfer switch for multi-day outages.",
-    winnerForBlackouts: "EcoFlow DELTA Pro (3,600Wh base capacity = 75% longer runtime out of the box)",
-    winnerForPortability: "Jackery Explorer 2000 Plus (61.5 lbs vs 99 lbs)",
-    winnerForValue: "Jackery Explorer 2000 Plus (3,000W inverter under $1,500)",
+      "The Jackery Explorer 2000 Plus is about 37 lbs lighter and still has a 3,000W inverter with 6,000W surge. The EcoFlow DELTA Pro suits homeowners who want 3,600Wh in a single box for multi-day outages or a transfer-switch setup.",
+    winnerForBlackouts: "EcoFlow DELTA Pro (3,600Wh base capacity, ~75% more out of the box)",
+    winnerForPortability: "Jackery Explorer 2000 Plus (61.5 lbs vs. 99 lbs)",
+    overallEdge: "Jackery for output per pound; DELTA Pro for raw capacity",
   },
   {
     slug: "jackery-1000-v2-vs-anker-solix-c1000",
@@ -538,12 +468,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "anker-solix-c1000",
     title: "Jackery Explorer 1000 v2 vs. Anker SOLIX C1000",
     subtitle:
-      "Ultralight 23.8 lb carry and 4,000 cycles vs. 1,800W output, 600W solar charging, and room light bar.",
+      "A 23.8 lb unit with a 4,000-cycle rating vs. 1,800W output, 600W solar and 6 outlets.",
     verdictSummary:
-      "Choose the Jackery Explorer 1000 v2 if weight and bedroom quietness matter most (it is 4.6 lbs lighter and rated for 4,000 cycles). Choose the Anker SOLIX C1000 if you need 6 AC outlets, a higher 1,800W continuous inverter, 50% faster solar charging (600W), and battery expansion.",
-    winnerForBlackouts: "Anker SOLIX C1000 (1,800W inverter + expandable to 2,112Wh)",
-    winnerForPortability: "Jackery Explorer 1000 v2 (Lightest in class at 23.8 lbs)",
-    winnerForValue: "Anker SOLIX C1000 (6 AC outlets + built-in emergency light bar)",
+      "Choose the Jackery Explorer 1000 v2 if weight matters most (4.6 lbs lighter) or you want the higher 3,000W surge rating. Choose the Anker SOLIX C1000 if you need 6 AC outlets, 1,800W continuous output, 50% faster solar input (600W vs. 400W), and expansion.",
+    winnerForBlackouts: "Anker SOLIX C1000 (1,800W, 6 outlets, expandable to 2,112Wh)",
+    winnerForPortability: "Jackery Explorer 1000 v2 (23.8 lbs)",
+    overallEdge: "Anker for features; Jackery for weight and surge headroom",
   },
   {
     slug: "ecoflow-delta-2-vs-bluetti-ac180",
@@ -551,12 +481,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "bluetti-ac180",
     title: "EcoFlow DELTA 2 vs. BLUETTI AC180",
     subtitle:
-      "27 lb expandable best-seller vs. 1,152Wh high-capacity value contender with wireless charging.",
+      "A 27 lb expandable unit vs. a 1,152Wh standalone unit with more base capacity.",
     verdictSummary:
-      "The EcoFlow DELTA 2 is 8.2 lbs lighter, includes 6 AC outlets (vs 4 on the AC180), and features EcoFlow's best-in-class smart app and expansion batteries. The BLUETTI AC180 gives you 128Wh of extra standalone battery capacity and a top wireless charging pad for less money.",
-    winnerForBlackouts: "EcoFlow DELTA 2 (Easy plug-and-play expansion up to 3,040Wh)",
-    winnerForPortability: "EcoFlow DELTA 2 (27 lbs vs 35.2 lbs)",
-    winnerForValue: "BLUETTI AC180 (More base Watt-hours per dollar)",
+      "The EcoFlow DELTA 2 is about 8 lbs lighter, has 6 AC outlets (vs. 4), and can expand to 3,040Wh. The BLUETTI AC180 gives you 128Wh more base capacity with the same 1,800W / 2,700W inverter ratings.",
+    winnerForBlackouts: "EcoFlow DELTA 2 (expandable to 3,040Wh)",
+    winnerForPortability: "EcoFlow DELTA 2 (27 lbs vs. 35.3 lbs)",
+    overallEdge: "AC180 for base capacity; DELTA 2 for weight, outlets and expansion",
   },
   {
     slug: "jackery-1000-v2-vs-bluetti-ac180",
@@ -564,12 +494,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "bluetti-ac180",
     title: "Jackery Explorer 1000 v2 vs. BLUETTI AC180",
     subtitle:
-      "Comparing Jackery's featherweight 1,070Wh v2 against BLUETTI's rugged 1,152Wh AC180.",
+      "Jackery's 23.8 lb 1,070Wh unit vs. BLUETTI's 1,152Wh AC180.",
     verdictSummary:
-      "At 23.8 lbs, the Jackery 1000 v2 is more than 11 lbs lighter than the BLUETTI AC180, making it vastly easier to carry on camping trips or up stairs. The BLUETTI AC180 counters with a stronger 1,800W continuous inverter and a 15W wireless phone charger.",
-    winnerForBlackouts: "BLUETTI AC180 (Higher 1,800W continuous AC output + 1,152Wh)",
-    winnerForPortability: "Jackery Explorer 1000 v2 (11.4 lbs lighter!)",
-    winnerForValue: "Tie — Both are top-rated LiFePO4 values under $650",
+      "At 23.8 lbs, the Jackery 1000 v2 is about 11.5 lbs lighter than the BLUETTI AC180, which makes it much easier to carry. The AC180 has higher continuous output (1,800W vs. 1,500W) and slightly more capacity; the Jackery has the higher surge rating (3,000W vs. 2,700W).",
+    winnerForBlackouts: "BLUETTI AC180 (1,800W continuous + 1,152Wh)",
+    winnerForPortability: "Jackery Explorer 1000 v2 (about 11.5 lbs lighter)",
+    overallEdge: "Close; choose by weight (Jackery) vs. capacity and output (BLUETTI)",
   },
   {
     slug: "jackery-300-plus-vs-ecoflow-river-2-pro",
@@ -577,12 +507,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "ecoflow-river-2-pro",
     title: "Jackery Explorer 300 Plus vs. EcoFlow RIVER 2 Pro",
     subtitle:
-      "8.2 lb backpack ultralight vs. 768Wh weekend camping & CPAP workhorse.",
+      "An 8 lb ultralight vs. a 768Wh weekend camping and CPAP unit.",
     verdictSummary:
-      "The Jackery Explorer 300 Plus is built for backpackers and desk backup where 8.2 lbs is king. For just ~$180 more on Amazon, the EcoFlow RIVER 2 Pro gives you 2.6x more battery capacity (768Wh vs 288Wh) and 4 AC outlets.",
-    winnerForBlackouts: "EcoFlow RIVER 2 Pro (2.6x more battery capacity + 800W inverter)",
-    winnerForPortability: "Jackery Explorer 300 Plus (Fits in a backpack at 8.27 lbs)",
-    winnerForValue: "EcoFlow RIVER 2 Pro (Lowest cost per Watt-hour under $450)",
+      "The Jackery Explorer 300 Plus suits backpacking and desk backup, where 8 lbs matters most. The EcoFlow RIVER 2 Pro gives you about 2.7x the capacity (768Wh vs. 288Wh), 4 AC outlets and an 800W inverter, at roughly twice the weight.",
+    winnerForBlackouts: "EcoFlow RIVER 2 Pro (2.7x capacity + 800W inverter)",
+    winnerForPortability: "Jackery Explorer 300 Plus (8.27 lbs)",
+    overallEdge: "RIVER 2 Pro unless weight is your top priority",
   },
   {
     slug: "ecoflow-delta-2-max-vs-jackery-2000-plus",
@@ -590,12 +520,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "jackery-2000-plus",
     title: "EcoFlow DELTA 2 Max vs. Jackery Explorer 2000 Plus",
     subtitle:
-      "2,048Wh dual-solar home backup vs. 3,000W wheeled heavy-load monster.",
+      "A 2,048Wh two-handle home backup vs. a 3,000W wheeled unit.",
     verdictSummary:
-      "Choose the EcoFlow DELTA 2 Max if you want a 50.7 lb two-handle unit you can carry up stairs without wheels getting in the way. Choose the Jackery Explorer 2000 Plus if you want built-in wheels, a higher 3,000W / 6,000W surge inverter, and 4,000 battery cycles.",
-    winnerForBlackouts: "Jackery Explorer 2000 Plus (3,000W continuous / 6,000W surge)",
-    winnerForPortability: "EcoFlow DELTA 2 Max (10.8 lbs lighter for stairs)",
-    winnerForValue: "EcoFlow DELTA 2 Max (Typically $100 less on Amazon)",
+      "Choose the EcoFlow DELTA 2 Max if you want a ~50 lb unit you can carry up stairs, with 6 AC outlets. Choose the Jackery Explorer 2000 Plus if you want wheels, higher 3,000W / 6,000W output, a 4,000-cycle rating, and larger expansion (~12kWh).",
+    winnerForBlackouts: "Jackery Explorer 2000 Plus (3,000W / 6,000W surge)",
+    winnerForPortability: "EcoFlow DELTA 2 Max on stairs (11.5 lbs lighter); Jackery on flat ground (wheels)",
+    overallEdge: "Jackery for heavy motor loads; DELTA 2 Max for carry weight",
   },
   {
     slug: "anker-solix-f2000-vs-jackery-2000-plus",
@@ -603,12 +533,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "jackery-2000-plus",
     title: "Anker SOLIX F2000 vs. Jackery Explorer 2000 Plus",
     subtitle:
-      "Battle of the 2,000Wh wheeled suitcase solar generators with RV outlets.",
+      "Two wheeled 2kWh power stations compared.",
     verdictSummary:
-      "Both roll effortlessly on wheels and include RV outlets. The Anker SOLIX F2000 uses GaNPrime inverter technology for cooler, more efficient long-hour fridge runtimes, while the Jackery 2000 Plus offers higher peak wattage (3,000W vs 2,400W) and wider modular expansion.",
-    winnerForBlackouts: "Jackery Explorer 2000 Plus (Higher 3,000W output + 12kWh expansion)",
-    winnerForPortability: "Jackery Explorer 2000 Plus (5.7 lbs lighter on wheels)",
-    winnerForValue: "Anker SOLIX F2000 (Frequent deep Amazon coupons)",
+      "Both have wheels. The Anker SOLIX F2000 adds a dedicated TT-30 RV outlet. The Jackery 2000 Plus offers higher output (3,000W vs. 2,400W continuous; 6,000W vs. 3,600W surge), more solar input (1,400W vs. 1,000W), and much larger expansion.",
+    winnerForBlackouts: "Jackery Explorer 2000 Plus (higher output + ~12kWh expansion)",
+    winnerForPortability: "Jackery Explorer 2000 Plus (about 6 lbs lighter)",
+    overallEdge: "Jackery on specs; Anker if you specifically need the TT-30 RV outlet",
   },
   {
     slug: "ecoflow-delta-2-max-vs-ecoflow-delta-pro",
@@ -616,12 +546,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "ecoflow-delta-pro",
     title: "EcoFlow DELTA 2 Max vs. EcoFlow DELTA Pro",
     subtitle:
-      "Should you buy the 2,048Wh DELTA 2 Max or step up to the 3,600Wh DELTA Pro?",
+      "Should you get the 2,048Wh DELTA 2 Max or step up to the 3,600Wh DELTA Pro?",
     verdictSummary:
-      "The DELTA 2 Max (50.7 lbs) is the sweet spot for 90% of homeowners—it runs refrigerators, freezers, and sump pumps while still being liftable by hand. Step up to the 99 lb wheeled DELTA Pro only if you want 3,600Wh in a single box or plan to plug directly into a 30A home transfer switch.",
-    winnerForBlackouts: "EcoFlow DELTA Pro (3,600Wh + 3,600W 30A transfer switch ready)",
-    winnerForPortability: "EcoFlow DELTA 2 Max (Half the weight: 50.7 lbs vs 99 lbs)",
-    winnerForValue: "EcoFlow DELTA 2 Max (Saves ~$800 upfront and expands later)",
+      "The DELTA 2 Max (~50 lbs) covers most homeowners: it runs refrigerators, freezers and sump pumps and can still be carried by hand. Step up to the 99 lb wheeled DELTA Pro if you want 3,600Wh in one box or plan to feed a home transfer switch through its 30A outlet.",
+    winnerForBlackouts: "EcoFlow DELTA Pro (3,600Wh + 3,600W)",
+    winnerForPortability: "EcoFlow DELTA 2 Max (half the weight)",
+    overallEdge: "DELTA 2 Max for most homes; DELTA Pro for multi-day whole-home backup",
   },
   {
     slug: "ecoflow-river-2-pro-vs-ecoflow-delta-2",
@@ -629,12 +559,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "ecoflow-delta-2",
     title: "EcoFlow RIVER 2 Pro vs. EcoFlow DELTA 2",
     subtitle:
-      "768Wh camping & CPAP favorite vs. 1,024Wh whole-kitchen blackout champion.",
+      "A 768Wh camping and CPAP unit vs. a 1,024Wh unit that can handle kitchen appliances.",
     verdictSummary:
-      "If you only need to power a CPAP, Starlink, Wi-Fi router, or 12V car cooler, save ~$200 and grab the 17.2 lb RIVER 2 Pro. If you want to back up a full-size kitchen refrigerator, coffee maker, or microwave, spend the extra ~$200 for the DELTA 2's 1,800W inverter.",
+      "If you only need to power a CPAP, Starlink, Wi-Fi router or 12V car cooler, the 17.2 lb RIVER 2 Pro is enough. If you want to back up a full-size refrigerator, coffee maker or microwave, the DELTA 2's 1,800W inverter is the safer choice.",
     winnerForBlackouts: "EcoFlow DELTA 2 (1,800W inverter runs kitchen appliances)",
-    winnerForPortability: "EcoFlow RIVER 2 Pro (Nearly 10 lbs lighter)",
-    winnerForValue: "EcoFlow DELTA 2 (More than 2x inverter power + expandable)",
+    winnerForPortability: "EcoFlow RIVER 2 Pro (nearly 10 lbs lighter)",
+    overallEdge: "DELTA 2 for home backup; RIVER 2 Pro for light loads and travel",
   },
   {
     slug: "anker-solix-c1000-vs-anker-solix-f2000",
@@ -642,12 +572,12 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "anker-solix-f2000",
     title: "Anker SOLIX C1000 vs. Anker SOLIX F2000",
     subtitle:
-      "Comparing Anker's compact 1,056Wh C1000 against the wheeled 2,048Wh F2000.",
+      "Anker's compact 1,056Wh C1000 vs. the wheeled 2,048Wh F2000.",
     verdictSummary:
-      "The Anker SOLIX C1000 (28.4 lbs) is easy to carry with one hand and can even match the F2000's capacity later if you add the BP1000 expansion battery. Choose the F2000 if you need a 2,400W inverter, built-in wheels, and a 30A RV shore power port.",
-    winnerForBlackouts: "Anker SOLIX F2000 (Double the base capacity + 2,400W output)",
-    winnerForPortability: "Anker SOLIX C1000 (38.8 lbs lighter!)",
-    winnerForValue: "Anker SOLIX C1000 (Best mid-size value in Anker's lineup)",
+      "The Anker SOLIX C1000 (28.4 lbs) is easy to carry and can roughly match the F2000's capacity if you add the BP1000 expansion battery. Choose the F2000 if you need a 2,400W inverter, wheels and a 30A RV outlet.",
+    winnerForBlackouts: "Anker SOLIX F2000 (double the base capacity + 2,400W)",
+    winnerForPortability: "Anker SOLIX C1000 (about 39 lbs lighter)",
+    overallEdge: "C1000 + expansion for flexibility; F2000 for RVs",
   },
   {
     slug: "jackery-1000-v2-vs-jackery-2000-plus",
@@ -655,12 +585,11 @@ export const COMPARISON_PAIRS: ComparisonPair[] = [
     stationBId: "jackery-2000-plus",
     title: "Jackery Explorer 1000 v2 vs. Jackery Explorer 2000 Plus",
     subtitle:
-      "1,070Wh portable carry vs. 2,042Wh expandable wheeled home backup.",
+      "A portable 1,070Wh unit vs. an expandable 2,042Wh wheeled home backup.",
     verdictSummary:
-      "The Explorer 1000 v2 is the ultimate grab-and-go 23.8 lb unit for 1-day blackouts and family camping. The Explorer 2000 Plus doubles both the battery capacity (2,042Wh) and inverter output (3,000W) on wheels for sump pumps, well pumps, and multi-day outages.",
-    winnerForBlackouts: "Jackery Explorer 2000 Plus (2x capacity + 3,000W inverter)",
-    winnerForPortability: "Jackery Explorer 1000 v2 (23.8 lbs vs 61.5 lbs)",
-    winnerForValue: "Jackery Explorer 1000 v2 (Covers 85% of household needs at under half the price)",
+      "The Explorer 1000 v2 is a grab-and-go 23.8 lb unit for 1-day blackouts and camping. The Explorer 2000 Plus roughly doubles capacity (2,042Wh) and continuous output (3,000W) on wheels, for sump pumps, well pumps and multi-day outages.",
+    winnerForBlackouts: "Jackery Explorer 2000 Plus (2x capacity + 3,000W)",
+    winnerForPortability: "Jackery Explorer 1000 v2 (23.8 lbs vs. 61.5 lbs)",
+    overallEdge: "1000 v2 for most single-appliance needs; 2000 Plus for heavy loads",
   },
 ];
-

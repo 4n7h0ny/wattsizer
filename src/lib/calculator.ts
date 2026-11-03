@@ -125,7 +125,7 @@ export function getSizerRecommendations(params: {
 
   // Sort by capacity ascending, then price ascending
   const sortedByCap = [...pool].sort(
-    (a, b) => a.capacityWh - b.capacityWh || a.typicalAmazonPrice - b.typicalAmazonPrice
+    (a, b) => a.capacityWh - b.capacityWh || a.approxListPriceUsd - b.approxListPriceUsd
   );
 
   // Find stations that meet at least 85% of the recommendedRatedWh
@@ -141,7 +141,7 @@ export function getSizerRecommendations(params: {
     // Sort the first few capacity matches by price to find Best Value
     const firstTier = capacityMatches.slice(0, 3);
     bestValue = [...firstTier].sort(
-      (a, b) => a.typicalAmazonPrice - b.typicalAmazonPrice
+      (a, b) => a.approxListPriceUsd - b.approxListPriceUsd
     )[0];
 
     // Best Overall: Prefer EcoFlow DELTA 2, Anker SOLIX C1000, or EcoFlow DELTA 2 Max if in range

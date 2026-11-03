@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title:
     "Appliance Runtime & Sizing Guides | What Size Power Station Do I Need?",
   description:
-    "See exact portable power station runtimes, running watts, and startup surge requirements for refrigerators, CPAP machines, sump pumps, Starlink, microwaves, space heaters, and more.",
+    "See estimated portable power station runtimes, running watts, and startup surge requirements for refrigerators, CPAP machines, sump pumps, Starlink, microwaves, space heaters, and more.",
 };
 
 export default function CanItRunIndexPage() {
@@ -23,7 +23,7 @@ export default function CanItRunIndexPage() {
         </h1>
         <p className="mt-3 text-sm sm:text-base text-slate-300 leading-relaxed">
           Select any household, medical, or camping appliance below to see its
-          real-world hourly watt draw, motor startup surge, and exact runtime
+          typical hourly watt draw, motor startup surge, and estimated runtime
           hours across Jackery, EcoFlow, Anker SOLIX, and BLUETTI battery backups.
         </p>
       </div>

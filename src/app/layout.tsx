@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title:
     "WattSizer | Portable Power Station & Solar Generator Sizer Calculator (2026)",
   description:
-    "Calculate exact watt-hours and surge wattage needed to run your refrigerator, CPAP, sump pump, Starlink, and home appliances during a blackout. Compare Jackery, EcoFlow, Anker SOLIX, and BLUETTI LiFePO4 power stations.",
+    "Estimate the watt-hours and surge wattage needed to run your refrigerator, CPAP, sump pump, Starlink, and home appliances during a blackout. Compare Jackery, EcoFlow, Anker SOLIX, and BLUETTI LiFePO4 power stations.",
   keywords: [
     "portable power station calculator",
     "solar generator sizer",

@@ -2,17 +2,18 @@
 
 import React, { useState } from "react";
 import { PowerStation } from "@/data/powerStations";
-import { getAmazonBundleUrl, getAmazonProductUrl } from "@/config/affiliate";
+import {
+  AFFILIATE_DISCLOSURE,
+  getAmazonBundleUrl,
+  getAmazonProductUrl,
+} from "@/config/affiliate";
 import {
   BatteryCharging,
   CheckCircle2,
   ExternalLink,
-  Flame,
-  ShieldCheck,
+  Plug,
   Sparkles,
   Sun,
-  Tag,
-  Timer,
   Weight,
   Zap,
 } from "lucide-react";
@@ -50,10 +51,6 @@ export default function PowerStationCard({
     ? getAmazonBundleUrl(station.solarBundleSearchQuery)
     : getAmazonProductUrl(station.amazonAsin, station.amazonSearchQuery);
 
-  const displayPrice = showSolarBundle
-    ? station.typicalBundlePrice
-    : station.typicalAmazonPrice;
-
   const badgeStyles = {
     amber:
       "bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold shadow-lg shadow-amber-500/20",
@@ -71,72 +68,64 @@ export default function PowerStationCard({
           : "border-slate-800"
       }`}
     >
-      {/* Top Rank Ribbon */}
       {rankLabel && (
-        <div className="mb-4 flex items-center justify-between gap-2">
+        <div className="mb-4">
           <span
             className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1 text-xs uppercase tracking-wider ${badgeStyles}`}
           >
             <Sparkles className="h-3.5 w-3.5" />
             {rankLabel}
           </span>
-          <span className="rounded-full bg-slate-800/90 px-2.5 py-1 text-xs font-medium text-slate-300 border border-slate-700">
-            ★ {station.rating} ({station.reviewCountText})
-          </span>
         </div>
       )}
 
       <div>
         {/* Brand & Model Header */}
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-amber-400">
-                {station.brand}
-              </span>
-              <span className="rounded bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold text-emerald-400 border border-emerald-500/20">
-                {station.batteryChemistry} • {station.cycleLife.toLocaleString()}{" "}
-                Cycles
-              </span>
-            </div>
-            <h3 className="mt-1 text-xl font-bold text-white">
-              {station.name}
-            </h3>
-            <p className="mt-1 text-xs text-slate-400">{station.bestFor}</p>
+        <div>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-amber-400">
+              {station.brand}
+            </span>
+            <span className="rounded bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold text-emerald-400 border border-emerald-500/20">
+              {station.batteryChemistry} • {station.cycleLife.toLocaleString()}{" "}
+              rated cycles
+            </span>
           </div>
+          <h3 className="mt-1 text-xl font-bold text-white">{station.name}</h3>
+          <p className="mt-1 text-xs text-slate-400">{station.bestFor}</p>
         </div>
 
-        {/* Personalized Runtime Banner (when rendered inside Calculator) */}
+        {/* Personalized Runtime Estimate (when rendered inside a calculator context) */}
         {dailyLoadWh && dailyLoadWh > 0 ? (
           <div className="mt-4 rounded-xl border border-emerald-500/30 bg-emerald-950/30 p-3.5">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2">
               <span className="text-xs font-semibold uppercase tracking-wider text-emerald-300">
-                Your Custom Load Match
+                Estimated for Your Load
               </span>
               <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400">
                 <CheckCircle2 className="h-3.5 w-3.5" />
                 {peakWatts && station.continuousWatts >= peakWatts
-                  ? `Handles ${peakWatts}W Peak Safely`
-                  : `${station.continuousWatts}W Output`}
+                  ? `Rated for ${peakWatts}W peak`
+                  : `${station.continuousWatts}W output`}
               </span>
             </div>
             <div className="mt-1.5 flex items-baseline justify-between">
               <div>
                 <span className="text-2xl font-black text-white">
-                  ~{estimatedDays} Days
+                  ~{estimatedDays} days
                 </span>
                 <span className="ml-2 text-xs text-slate-300">
-                  ({estimatedHours} hrs total load support)
+                  (~{estimatedHours} hrs)
                 </span>
               </div>
               <span className="text-xs font-semibold text-amber-300">
-                {usableWh.toLocaleString()}Wh Usable
+                ~{usableWh.toLocaleString()}Wh usable
               </span>
             </div>
           </div>
         ) : null}
 
-        {/* Core 4 Engineering Specs Grid */}
+        {/* Core Specs Grid */}
         <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
           <div className="rounded-xl bg-slate-950/80 p-2.5 border border-slate-800/80">
             <div className="flex items-center gap-1 text-[11px] text-slate-400">
@@ -167,32 +156,29 @@ export default function PowerStationCard({
               Max Solar
             </div>
             <div className="mt-0.5 text-sm font-bold text-white">
-              {station.solarInputMaxWatts}W Input
+              {station.solarInputMaxWatts}W
             </div>
           </div>
 
           <div className="rounded-xl bg-slate-950/80 p-2.5 border border-slate-800/80">
             <div className="flex items-center gap-1 text-[11px] text-slate-400">
               <Weight className="h-3.5 w-3.5 text-slate-400" />
-              Weight / 80%
+              <Plug className="h-3.5 w-3.5 text-slate-400" />
+              Weight / AC
             </div>
             <div className="mt-0.5 text-sm font-bold text-white">
-              {station.weightLbs} lbs • {station.acChargeMinutes80}m
+              {station.weightLbs} lbs • {station.acOutlets} AC
             </div>
           </div>
         </div>
 
-        {/* Summary & Top Pros */}
         <p className="mt-3.5 text-sm leading-relaxed text-slate-300">
           {station.summary}
         </p>
 
         <ul className="mt-3 space-y-1.5">
           {station.pros.slice(0, 3).map((pro, i) => (
-            <li
-              key={i}
-              className="flex items-start gap-2 text-xs text-slate-300"
-            >
+            <li key={i} className="flex items-start gap-2 text-xs text-slate-300">
               <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" />
               <span>{pro}</span>
             </li>
@@ -200,9 +186,8 @@ export default function PowerStationCard({
         </ul>
       </div>
 
-      {/* Bottom Monetization & Bundle Switcher Box */}
+      {/* Amazon link area */}
       <div className="mt-5 pt-4 border-t border-slate-800">
-        {/* 1-Click Amazon Bundle Toggle (Boosts Amazon Order Value from ~$650 to ~$1,000+) */}
         <div className="mb-3 flex items-center justify-between rounded-xl bg-slate-950 p-2 border border-slate-800">
           <button
             type="button"
@@ -213,7 +198,7 @@ export default function PowerStationCard({
                 : "text-slate-400 hover:text-slate-200"
             }`}
           >
-            Power Station Only (~${station.typicalAmazonPrice})
+            Power Station Only
           </button>
           <button
             type="button"
@@ -225,32 +210,10 @@ export default function PowerStationCard({
             }`}
           >
             <Sun className="h-3.5 w-3.5 text-amber-400" />
-            +Solar Bundle (~${station.typicalBundlePrice})
+            With Solar Panels
           </button>
         </div>
 
-        {showSolarBundle && (
-          <p className="mb-2.5 text-center text-[11px] font-medium text-amber-300/90">
-            Includes: {station.name} {station.recommendedSolarPanelText} on
-            Amazon
-          </p>
-        )}
-
-        {/* Coupon Curiosity Hook */}
-        <div className="mb-3 flex items-center justify-between text-xs">
-          <span className="inline-flex items-center gap-1 font-medium text-emerald-400">
-            <Tag className="h-3.5 w-3.5" />
-            {station.amazonCouponHint}
-          </span>
-          <span className="text-slate-400">
-            Est.{" "}
-            <strong className="text-white text-sm">
-              ${displayPrice.toLocaleString()}
-            </strong>
-          </span>
-        </div>
-
-        {/* Primary High-Converting Amazon Associates Button */}
         <a
           href={amazonUrl}
           target="_blank"
@@ -259,21 +222,16 @@ export default function PowerStationCard({
         >
           <span>
             {showSolarBundle
-              ? `Check Solar Bundle Price on Amazon`
-              : `Check Today's Price & Coupons on Amazon`}
+              ? "See Solar Generator Kits on Amazon"
+              : "Check Price on Amazon"}
           </span>
           <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </a>
 
-        <div className="mt-2 flex items-center justify-between text-[11px] text-slate-500">
-          <span className="inline-flex items-center gap-1">
-            <ShieldCheck className="h-3 w-3 text-slate-400" /> Prime Eligible &
-            Manufacturer Warranty
-          </span>
-          <span>100% Amazon Checkout</span>
-        </div>
+        <p className="mt-2 text-center text-[11px] text-slate-500">
+          Paid link. {AFFILIATE_DISCLOSURE}
+        </p>
       </div>
     </div>
   );
 }
-

@@ -23,14 +23,14 @@ export default function CompareIndexPage() {
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="max-w-3xl">
         <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
-          Interactive Head-to-Head Lab
+          Side-by-Side Comparison
         </span>
         <h1 className="mt-1 text-3xl sm:text-4xl font-black text-white">
           Compare Any Two Portable Power Stations Side-by-Side
         </h1>
         <p className="mt-2 text-sm sm:text-base text-slate-300">
           Select any two models below to compare real-world appliance runtimes,
-          inverter surge ratings, solar charge speeds, and current Amazon prices.
+          inverter surge ratings, solar input and weight.
         </p>
       </div>
 
@@ -47,8 +47,7 @@ export default function CompareIndexPage() {
           >
             {POWER_STATIONS.map((s) => (
               <option key={s.id} value={s.id}>
-                {s.name} ({s.capacityWh}Wh / {s.continuousWatts}W) — ~$
-                {s.typicalAmazonPrice}
+                {s.name} ({s.capacityWh}Wh / {s.continuousWatts}W)
               </option>
             ))}
           </select>
@@ -65,8 +64,7 @@ export default function CompareIndexPage() {
           >
             {POWER_STATIONS.map((s) => (
               <option key={s.id} value={s.id}>
-                {s.name} ({s.capacityWh}Wh / {s.continuousWatts}W) — ~$
-                {s.typicalAmazonPrice}
+                {s.name} ({s.capacityWh}Wh / {s.continuousWatts}W)
               </option>
             ))}
           </select>

@@ -551,17 +551,17 @@ export default function InteractiveSizer() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN (5 Cols): Live Engineering Telemetry Readout */}
+        {/* RIGHT COLUMN (5 Cols): Live Results Readout */}
         <div className="lg:col-span-5">
           <div className="sticky top-24 rounded-2xl border border-amber-500/40 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 p-6 shadow-2xl shadow-amber-500/5">
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
               <div>
                 <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-400">
                   <Sparkles className="h-3.5 w-3.5" />
-                  Live Engineering Readout
+                  Live Estimate
                 </span>
                 <h3 className="text-xl font-black text-white mt-0.5">
-                  Your Exact Power Requirements
+                  Your Estimated Power Requirements
                 </h3>
               </div>
               <div className="rounded-xl bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 text-right">
@@ -628,7 +628,7 @@ export default function InteractiveSizer() {
             <div className="mt-5 rounded-xl border border-emerald-500/40 bg-emerald-950/20 p-4">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-400">
-                  ★ #1 Best Overall Match For Your Load
+                  Best Overall Match For Your Load
                 </span>
                 <span className="text-xs font-bold text-white">
                   {calculationSummary.bestOverall.capacityWh}Wh •{" "}
@@ -639,7 +639,7 @@ export default function InteractiveSizer() {
                 {calculationSummary.bestOverall.name}
               </div>
               <p className="mt-0.5 text-xs text-slate-300">
-                {calculationSummary.bestOverall.amazonCouponHint}
+                {calculationSummary.bestOverall.bestFor}
               </p>
               <div className="mt-3 flex flex-col sm:flex-row gap-2">
                 <a
@@ -710,7 +710,7 @@ export default function InteractiveSizer() {
         <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
-              Step 4 • Verified LiFePO4 Matches
+              Step 4 • LiFePO4 Matches by Spec
             </span>
             <h2 className="mt-1 text-2xl sm:text-3xl font-black text-white">
               Best Portable Power Stations for Your{" "}
@@ -744,7 +744,7 @@ export default function InteractiveSizer() {
           />
           <PowerStationCard
             station={calculationSummary.bestOverall}
-            rankLabel="#1 Best Overall Pick"
+            rankLabel="Best Overall Pick"
             rankColor="amber"
             dailyLoadWh={calculationSummary.dailyConsumptionWh}
             peakWatts={calculationSummary.peakRunningWatts}

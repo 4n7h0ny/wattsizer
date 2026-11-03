@@ -29,8 +29,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
   const station = POWER_STATIONS.find((s) => s.slug === params.slug);
   if (!station) return {};
   return {
-    title: `${station.name} Review & 22-Appliance Runtime Chart (2026) | WattSizer`,
-    description: `How long will the ${station.name} (${station.capacityWh}Wh LiFePO4, ${station.continuousWatts}W / ${station.surgeWatts}W surge) run a refrigerator, CPAP, pellet stove, sump pump, and Starlink? Full specs and Amazon price check.`,
+    title: `${station.name} Specs & Appliance Runtime Estimates | WattSizer`,
+    description: `How long will the ${station.name} (${station.capacityWh}Wh LiFePO4, ${station.continuousWatts}W / ${station.surgeWatts}W surge) run a refrigerator, CPAP, pellet stove, sump pump, and Starlink? Full specs and estimated runtimes.`,
   };
 }
 
@@ -64,7 +64,7 @@ export default function StationReviewPage({ params }: PageProps) {
               {station.tierBadge} • {station.batteryChemistry}
             </span>
             <h1 className="mt-3 text-2xl sm:text-4xl font-black text-white">
-              {station.name}: Engineering Review &amp; Appliance Runtime Chart
+              {station.name}: Specs &amp; Estimated Appliance Runtimes
             </h1>
             <p className="mt-3 text-sm sm:text-base text-slate-300 leading-relaxed">
               {station.summary}
@@ -108,8 +108,7 @@ export default function StationReviewPage({ params }: PageProps) {
                 rel="noopener noreferrer sponsored"
                 className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 px-5 py-3.5 text-xs sm:text-sm font-extrabold text-slate-950 shadow-lg shadow-amber-500/20 hover:brightness-110 transition"
               >
-                Check {station.shortName} Price on Amazon (~$
-                {station.typicalAmazonPrice})
+                Check {station.shortName} Price on Amazon
                 <ExternalLink className="h-4 w-4" />
               </a>
               <a
@@ -119,7 +118,7 @@ export default function StationReviewPage({ params }: PageProps) {
                 className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-amber-500/40 bg-amber-500/10 px-5 py-3.5 text-xs sm:text-sm font-bold text-amber-300 hover:bg-amber-500/20 transition"
               >
                 <Sun className="h-4 w-4 text-amber-400" />
-                View +Solar Panel Bundle (~${station.typicalBundlePrice})
+                See Solar Generator Kits
               </a>
             </div>
           </div>
