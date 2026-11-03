@@ -13,7 +13,7 @@
 export const SITE_CONFIG = {
   name: "WattSizer",
   tagline: "Precision Portable Power Station & Solar Generator Sizer",
-  domain: "https://wattsizer.com",
+  domain: process.env.NEXT_PUBLIC_SITE_URL || "https://wattsizer.vercel.app",
   amazonAssociateTag:
     process.env.NEXT_PUBLIC_AMAZON_ASSOCIATE_TAG || "wattsizer-20",
   amazonMarketplace: "www.amazon.com",

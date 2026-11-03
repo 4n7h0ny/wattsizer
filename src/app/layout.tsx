@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { SITE_CONFIG } from "@/config/affiliate";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_CONFIG.domain),
   title:
     "WattSizer | Portable Power Station & Solar Generator Sizer Calculator (2026)",
   description:
