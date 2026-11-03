@@ -18,6 +18,14 @@ export const metadata: Metadata = {
     "CPAP battery backup calculator",
     "blackout battery backup sizer",
   ],
+  openGraph: {
+    type: "website",
+    siteName: "WattSizer",
+    title: "What size power station do you actually need?",
+    description:
+      "Free calculator: pick your appliances and see watt-hours, startup surge and which power stations can run them.",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({

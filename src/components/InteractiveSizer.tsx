@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   APPLIANCES,
   Appliance,
@@ -12,6 +12,7 @@ import PowerStationCard from "@/components/PowerStationCard";
 import { getAmazonProductUrl } from "@/config/affiliate";
 import {
   AlertTriangle,
+  Link2,
   BatteryCharging,
   Check,
   ExternalLink,
@@ -40,6 +41,67 @@ interface CustomApplianceItem {
   hoursPerDay: number;
 }
 
+/**
+ * Calculator state is mirrored into the URL (?a=id.hours.qty,...&d=days&s=1&c=name~W~h)
+ * so people can share their exact setup, e.g. when answering a Reddit question.
+ */
+function encodeShareQuery(
+  items: SelectedApplianceState[],
+  custom: CustomApplianceItem[],
+  days: number,
+  solar: boolean
+): string {
+  const params = new URLSearchParams();
+  if (items.length)
+    params.set(
+      "a",
+      items.map((i) => `${i.applianceId}.${i.hoursPerDay}.${i.quantity}`).join(",")
+    );
+  if (custom.length)
+    params.set(
+      "c",
+      custom.map((c) => `${c.name.replace(/[~,]/g, " ")}~${c.watts}~${c.hoursPerDay}`).join(",")
+    );
+  params.set("d", String(days));
+  if (solar) params.set("s", "1");
+  return params.toString();
+}
+
+function decodeShareQuery(search: string) {
+  const params = new URLSearchParams(search);
+  if (!params.has("a") && !params.has("c")) return null;
+  const items: SelectedApplianceState[] = (params.get("a") || "")
+    .split(",")
+    .map((chunk) => {
+      const [applianceId, h, q] = chunk.split(".");
+      if (!APPLIANCES.some((a) => a.id === applianceId)) return null;
+      return {
+        applianceId,
+        hoursPerDay: Math.max(0.1, Math.min(24, Number(h) || 1)),
+        quantity: Math.max(1, Math.min(10, Math.round(Number(q) || 1))),
+      };
+    })
+    .filter((i): i is SelectedApplianceState => i !== null);
+  const custom: CustomApplianceItem[] = (params.get("c") || "")
+    .split(",")
+    .map((chunk, idx) => {
+      const [name, w, h] = chunk.split("~");
+      const watts = Number(w);
+      const hours = Number(h);
+      if (!name || !(watts > 0) || !(hours > 0)) return null;
+      return {
+        id: `custom-shared-${idx}`,
+        name: name.slice(0, 40),
+        watts: Math.min(watts, 10000),
+        surgeWatts: Math.round(Math.min(watts, 10000) * 1.25),
+        hoursPerDay: Math.min(24, hours),
+      };
+    })
+    .filter((c): c is CustomApplianceItem => c !== null);
+  const days = Math.max(1, Math.min(5, Number(params.get("d")) || 1));
+  return { items, custom, days, solar: params.get("s") === "1" };
+}
+
 const CATEGORIES: ("All" | ApplianceCategory)[] = [
   "All",
   "Kitchen & Food",
@@ -66,6 +128,53 @@ export default function InteractiveSizer() {
   const [customName, setCustomName] = useState("");
   const [customWatts, setCustomWatts] = useState("");
   const [customHours, setCustomHours] = useState("2");
+
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  // Mobile: show a sticky "best match" bar while the calculator is on screen,
+  // since the results panel sits far below the appliance picker on phones.
+  const sectionRef = useRef<HTMLElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
+  const [calcInView, setCalcInView] = useState(false);
+  const [resultInView, setResultInView] = useState(false);
+  useEffect(() => {
+    const watch = (el: Element | null, set: (v: boolean) => void) => {
+      if (!el) return null;
+      const obs = new IntersectionObserver(([entry]) => set(entry.isIntersecting));
+      obs.observe(el);
+      return obs;
+    };
+    const a = watch(sectionRef.current, setCalcInView);
+    const b = watch(resultRef.current, setResultInView);
+    return () => {
+      a?.disconnect();
+      b?.disconnect();
+    };
+  }, []);
+
+  // Restore a shared setup from the URL on first load
+  useEffect(() => {
+    const shared = decodeShareQuery(window.location.search);
+    if (!shared) return;
+    setActivePresetId("custom");
+    setSelectedItems(shared.items);
+    setCustomItems(shared.custom);
+    setOutageDays(shared.days);
+    setSolarReload(shared.solar);
+  }, []);
+
+  const copyShareLink = async () => {
+    const query = encodeShareQuery(selectedItems, customItems, outageDays, solarReload);
+    const url = `${window.location.origin}/?${query}#calculator`;
+    window.history.replaceState(null, "", `/?${query}#calculator`);
+    try {
+      await navigator.clipboard.writeText(url);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2500);
+    } catch {
+      window.prompt("Copy this link:", url);
+    }
+  };
 
   const applyPreset = (presetId: string) => {
     const found = SCENARIO_PRESETS.find((p) => p.id === presetId);
@@ -212,7 +321,7 @@ export default function InteractiveSizer() {
   }, [activeCategory]);
 
   return (
-    <section id="calculator" className="scroll-mt-20">
+    <section id="calculator" ref={sectionRef} className="scroll-mt-20">
       {/* Step 1: 1-Click Scenario Presets */}
       <div className="mb-8 rounded-2xl border border-slate-800 bg-slate-900/70 p-5 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
@@ -552,7 +661,7 @@ export default function InteractiveSizer() {
         </div>
 
         {/* RIGHT COLUMN (5 Cols): Live Results Readout */}
-        <div className="lg:col-span-5">
+        <div id="sizer-result" ref={resultRef} className="lg:col-span-5 scroll-mt-24">
           <div className="sticky top-24 rounded-2xl border border-amber-500/40 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 p-6 shadow-2xl shadow-amber-500/5">
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
               <div>
@@ -662,6 +771,23 @@ export default function InteractiveSizer() {
                   Compare Top 3 ↓
                 </a>
               </div>
+              <button
+                type="button"
+                onClick={copyShareLink}
+                className="mt-2 w-full inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-200 hover:border-amber-500/50 hover:text-amber-300 transition"
+              >
+                {linkCopied ? (
+                  <>
+                    <Check className="h-3.5 w-3.5 text-emerald-400" />
+                    Link copied
+                  </>
+                ) : (
+                  <>
+                    <Link2 className="h-3.5 w-3.5" />
+                    Copy a link to these results
+                  </>
+                )}
+              </button>
             </div>
 
             {/* Breakdown List */}
@@ -760,6 +886,27 @@ export default function InteractiveSizer() {
           />
         </div>
       </div>
+
+      {calcInView && !resultInView && (
+        <div className="lg:hidden fixed inset-x-0 bottom-0 z-40 border-t border-amber-500/40 bg-slate-950/95 backdrop-blur px-4 py-3">
+          <div className="flex items-center justify-between gap-3">
+            <div className="min-w-0">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+                Best match · ~{calculationSummary.recommendedRatedWh.toLocaleString()}Wh needed
+              </div>
+              <div className="truncate text-sm font-extrabold text-white">
+                {calculationSummary.bestOverall.name}
+              </div>
+            </div>
+            <a
+              href="#sizer-result"
+              className="shrink-0 rounded-xl bg-amber-400 px-3.5 py-2 text-xs font-extrabold text-slate-950"
+            >
+              See results ↓
+            </a>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

@@ -9,7 +9,10 @@ import {
   getSizerRecommendations,
 } from "@/lib/calculator";
 import PowerStationCard from "@/components/PowerStationCard";
-import { isIndexableCombo } from "@/lib/seo";
+import { breadcrumbJsonLd, faqJsonLd, isIndexableCombo } from "@/lib/seo";
+import { SITE_CONFIG } from "@/config/affiliate";
+import AccessoryPicks from "@/components/AccessoryPicks";
+import JsonLd from "@/components/JsonLd";
 import {
   AlertTriangle,
   ArrowLeft,
@@ -103,8 +106,24 @@ export default function ComboRuntimePage({ params }: PageProps) {
     (station.surgeWatts / appliance.surgeWatts) * 100
   );
 
+  const faqAnswer = runtime.canRun
+    ? `Yes. Based on its specs (${station.capacityWh}Wh, ${station.continuousWatts}W continuous / ${station.surgeWatts}W surge), the ${station.name} should run a ${appliance.name.toLowerCase()} for about ${runtime.continuousHours} hours, assuming ~85% inverter efficiency and a ~${effectiveHourlyWatts}W average draw.`
+    : `Probably not. A ${appliance.name.toLowerCase()} typically needs ${appliance.runningWatts}W running and ${appliance.surgeWatts}W at startup, which exceeds the ${station.name}'s ${station.continuousWatts}W / ${station.surgeWatts}W rating.`;
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <JsonLd
+        data={faqJsonLd([
+          { q: `Can the ${station.name} run a ${appliance.shortName.toLowerCase()}?`, a: faqAnswer },
+        ])}
+      />
+      <JsonLd
+        data={breadcrumbJsonLd(SITE_CONFIG.domain, [
+          { name: "Runtime Estimates", path: "/runtime" },
+          { name: station.name, path: `/reviews/${station.slug}` },
+          { name: appliance.shortName, path: `/runtime/${params.comboSlug}` },
+        ])}
+      />
       <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-slate-400 mb-6">
         <Link
           href={`/can-it-run/${appliance.slug}`}
@@ -299,6 +318,11 @@ export default function ComboRuntimePage({ params }: PageProps) {
           />
         </div>
       </section>
+
+      <AccessoryPicks
+        applianceId={appliance.id}
+        applianceName={appliance.shortName}
+      />
 
       {/* Cross-Links to Other Appliances for this Station */}
       <section className="mt-14">

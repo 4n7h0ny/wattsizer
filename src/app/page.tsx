@@ -33,7 +33,7 @@ export default function HomePage() {
               See Which Power Stations Can Run Them.
             </span>
           </h1>
-          <p className="mt-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+          <p className="mt-4 hidden sm:block text-sm sm:text-base text-slate-300 leading-relaxed">
             Multiplying sticker watts by 24 hours overestimates what you need,
             and ignoring startup surge can leave you with a unit that trips
             when your fridge kicks on. This calculator estimates{" "}
@@ -46,7 +46,11 @@ export default function HomePage() {
           </p>
 
           {/* What the calculator accounts for */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-300">
+          <p className="mt-3 sm:hidden text-sm text-slate-300">
+            Tap your appliances below. We estimate the watt-hours and surge you
+            need and match them to real power station specs.
+          </p>
+          <div className="mt-6 hidden sm:flex flex-wrap items-center justify-center gap-3 text-xs text-slate-300">
             <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900/90 border border-slate-800 px-3 py-1.5">
               <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
               Compressor Duty-Cycle Math

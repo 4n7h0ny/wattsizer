@@ -6,7 +6,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-md">
       {/* Top Announcement Strip */}
-      <div className="bg-gradient-to-r from-amber-500/10 via-amber-500/20 to-amber-500/10 border-b border-amber-500/20 px-4 py-1.5 text-center text-xs text-amber-200">
+      <div className="hidden sm:block bg-gradient-to-r from-amber-500/10 via-amber-500/20 to-amber-500/10 border-b border-amber-500/20 px-4 py-1.5 text-center text-xs text-amber-200">
         <span className="font-semibold text-amber-400">2026 Blackout Readiness Guide:</span>{" "}
         Estimate the watts and watt-hours your appliances need, then see which power stations can handle them.
       </div>

@@ -9,7 +9,10 @@ import {
   getSizerRecommendations,
 } from "@/lib/calculator";
 import PowerStationCard from "@/components/PowerStationCard";
-import { getAmazonProductUrl } from "@/config/affiliate";
+import { SITE_CONFIG, getAmazonProductUrl } from "@/config/affiliate";
+import AccessoryPicks from "@/components/AccessoryPicks";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbJsonLd, faqJsonLd } from "@/lib/seo";
 import {
   AlertTriangle,
   ArrowLeft,
@@ -63,8 +66,40 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
     runtime: calculateApplianceRuntime(station, appliance),
   }));
 
+  const runnable = stationRuntimes.filter((r) => r.runtime.canRun);
+  const longest = runnable.reduce<(typeof runnable)[number] | null>(
+    (best, r) =>
+      !best || r.runtime.continuousHours > best.runtime.continuousHours ? r : best,
+    null
+  );
+  const faqs = [
+    {
+      q: `How many watts does a ${appliance.shortName.toLowerCase()} use?`,
+      a: `A typical ${appliance.name.toLowerCase()} draws about ${appliance.runningWatts}W while running and up to about ${appliance.surgeWatts}W for a moment at startup. Averaged over time it uses roughly ${effectiveHourlyWatts}W. Check your appliance's label for its exact rating.`,
+    },
+    {
+      q: `What size power station do I need for a ${appliance.shortName.toLowerCase()}?`,
+      a: `Look for at least ${appliance.runningWatts}W continuous output, ${appliance.surgeWatts}W surge, and about ${recommendations.recommendedRatedWh}Wh of capacity for one day (${appliance.defaultHoursPerDay} hours) of use.`,
+    },
+    ...(longest
+      ? [
+          {
+            q: `How long will a portable power station run a ${appliance.shortName.toLowerCase()}?`,
+            a: `${runnable.length} of the ${POWER_STATIONS.length} power stations we compare can run it. Estimated runtimes range up to about ${longest.runtime.continuousHours} hours on the ${longest.station.name}, assuming ~85% inverter efficiency.`,
+          },
+        ]
+      : []),
+  ];
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <JsonLd data={faqJsonLd(faqs)} />
+      <JsonLd
+        data={breadcrumbJsonLd(SITE_CONFIG.domain, [
+          { name: "Appliance Guides", path: "/can-it-run" },
+          { name: appliance.shortName, path: `/can-it-run/${appliance.slug}` },
+        ])}
+      />
       <Link
         href="/can-it-run"
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-amber-400 mb-6"
@@ -198,6 +233,11 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
         </div>
       </section>
 
+      <AccessoryPicks
+        applianceId={appliance.id}
+        applianceName={appliance.shortName}
+      />
+
       {/* Complete Runtime Chart Across All 10 Power Stations */}
       <section className="mt-16">
         <div className="mb-5">
@@ -279,6 +319,24 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
               ))}
             </tbody>
           </table>
+        </div>
+      </section>
+
+      {/* FAQ (mirrors the structured data above) */}
+      <section className="mt-16">
+        <h2 className="text-xl sm:text-2xl font-black text-white mb-4">
+          {appliance.shortName} Power Station FAQ
+        </h2>
+        <div className="space-y-3">
+          {faqs.map((f) => (
+            <div
+              key={f.q}
+              className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5"
+            >
+              <h3 className="text-sm font-bold text-white">{f.q}</h3>
+              <p className="mt-1.5 text-sm text-slate-300 leading-relaxed">{f.a}</p>
+            </div>
+          ))}
         </div>
       </section>
 
