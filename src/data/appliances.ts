@@ -285,7 +285,7 @@ export const APPLIANCES: Appliance[] = [
     seoSubtitle:
       "Don't get fooled by '1,000W cooking watts'—here is why a microwave actually draws 1,500W from the outlet and which power stations handle it effortlessly.",
     buyingTip:
-      "Microwaves are high-wattage, short-duration loads. Running a 1,500W microwave for 15 minutes a day only uses ~375Wh of battery capacity—less than 40% of a 1,000Wh battery! You just need a unit with an **1,800W continuous pure sine wave inverter**.",
+      "Microwaves are high-wattage, short-duration loads. Running a 1,500W microwave for 15 minutes a day only uses ~375Wh of battery capacity—less than 40% of a 1,000Wh battery! You just need a unit with an 1,800W continuous pure sine wave inverter.",
     commonMistake:
       "Assuming a 1,000W microwave only needs a 1,000W inverter. Because magnetron efficiency is ~65%, a 1,000W microwave draws 1,450W–1,600W from the AC outlet.",
   },
@@ -432,7 +432,7 @@ export const APPLIANCES: Appliance[] = [
     seoSubtitle:
       "Cook hot meals without propane or open flames during a blackout. See which 1,800W+ LiFePO4 power stations handle air fryers easily.",
     buyingTip:
-      "An air fryer is actually one of the most efficient ways to cook on battery power because it preheats in 2 minutes and cooks in 15 minutes (~380Wh total). Just make sure your power station has at least an **1,800W continuous AC inverter** (EcoFlow DELTA 2, Anker SOLIX C1000, or BLUETTI AC180).",
+      "An air fryer is actually one of the most efficient ways to cook on battery power because it preheats in 2 minutes and cooks in 15 minutes (~380Wh total). Just make sure your power station has at least an 1,800W continuous AC inverter (EcoFlow DELTA 2, Anker SOLIX C1000, or BLUETTI AC180).",
     commonMistake:
       "Plugging both a coffee maker (1,200W) and an air fryer (1,500W) into a 1,800W power station at the exact same time—run high-wattage kitchen appliances one at a time!",
   },
@@ -578,7 +578,7 @@ export const APPLIANCES: Appliance[] = [
     seoSubtitle:
       "Never drop a Zoom call or miss a deadline when the grid goes down.",
     buyingTip:
-      "Plug your laptop directly into the power station's **100W USB-C PD port** instead of using the chunky AC wall brick—you'll save ~15% battery capacity immediately.",
+      "Plug your laptop directly into the power station's 100W USB-C PD port instead of using the chunky AC wall brick—you'll save ~15% battery capacity immediately.",
     commonMistake:
       "Using an old modified-sine-wave battery that makes monitor power supplies buzz or overheat.",
   },
