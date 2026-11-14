@@ -1,4 +1,5 @@
 import { APPLIANCES } from "@/data/appliances";
+import { POWER_STATIONS } from "@/data/powerStations";
 import { OG_SIZE, renderOgImage } from "@/lib/ogImage";
 
 export const alt = "Appliance power station runtime estimate";
@@ -12,6 +13,6 @@ export default function Image({ params }: { params: { slug: string } }) {
   return renderOgImage(
     "Can a power station run it?",
     `${app.shortName} on battery power`,
-    `${app.runningWatts}W running · ${app.surgeWatts}W startup surge · runtimes for 10 models`
+    `${app.runningWatts}W running · ${app.surgeWatts}W startup surge · runtimes for ${POWER_STATIONS.length} models`
   );
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { getAccessoriesFor } from "@/data/accessories";
+import { withArticle } from "@/data/appliances";
 import { AFFILIATE_DISCLOSURE, getAmazonProductUrl } from "@/config/affiliate";
 import { ExternalLink, Wrench } from "lucide-react";
 
@@ -19,7 +20,7 @@ export default function AccessoryPicks({
           Small Extras That Help
         </span>
         <h2 className="mt-1 text-xl sm:text-2xl font-black text-white">
-          Inexpensive Add-Ons for Running a {applianceName} on Battery
+          Inexpensive Add-Ons for Running {withArticle(applianceName)} on Battery
         </h2>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">

@@ -88,7 +88,7 @@ export default function HomePage() {
               &ldquo;How Long Will a Power Station Run My...?&rdquo;
             </h2>
             <p className="mt-1 text-sm text-slate-400">
-              Click any household or off-grid appliance below to see estimated runtimes across 10 popular LiFePO4 power stations.
+              Click any household or off-grid appliance below to see estimated runtimes across {POWER_STATIONS.length} popular LiFePO4 power stations.
             </p>
           </div>
           <Link
@@ -192,14 +192,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Section: Fast Comparison Table of All 10 Top Amazon Models */}
+      {/* Section: Fast Comparison Table of All Models */}
       <section className="mt-20">
         <div className="mb-6">
           <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
             Quick Reference
           </span>
           <h2 className="mt-1 text-2xl sm:text-3xl font-black text-white">
-            10 Popular LiFePO4 Power Stations Compared
+            {POWER_STATIONS.length} Popular LiFePO4 Power Stations Compared
           </h2>
           <p className="mt-1 text-sm text-slate-400">
             Every model below uses LiFePO4 battery chemistry, with manufacturer cycle ratings of 3,000 to 4,000 cycles. Specs are from manufacturer listings.

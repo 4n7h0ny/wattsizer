@@ -28,6 +28,36 @@ export interface Appliance {
   commonMistake: string;
   /** Whether to generate dedicated /runtime/[station]-for-[appliance] pages */
   isTopComboTarget?: boolean;
+  /** Replaces the generated meta description when the page targets a specific search. */
+  metaDescriptionOverride?: string;
+  /** Extra section for pages whose searchers want a specific kind of product. */
+  buyerGuide?: BuyerGuide;
+  /** Extra questions appended to the page FAQ (and its structured data). */
+  extraFaqs?: { q: string; a: string }[];
+}
+
+export interface BuyerGuideOption {
+  name: string;
+  bestFor: string;
+  /** Typical power draw of the device, in watts. */
+  drawWatts: number;
+  /** What powers it, e.g. "20,000mAh power bank (~74Wh)". Omit when the battery is built in. */
+  powerSource?: string;
+  /** Energy in the power source, in Wh. Omit when runtime depends on the model. */
+  sourceWh?: number;
+  /** True when the device runs from an AC inverter (adds idle overhead to the estimate). */
+  usesInverter?: boolean;
+  note: string;
+  amazonSearchQuery: string;
+  linkLabel: string;
+}
+
+export interface BuyerGuide {
+  eyebrow: string;
+  heading: string;
+  intro: string;
+  options: BuyerGuideOption[];
+  footnote: string;
 }
 
 export interface ScenarioPreset {
@@ -147,7 +177,7 @@ export const APPLIANCES: Appliance[] = [
     seoSubtitle:
       "Keep your pellet stove heating your home all night during winter ice storms. Estimated runtime hours, pure sine wave requirements, and UPS switchover math.",
     buyingTip:
-      "Pellet stoves have sensitive circuit boards and variable-speed combustion blowers that REQUIRE a 100% Pure Sine Wave inverter (all 10 LiFePO4 stations in our database are Pure Sine Wave). A 1,024Wh unit runs a pellet stove for ~7–8 hours; a 2,048Wh unit runs it for 14–16+ hours through the coldest night.",
+      "Pellet stoves have sensitive circuit boards and variable-speed combustion blowers that REQUIRE a 100% Pure Sine Wave inverter (every station in our database is pure sine wave). A 1,024Wh unit runs a pellet stove for ~7–8 hours; a 2,048Wh unit runs it for 14–16+ hours through the coldest night.",
     commonMistake:
       "Using a cheap modified-sine-wave battery backup, which causes pellet stove exhaust blowers to hum, overheat, and burn out their control board.",
   },
@@ -213,7 +243,7 @@ export const APPLIANCES: Appliance[] = [
     seoSubtitle:
       "Ditch messy melted ice forever. See estimated multi-day runtimes for Dometic, BougeRV, and ICECO 12V compressor coolers.",
     buyingTip:
-      "Always plug your portable camping fridge into the **12V regulated DC cigarette lighter port** on your power station, NOT the 120V AC wall outlet! Using 12V DC avoids inverter conversion losses and extends runtime by 25%–30%.",
+      "Always plug your portable camping fridge into the 12V regulated DC cigarette lighter port on your power station, NOT the 120V AC wall outlet! Using 12V DC avoids inverter conversion losses and extends runtime by 25%–30%.",
     commonMistake:
       "Putting warm drinks into the cooler while running on battery. Pre-chill your cooler and food on home wall power before leaving for your trip.",
   },
@@ -440,11 +470,73 @@ export const APPLIANCES: Appliance[] = [
     iconName: "Droplets",
     description:
       "50–100 gallon freshwater or saltwater reef tank (150W submersible heater cycling ~40% + 30W continuous filter/wavemaker/air pump).",
-    seoTitle: "Best Battery Backup Power Station for Aquariums & Reef Tanks",
+    seoTitle: "Rechargeable Aquarium Filter Options (2026): Battery Backup Guide",
     seoSubtitle:
-      "Save thousands of dollars in fish and coral during winter outages with automatic <20ms UPS battery switchover.",
+      "Battery air pumps, USB-powered filters and backup power stations compared by estimated runtime, so your tank keeps circulating when the power goes out.",
+    metaDescriptionOverride:
+      "Rechargeable and battery-powered aquarium filter options compared: battery air pumps, USB filters on a power bank, and power stations, with estimated runtimes.",
     buyingTip:
-      "Tank oxygen drops to fatal levels within 3–4 hours if filters stop circulating water, and winter room temperatures kill tropical fish overnight. Plug your canister filter, air pump, and heater into a 1,000Wh+ power station with **<20ms UPS mode** so the tank stays running automatically even if power fails while you're at work.",
+      "Circulation matters more than heat in the first hours of an outage: in a heavily stocked tank, oxygen can run low within a few hours once the filter stops. A battery air pump covers that cheaply. To also run a heater or canister filter, use a power station with UPS mode so the tank keeps running even if the power fails while you're away.",
+    buyerGuide: {
+      eyebrow: "Battery & Rechargeable Options",
+      heading: "4 Ways to Run an Aquarium Filter on Battery Power",
+      intro:
+        "Very few filters have a battery built in. Most \"rechargeable aquarium filter\" setups are a small battery-powered air pump driving a sponge filter or air stone, or a regular filter plugged into a power bank or power station. Here is how the options compare, from cheapest to most capable.",
+      options: [
+        {
+          name: "Rechargeable battery air pump + sponge filter",
+          bestFor: "Any tank, as a cheap automatic backup. Many models switch on by themselves when wall power fails.",
+          drawWatts: 2,
+          note: "Runtime depends on the built-in battery, so check the hours listed for the model you pick.",
+          amazonSearchQuery: "rechargeable aquarium air pump battery backup power outage",
+          linkLabel: "See battery air pumps on Amazon",
+        },
+        {
+          name: "USB air pump or USB nano filter on a power bank",
+          bestFor: "Nano and small tanks, quarantine tanks and fish transport.",
+          drawWatts: 3,
+          powerSource: "20,000mAh power bank (~74Wh)",
+          sourceWh: 74,
+          note: "Any USB power bank works, so runtime is easy to extend by swapping banks.",
+          amazonSearchQuery: "USB aquarium air pump",
+          linkLabel: "See USB air pumps on Amazon",
+        },
+        {
+          name: "Your existing hang-on-back or canister filter on a small power station",
+          bestFor: "Keeping the filter you already own running, with no change to the tank.",
+          drawWatts: 20,
+          powerSource: "~288Wh power station",
+          sourceWh: 288,
+          usesInverter: true,
+          note: "Check the wattage on your filter's label; most hang-on-back and canister filters draw 5–35W.",
+          amazonSearchQuery: "small portable power station 300Wh LiFePO4",
+          linkLabel: "See small power stations on Amazon",
+        },
+        {
+          name: "Filter + heater on a 1kWh power station with UPS mode",
+          bestFor: "Tropical and reef tanks in winter, when losing heat is the bigger risk.",
+          drawWatts: 81,
+          powerSource: "~1,024Wh power station",
+          sourceWh: 1024,
+          usesInverter: true,
+          note: "A 150W heater cycling about 40% of the time plus a 30W filter averages roughly 81W.",
+          amazonSearchQuery: "1000Wh portable power station UPS LiFePO4",
+          linkLabel: "See 1kWh power stations on Amazon",
+        },
+      ],
+      footnote:
+        "Runtimes are estimates from typical wattages, not measurements. We assume ~85% of the battery's rated energy is usable, plus about 8W of inverter overhead for options that use an AC outlet.",
+    },
+    extraFaqs: [
+      {
+        q: "Is there a rechargeable aquarium filter?",
+        a: "A few small USB-rechargeable filters exist, but most battery setups are a rechargeable air pump driving a sponge filter or air stone. Many battery air pumps switch on automatically when wall power fails, which makes them a simple outage backup. For larger tanks, plugging your existing filter into a power bank or power station is the usual approach.",
+      },
+      {
+        q: "How do I keep an aquarium filter running during a power outage?",
+        a: "The cheapest option is a battery air pump with a sponge filter or air stone, which keeps water moving and oxygenated. To keep your regular filter running, plug it into a portable power station; a filter drawing about 20W runs roughly 8–9 hours on a 288Wh unit. Add the heater only if the room will get cold, since heaters use far more power.",
+      },
+    ],
     commonMistake:
       "Leaving high-wattage aquarium reef lighting turned on during a power outage—only back up the circulation pump, air stone, and heater!",
   },
@@ -512,6 +604,44 @@ export const APPLIANCES: Appliance[] = [
       "Using old 60W incandescent bulbs instead of 9W LED bulbs during an outage—4 incandescent bulbs drain 6x more power for the exact same light!",
   },
 ];
+
+/**
+ * Singular everyday name with its article, used to build natural questions like
+ * "How many watts does an air fryer use?".
+ */
+const APPLIANCE_NOUNS: Record<string, string> = {
+  refrigerator: "a refrigerator",
+  "chest-freezer": "a chest freezer",
+  "cpap-machine": "a CPAP machine",
+  "sump-pump": "a sump pump",
+  "pellet-stove": "a pellet stove",
+  "gas-furnace-blower": "a gas furnace blower",
+  starlink: "a Starlink dish",
+  "portable-car-fridge": "a 12V camping fridge",
+  "wifi-router": "a Wi-Fi router and modem",
+  microwave: "a microwave",
+  "coffee-maker": "a coffee maker",
+  "electric-blanket": "an electric blanket",
+  "well-pump": "a well pump",
+  "space-heater": "a space heater",
+  "window-ac": "a window air conditioner",
+  "oxygen-concentrator": "an oxygen concentrator",
+  "air-fryer": "an air fryer",
+  "portable-induction-cooktop": "an induction cooktop",
+  "aquarium-heater-filter": "an aquarium heater and filter",
+  "garage-door-opener": "a garage door opener",
+  "laptop-workstation": "a laptop and monitor",
+  "led-lights-phones": "a set of LED lights, phone chargers and a fan",
+};
+
+/** Prefixes a phrase with "a" or "an", e.g. "an Oxygen Concentrator". */
+export function withArticle(phrase: string): string {
+  return `${/^[aeiou]/i.test(phrase) ? "an" : "a"} ${phrase}`;
+}
+
+export function applianceNoun(app: Appliance): string {
+  return APPLIANCE_NOUNS[app.id] ?? `a ${app.shortName.toLowerCase()}`;
+}
 
 export const TOP_COMBO_APPLIANCES = APPLIANCES.filter(
   (a) => a.isTopComboTarget

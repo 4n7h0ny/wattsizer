@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { APPLIANCES } from "@/data/appliances";
+import { APPLIANCES, applianceNoun, withArticle } from "@/data/appliances";
 import { POWER_STATIONS } from "@/data/powerStations";
 import {
   calculateApplianceRuntime,
@@ -11,6 +11,8 @@ import {
 import PowerStationCard from "@/components/PowerStationCard";
 import { SITE_CONFIG, getAmazonProductUrl } from "@/config/affiliate";
 import AccessoryPicks from "@/components/AccessoryPicks";
+import BuyerGuideSection from "@/components/BuyerGuideSection";
+import ElectricityUse from "@/components/ElectricityUse";
 import JsonLd from "@/components/JsonLd";
 import {
   breadcrumbJsonLd,
@@ -18,6 +20,14 @@ import {
   metaDescription,
   pageTitle,
 } from "@/lib/seo";
+import {
+  ASSUMED_CENTS_PER_KWH,
+  formatAmps,
+  formatDollars,
+  formatHours,
+  formatKWh,
+  getElectricityUse,
+} from "@/lib/electricity";
 import {
   AlertTriangle,
   ArrowLeft,
@@ -36,14 +46,23 @@ export function generateStaticParams() {
   return APPLIANCES.map((app) => ({ slug: app.slug }));
 }
 
+const sentenceCase = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+
 export function generateMetadata({ params }: PageProps): Metadata {
   const app = APPLIANCES.find((a) => a.slug === params.slug);
   if (!app) return {};
   return {
     title: pageTitle(app.seoTitle),
-    description: metaDescription(
-      `${app.name}: about ${app.runningWatts}W running, ${app.surgeWatts}W startup surge. ${app.seoSubtitle}`
-    ),
+    description:
+      app.metaDescriptionOverride ??
+      metaDescription(
+        `${sentenceCase(applianceNoun(app))} uses about ${app.runningWatts}W (${formatAmps(
+          app.runningWatts / 120
+        )} amps) while running, ${app.surgeWatts}W at startup and roughly ${formatKWh(
+          getElectricityUse(app).kWhPerMonth
+        )} kWh a month. See which power stations can run it and for how long.`,
+        160
+      ),
     alternates: { canonical: `/can-it-run/${app.slug}` },
   };
 }
@@ -80,19 +99,34 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
       !best || r.runtime.continuousHours > best.runtime.continuousHours ? r : best,
     null
   );
+  const noun = applianceNoun(appliance);
+  const use = getElectricityUse(appliance);
   const faqs = [
+    ...(appliance.extraFaqs ?? []),
     {
-      q: `How many watts does a ${appliance.shortName.toLowerCase()} use?`,
+      q: `How many watts does ${noun} use?`,
       a: `A typical ${appliance.name.toLowerCase()} draws about ${appliance.runningWatts}W while running and up to about ${appliance.surgeWatts}W for a moment at startup. Averaged over time it uses roughly ${effectiveHourlyWatts}W. Check your appliance's label for its exact rating.`,
     },
     {
-      q: `What size power station do I need for a ${appliance.shortName.toLowerCase()}?`,
-      a: `Look for at least ${appliance.runningWatts}W continuous output, ${appliance.surgeWatts}W surge, and about ${recommendations.recommendedRatedWh}Wh of capacity for one day (${appliance.defaultHoursPerDay} hours) of use.`,
+      q: `How many amps does ${noun} use?`,
+      a: `At ${appliance.runningWatts}W on a standard 120V outlet, it draws about ${formatAmps(use.runningAmps)} amps while running, and up to about ${formatAmps(use.startupAmps)} amps for a moment at startup.`,
+    },
+    {
+      q: `Does ${noun} use a lot of electricity?`,
+      a: `Used ${formatHours(appliance.defaultHoursPerDay)} a day, it uses ${use.verdict}: about ${formatKWh(use.kWhPerMonth)} kWh a month, or roughly ${formatDollars(use.costPerMonth)} at ${ASSUMED_CENTS_PER_KWH} cents per kWh.${
+        use.nonStop
+          ? ` Running around the clock it would use about ${formatKWh(use.nonStop.kWhPerMonth)} kWh a month (roughly ${formatDollars(use.nonStop.costPerMonth)}).`
+          : ""
+      }`,
+    },
+    {
+      q: `What size power station do I need for ${noun}?`,
+      a: `Look for at least ${appliance.runningWatts}W continuous output, ${appliance.surgeWatts}W surge, and about ${recommendations.recommendedRatedWh}Wh of capacity for one day (${formatHours(appliance.defaultHoursPerDay)}) of use.`,
     },
     ...(longest
       ? [
           {
-            q: `How long will a portable power station run a ${appliance.shortName.toLowerCase()}?`,
+            q: `How long will a portable power station run ${noun}?`,
             a: `${runnable.length} of the ${POWER_STATIONS.length} power stations we compare can run it. Estimated runtimes range up to about ${longest.runtime.continuousHours} hours on the ${longest.station.name}, assuming ~85% inverter efficiency.`,
           },
         ]
@@ -201,6 +235,8 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
         </div>
       </div>
 
+      {appliance.buyerGuide && <BuyerGuideSection guide={appliance.buyerGuide} />}
+
       {/* Top 3 Recommended Power Stations for This Appliance */}
       <section className="mt-12">
         <div className="mb-6">
@@ -208,7 +244,7 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
             Top 3 Matches by Spec
           </span>
           <h2 className="mt-1 text-2xl sm:text-3xl font-black text-white">
-            Best Portable Power Stations for a {appliance.shortName}
+            Best Portable Power Stations for {withArticle(appliance.shortName)}
           </h2>
           <p className="mt-1 text-sm text-slate-400">
             Each unit below is rated above the estimated {appliance.surgeWatts}W
@@ -246,14 +282,14 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
         applianceName={appliance.shortName}
       />
 
-      {/* Complete Runtime Chart Across All 10 Power Stations */}
+      {/* Complete Runtime Chart Across All Power Stations */}
       <section className="mt-16">
         <div className="mb-5">
           <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
             Complete Runtime Comparison Table
           </span>
           <h2 className="mt-1 text-2xl font-black text-white">
-            How Many Hours Will Each Power Station Run a {appliance.shortName}?
+            How Many Hours Will Each Power Station Run {withArticle(appliance.shortName)}?
           </h2>
           <p className="mt-1 text-xs sm:text-sm text-slate-400">
             Calculated using 85% real-world AC inverter efficiency and a{" "}
@@ -329,6 +365,8 @@ export default function ApplianceRuntimePage({ params }: PageProps) {
           </table>
         </div>
       </section>
+
+      <ElectricityUse appliance={appliance} />
 
       {/* FAQ (mirrors the structured data above) */}
       <section className="mt-16">

@@ -56,7 +56,7 @@ export default function RuntimeMatrixIndexPage() {
                 href={`/reviews/${station.slug}`}
                 className="text-xs font-bold text-amber-400 hover:underline"
               >
-                Full {station.shortName} Review &amp; 22-Appliance Chart →
+                {station.shortName} Specs &amp; All Appliance Runtimes →
               </Link>
             </div>
 

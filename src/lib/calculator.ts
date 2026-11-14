@@ -62,6 +62,15 @@ export function calculateApplianceRuntime(
   };
 }
 
+const PREFERRED_OVERALL_IDS = [
+  "ecoflow-delta-3-plus",
+  "anker-solix-c1000-gen-2",
+  "jackery-1000-v2",
+  "ecoflow-delta-2",
+  "anker-solix-c1000",
+  "ecoflow-delta-2-max",
+];
+
 export interface RecommendationsOutput {
   dailyConsumptionWh: number;
   totalRequiredUsableWh: number;
@@ -144,15 +153,10 @@ export function getSizerRecommendations(params: {
       (a, b) => a.approxListPriceUsd - b.approxListPriceUsd
     )[0];
 
-    // Best Overall: Prefer EcoFlow DELTA 2, Anker SOLIX C1000, or EcoFlow DELTA 2 Max if in range
-    const preferredOverall = capacityMatches.find(
-      (s) =>
-        s.id !== bestValue.id &&
-        (s.id === "ecoflow-delta-2" ||
-          s.id === "anker-solix-c1000" ||
-          s.id === "ecoflow-delta-2-max" ||
-          s.id === "jackery-1000-v2")
-    );
+    // Best Overall: prefer current, well-rounded models (in this order) when they are in range
+    const preferredOverall = PREFERRED_OVERALL_IDS.map((id) =>
+      capacityMatches.find((s) => s.id === id && s.id !== bestValue.id)
+    ).find(Boolean);
     bestOverall =
       preferredOverall ||
       capacityMatches.find((s) => s.id !== bestValue.id) ||

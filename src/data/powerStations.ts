@@ -142,7 +142,7 @@ export const POWER_STATIONS: PowerStation[] = [
     amazonAsin: null,
     amazonSearchQuery: "EcoFlow DELTA 2 portable power station 1024Wh",
     solarBundleSearchQuery: "EcoFlow DELTA 2 solar generator solar panel bundle",
-    tierBadge: "Best All-Round 1kWh Pick",
+    tierBadge: "Expandable 1kWh Pick (Previous Gen)",
     bestFor: "Full-size refrigerators, coffee makers, microwaves & 1-day home blackouts",
     summary:
       "A balanced 1kWh-class unit: a 1,800W inverter (2,700W surge) covers most single household appliances, it weighs 27 lbs, and it can expand to 3,040Wh later with an extra battery.",
@@ -154,7 +154,8 @@ export const POWER_STATIONS: PowerStation[] = [
     ],
     cons: [
       "30ms EPS switchover suits most devices but isn't a true online UPS for sensitive desktop PCs",
-      "500W max solar input is lower than the Anker SOLIX C1000 (600W)",
+      "500W max solar input; the DELTA 3 Plus and Elite 100 V2 accept 1,000W",
+      "Previous generation: the DELTA 3 Plus has a higher surge rating and a faster UPS mode",
     ],
   },
   {
@@ -183,11 +184,11 @@ export const POWER_STATIONS: PowerStation[] = [
     pros: [
       "Lightest 1kWh-class unit on our list (23.8 lbs)",
       "Rated 4,000 cycles to 70% capacity",
-      "3,000W surge rating, the highest in the 1kWh class on our list",
+      "3,000W surge rating gives headroom for starting motors",
     ],
     cons: [
       "Only 3 AC outlets",
-      "1,500W continuous output is lower than the DELTA 2, C1000 and AC180 (1,800W)",
+      "1,500W continuous output is the lowest of the 1kWh-class units on our list",
       "Not expandable",
     ],
   },
@@ -210,12 +211,12 @@ export const POWER_STATIONS: PowerStation[] = [
     amazonAsin: null,
     amazonSearchQuery: "Anker SOLIX C1000 portable power station",
     solarBundleSearchQuery: "Anker SOLIX C1000 solar generator solar panel",
-    tierBadge: "Fastest Solar Charging (1kWh Class)",
+    tierBadge: "Expandable Anker Pick (First Gen)",
     bestFor: "Solar recharging, kitchen appliances & expandable home backup",
     summary:
-      "A 1,056Wh unit with the highest solar input in its class on our list (600W), UPS switchover under 20ms, and expansion to 2,112Wh with Anker's BP1000 battery.",
+      "The first-generation C1000: 1,056Wh, 600W solar input, UPS switchover under 20ms, and expansion to 2,112Wh with Anker's BP1000 battery. The newer C1000 Gen 2 is lighter and more powerful but cannot be expanded.",
     pros: [
-      "600W max solar input, the highest of the 1kWh-class units on our list",
+      "600W max solar input",
       "UPS mode with <20ms switchover",
       "Expandable to 2,112Wh with the BP1000 expansion battery",
       "6 AC outlets",
@@ -223,6 +224,7 @@ export const POWER_STATIONS: PowerStation[] = [
     cons: [
       "2,400W surge is lower than the DELTA 2 (2,700W) and Jackery 1000 v2 (3,000W)",
       "28.4 lbs, heavier than the DELTA 2 and Jackery 1000 v2",
+      "First generation: the C1000 Gen 2 has 2,000W output and weighs 24.9 lbs",
     ],
   },
   {
@@ -256,6 +258,110 @@ export const POWER_STATIONS: PowerStation[] = [
     cons: [
       "Heaviest 1kWh-class unit on our list (35.3 lbs)",
       "4 AC outlets vs. 6 on the DELTA 2 and C1000",
+    ],
+  },
+  {
+    id: "ecoflow-delta-3-plus",
+    slug: "ecoflow-delta-3-plus",
+    brand: "EcoFlow",
+    name: "EcoFlow DELTA 3 Plus",
+    shortName: "EcoFlow DELTA 3 Plus",
+    capacityWh: 1024,
+    continuousWatts: 1800,
+    surgeWatts: 3600,
+    solarInputMaxWatts: 1000,
+    batteryChemistry: "LiFePO4 (LFP)",
+    cycleLife: 4000,
+    weightLbs: 27.6,
+    acOutlets: 6,
+    expandableMaxWh: 5000,
+    approxListPriceUsd: 799,
+    amazonAsin: null,
+    amazonSearchQuery: "EcoFlow DELTA 3 Plus portable power station 1024Wh",
+    solarBundleSearchQuery: "EcoFlow DELTA 3 Plus solar generator solar panel",
+    tierBadge: "Current EcoFlow 1kWh Pick",
+    bestFor: "Refrigerators, UPS backup for electronics, fast solar recharging & expandable home backup",
+    summary:
+      "EcoFlow's current 1kWh-class unit. It keeps the DELTA 2's 1,800W inverter but raises the surge rating to 3,600W, doubles solar input to 1,000W, and adds a UPS mode that switches over in under 10ms.",
+    pros: [
+      "1,800W continuous / 3,600W surge, the highest surge rating in the 1kWh class on our list",
+      "Up to 1,000W solar input across two 500W ports",
+      "UPS switchover under 10ms (EcoFlow spec)",
+      "Rated 4,000 cycles to 80% capacity; expandable to about 5kWh",
+    ],
+    cons: [
+      "27.6 lbs, heavier than the Jackery 1000 v2, Anker C1000 Gen 2 and BLUETTI Elite 100 V2",
+      "Reaching 5kWh needs separately sold extra batteries",
+    ],
+  },
+  {
+    id: "anker-solix-c1000-gen-2",
+    slug: "anker-solix-c1000-gen-2",
+    brand: "Anker SOLIX",
+    name: "Anker SOLIX C1000 Gen 2",
+    shortName: "Anker C1000 Gen 2",
+    capacityWh: 1024,
+    continuousWatts: 2000,
+    surgeWatts: 3000,
+    solarInputMaxWatts: 600,
+    batteryChemistry: "LiFePO4 (LFP)",
+    cycleLife: 4000,
+    weightLbs: 24.9,
+    acOutlets: 5,
+    expandableMaxWh: null,
+    approxListPriceUsd: 799,
+    amazonAsin: null,
+    amazonSearchQuery: "Anker SOLIX C1000 Gen 2 portable power station 1024Wh",
+    solarBundleSearchQuery: "Anker SOLIX C1000 Gen 2 solar generator solar panel",
+    tierBadge: "Highest Output (1kWh Class)",
+    bestFor: "Kitchen appliances, CPAP & home office UPS backup, easy carrying",
+    summary:
+      "Anker's second-generation C1000: 2,000W continuous output (3,000W peak) in a 24.9 lb body, with UPS switchover under 10ms. Unlike the first C1000, it does not take an expansion battery.",
+    pros: [
+      "2,000W continuous output, the highest in the 1kWh class on our list",
+      "24.9 lbs, about 3.5 lbs lighter than the first-generation C1000",
+      "UPS switchover under 10ms (Anker spec)",
+      "Rated 4,000 cycles to 80% capacity",
+    ],
+    cons: [
+      "Not expandable (the BP1000 battery only fits the first-generation C1000)",
+      "600W solar input is lower than the DELTA 3 Plus and Elite 100 V2 (1,000W)",
+    ],
+  },
+  {
+    id: "bluetti-elite-100-v2",
+    slug: "bluetti-elite-100-v2",
+    brand: "BLUETTI",
+    name: "BLUETTI Elite 100 V2",
+    shortName: "BLUETTI Elite 100 V2",
+    capacityWh: 1024,
+    continuousWatts: 1800,
+    // BLUETTI lists 2,700W; some retailers quote 3,600W. The lower figure is used.
+    surgeWatts: 2700,
+    solarInputMaxWatts: 1000,
+    batteryChemistry: "LiFePO4 (LFP)",
+    cycleLife: 4000,
+    weightLbs: 25.0,
+    acOutlets: 4,
+    expandableMaxWh: null,
+    approxListPriceUsd: 699,
+    amazonAsin: null,
+    amazonSearchQuery: "BLUETTI Elite 100 V2 portable power station 1024Wh",
+    solarBundleSearchQuery: "BLUETTI Elite 100 V2 solar generator solar panel",
+    tierBadge: "Light 1kWh Pick with 1,000W Solar",
+    bestFor: "Camping, short outages, solar recharging & UPS backup for electronics",
+    summary:
+      "BLUETTI's newer 1kWh unit: 1,800W output and up to 1,000W of solar input in a 25 lb body, about 10 lbs lighter than the AC180.",
+    pros: [
+      "Up to 1,000W solar input",
+      "25 lbs, about 10 lbs lighter than the BLUETTI AC180",
+      "UPS switchover of 10ms or less (BLUETTI spec)",
+      "Rated 4,000+ cycles to 80% capacity",
+    ],
+    cons: [
+      "4 AC outlets vs. 5–6 on the Anker and EcoFlow 1kWh units",
+      "1,024Wh is about 11% less capacity than the AC180 (1,152Wh)",
+      "No expansion battery option listed by BLUETTI",
     ],
   },
   {
@@ -397,6 +503,97 @@ export const POWER_STATIONS: PowerStation[] = [
 ];
 
 export const COMPARISON_PAIRS: ComparisonPair[] = [
+  {
+    slug: "ecoflow-delta-3-plus-vs-jackery-1000-v2",
+    stationAId: "ecoflow-delta-3-plus",
+    stationBId: "jackery-1000-v2",
+    title: "EcoFlow DELTA 3 Plus vs. Jackery Explorer 1000 v2",
+    subtitle:
+      "EcoFlow's current 1kWh unit vs. Jackery's lightest: output, solar input, outlets, weight and expansion compared.",
+    verdictSummary:
+      "Choose the EcoFlow DELTA 3 Plus if you want more output (1,800W vs. 1,500W continuous, 3,600W vs. 3,000W surge), 6 AC outlets, up to 1,000W of solar input, a sub-10ms UPS mode, or the option to expand to about 5kWh. Choose the Jackery Explorer 1000 v2 if you want the lighter unit (23.8 lbs vs. 27.6 lbs) and slightly more base capacity (1,070Wh vs. 1,024Wh).",
+    winnerForBlackouts: "EcoFlow DELTA 3 Plus (higher output, UPS mode, expandable)",
+    winnerForPortability: "Jackery Explorer 1000 v2 (3.8 lbs lighter)",
+    overallEdge: "DELTA 3 Plus on features; Jackery if carry weight matters most",
+  },
+  {
+    slug: "bluetti-elite-100-v2-vs-anker-solix-c1000",
+    stationAId: "bluetti-elite-100-v2",
+    stationBId: "anker-solix-c1000",
+    title: "BLUETTI Elite 100 V2 vs. Anker SOLIX C1000",
+    subtitle:
+      "A 25 lb unit with 1,000W solar input vs. the expandable first-generation C1000.",
+    verdictSummary:
+      "Both deliver 1,800W continuous. The BLUETTI Elite 100 V2 is lighter (25 lbs vs. 28.4 lbs), accepts more solar (1,000W vs. 600W), has a higher surge rating (2,700W vs. 2,400W) and a 4,000+ cycle rating. The first-generation Anker SOLIX C1000 has 6 AC outlets (vs. 4), slightly more capacity (1,056Wh vs. 1,024Wh) and can expand to 2,112Wh with the BP1000 battery.",
+    winnerForBlackouts: "Anker SOLIX C1000 (6 outlets, expandable to 2,112Wh)",
+    winnerForPortability: "BLUETTI Elite 100 V2 (about 3.4 lbs lighter)",
+    overallEdge: "Elite 100 V2 for solar and weight; C1000 if you want to expand later",
+  },
+  {
+    slug: "anker-solix-c1000-gen-2-vs-ecoflow-delta-2",
+    stationAId: "anker-solix-c1000-gen-2",
+    stationBId: "ecoflow-delta-2",
+    title: "Anker SOLIX C1000 Gen 2 vs. EcoFlow DELTA 2",
+    subtitle:
+      "Anker's 2,000W second-generation C1000 vs. EcoFlow's expandable DELTA 2.",
+    verdictSummary:
+      "The Anker SOLIX C1000 Gen 2 has higher output (2,000W vs. 1,800W continuous, 3,000W vs. 2,700W surge), a faster UPS mode (under 10ms vs. 30ms), a 4,000-cycle rating and is about 2 lbs lighter. The EcoFlow DELTA 2 has 6 AC outlets (vs. 5) and can expand to 3,040Wh, which the C1000 Gen 2 cannot.",
+    winnerForBlackouts: "C1000 Gen 2 for UPS speed and output; DELTA 2 if you plan to expand",
+    winnerForPortability: "Anker SOLIX C1000 Gen 2 (24.9 lbs vs. 27 lbs)",
+    overallEdge: "C1000 Gen 2 unless you need expansion",
+  },
+  {
+    slug: "anker-solix-c1000-vs-anker-solix-c1000-gen-2",
+    stationAId: "anker-solix-c1000",
+    stationBId: "anker-solix-c1000-gen-2",
+    title: "Anker SOLIX C1000 vs. C1000 Gen 2",
+    subtitle:
+      "What changed between Anker's first- and second-generation C1000, and which one to get.",
+    verdictSummary:
+      "The C1000 Gen 2 raises output to 2,000W (3,000W peak) from 1,800W (2,400W surge), cuts weight to 24.9 lbs from 28.4 lbs, speeds up UPS switchover to under 10ms, and is rated for 4,000 cycles instead of 3,000. The first-generation C1000 keeps two advantages: 6 AC outlets instead of 5, and expansion to 2,112Wh with the BP1000 battery, which does not fit the Gen 2.",
+    winnerForBlackouts: "Gen 2 for output and UPS speed; Gen 1 if you want 2,112Wh",
+    winnerForPortability: "Anker SOLIX C1000 Gen 2 (3.5 lbs lighter)",
+    overallEdge: "Gen 2 for most buyers; Gen 1 only if you need the expansion battery",
+  },
+  {
+    slug: "ecoflow-delta-2-vs-ecoflow-delta-3-plus",
+    stationAId: "ecoflow-delta-2",
+    stationBId: "ecoflow-delta-3-plus",
+    title: "EcoFlow DELTA 2 vs. DELTA 3 Plus",
+    subtitle:
+      "What EcoFlow changed between the DELTA 2 and the DELTA 3 Plus, and which one to get.",
+    verdictSummary:
+      "Both are 1,024Wh units with 1,800W inverters and 6 AC outlets. The DELTA 3 Plus raises the surge rating to 3,600W (from 2,700W), doubles solar input to 1,000W (from 500W), cuts UPS switchover to under 10ms (from 30ms), is rated for 4,000 cycles (vs. 3,000) and expands to about 5kWh (vs. 3,040Wh). The DELTA 2 is slightly lighter (27 lbs vs. 27.6 lbs) and is the older model, so compare both prices before deciding.",
+    winnerForBlackouts: "EcoFlow DELTA 3 Plus (faster UPS, higher surge, bigger expansion)",
+    winnerForPortability: "Tie (27 lbs vs. 27.6 lbs)",
+    overallEdge: "DELTA 3 Plus on specs; the DELTA 2 only if it is clearly cheaper",
+  },
+  {
+    slug: "ecoflow-delta-3-plus-vs-anker-solix-c1000-gen-2",
+    stationAId: "ecoflow-delta-3-plus",
+    stationBId: "anker-solix-c1000-gen-2",
+    title: "EcoFlow DELTA 3 Plus vs. Anker SOLIX C1000 Gen 2",
+    subtitle:
+      "Two current 1,024Wh power stations with sub-10ms UPS modes compared.",
+    verdictSummary:
+      "Both are current 1,024Wh units with sub-10ms UPS modes and 4,000-cycle ratings. The EcoFlow DELTA 3 Plus has the higher surge rating (3,600W vs. 3,000W), more solar input (1,000W vs. 600W), 6 AC outlets (vs. 5) and can expand to about 5kWh. The Anker SOLIX C1000 Gen 2 has higher continuous output (2,000W vs. 1,800W) and is lighter (24.9 lbs vs. 27.6 lbs), but cannot be expanded.",
+    winnerForBlackouts: "EcoFlow DELTA 3 Plus (expandable, more solar input)",
+    winnerForPortability: "Anker SOLIX C1000 Gen 2 (2.7 lbs lighter)",
+    overallEdge: "DELTA 3 Plus to grow a home backup; C1000 Gen 2 as a lighter stand-alone unit",
+  },
+  {
+    slug: "bluetti-elite-100-v2-vs-bluetti-ac180",
+    stationAId: "bluetti-elite-100-v2",
+    stationBId: "bluetti-ac180",
+    title: "BLUETTI Elite 100 V2 vs. AC180",
+    subtitle:
+      "BLUETTI's newer 25 lb unit vs. the higher-capacity AC180.",
+    verdictSummary:
+      "The Elite 100 V2 is the newer, lighter unit: 25 lbs vs. 35.3 lbs, with up to 1,000W of solar input (vs. 500W) and a 4,000+ cycle rating (vs. 3,500+). The AC180 has about 12% more capacity (1,152Wh vs. 1,024Wh). Both have 1,800W inverters with a 2,700W surge rating and 4 AC outlets.",
+    winnerForBlackouts: "BLUETTI AC180 (about 12% more capacity)",
+    winnerForPortability: "BLUETTI Elite 100 V2 (about 10 lbs lighter)",
+    overallEdge: "Elite 100 V2 for most buyers; AC180 if runtime matters more than weight",
+  },
   {
     slug: "ecoflow-delta-2-vs-jackery-1000-v2",
     stationAId: "ecoflow-delta-2",

@@ -45,12 +45,12 @@ export default function AllPowerStationsPage() {
           LiFePO4 Power Station Directory
         </span>
         <h1 className="mt-1 text-3xl sm:text-4xl font-black text-white">
-          Best Portable Power Stations &amp; Solar Generators on Amazon (2026)
+          Portable Power Stations &amp; Solar Generators Compared (2026)
         </h1>
         <p className="mt-2 text-sm sm:text-base text-slate-300">
-          Filter by brand or battery capacity tier. Every model below uses safe
-          LiFePO4 battery chemistry (3,000–6,500+ cycles) and includes a 1-click
-          toggle to compare standalone vs. Solar Panel Bundle pricing on Amazon.
+          Filter by brand or battery capacity tier. Every model below uses
+          LiFePO4 battery chemistry with a manufacturer rating of 3,000 to 4,000
+          cycles. Specs are from manufacturer listings.
         </p>
       </div>
 

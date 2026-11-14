@@ -32,7 +32,7 @@ export function generateMetadata({ params }: PageProps): Metadata {
   return {
     title: pageTitle(`${station.name} Specs & Runtime Estimates`),
     alternates: { canonical: `/reviews/${station.slug}` },
-    description: `How long will the ${station.name} (${station.capacityWh}Wh LiFePO4, ${station.continuousWatts}W / ${station.surgeWatts}W surge) run a fridge, CPAP, sump pump or Starlink? Specs and estimates.`,
+    description: `${station.name} specs: ${station.capacityWh}Wh LiFePO4, ${station.continuousWatts}W output (${station.surgeWatts}W surge), ${station.solarInputMaxWatts}W solar input, ${station.weightLbs} lbs. Plus estimated runtimes for ${APPLIANCES.length} appliances.`,
   };
 }
 
@@ -48,6 +48,24 @@ export default function StationReviewPage({ params }: PageProps) {
     station.amazonSearchQuery
   );
   const bundleUrl = getAmazonBundleUrl(station.solarBundleSearchQuery);
+
+  const specRows: [string, string][] = [
+    ["Battery capacity", `${station.capacityWh.toLocaleString()} Wh`],
+    ["Usable AC energy (est. 85%)", `~${usableWh.toLocaleString()} Wh`],
+    ["AC output (continuous)", `${station.continuousWatts.toLocaleString()} W`],
+    ["AC output (surge)", `${station.surgeWatts.toLocaleString()} W`],
+    ["AC outlets", String(station.acOutlets)],
+    ["Max solar input", `${station.solarInputMaxWatts.toLocaleString()} W`],
+    ["Battery chemistry", station.batteryChemistry],
+    ["Rated cycle life", `${station.cycleLife.toLocaleString()} cycles`],
+    ["Weight", `${station.weightLbs} lbs`],
+    [
+      "Expandable",
+      station.expandableMaxWh
+        ? `Yes, up to ${station.expandableMaxWh.toLocaleString()} Wh`
+        : "No",
+    ],
+  ];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -135,10 +153,37 @@ export default function StationReviewPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* 22-Appliance Runtime Table */}
+      {/* Full Specifications */}
       <section className="mt-14">
         <h2 className="text-2xl font-black text-white mb-2">
-          Complete {station.name} Appliance Runtime Chart (All 22 Loads)
+          {station.name} Specs
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-400 mb-5">
+          Manufacturer-published figures. Usable energy is our estimate.
+        </p>
+        <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/70">
+          <table className="w-full text-left text-sm">
+            <tbody className="divide-y divide-slate-800/70">
+              {specRows.map(([label, value]) => (
+                <tr key={label}>
+                  <th
+                    scope="row"
+                    className="w-1/2 sm:w-1/3 py-3 px-4 font-semibold text-slate-400"
+                  >
+                    {label}
+                  </th>
+                  <td className="py-3 px-4 font-bold text-white">{value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* Appliance Runtime Table */}
+      <section className="mt-14">
+        <h2 className="text-2xl font-black text-white mb-2">
+          {station.name} Appliance Runtime Chart ({APPLIANCES.length} Loads)
         </h2>
         <p className="text-xs sm:text-sm text-slate-400 mb-5">
           Calculated using {usableWh.toLocaleString()}Wh net usable AC capacity
